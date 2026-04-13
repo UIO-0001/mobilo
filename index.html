@@ -1400,34 +1400,24 @@ function updateDarkZones(progress) {
 
   // ── Jeu d'allumage des cartes ──
   // Allume définitivement une carte dès que le camion arrive à sa hauteur
-  // Éteint les phares (opacity 0) si le camion est strictement en dessous d'une carte non-allumée
   const sy = window.scrollY || window.pageYOffset;
-  let blockedByCard = false;
 
   document.querySelectorAll('.content-card, .rev-card').forEach(card => {
+    if (card.classList.contains('card-lit')) return;
     const r = card.getBoundingClientRect();
     const cardTop    = r.top    + sy;
     const cardBottom = r.bottom + sy;
-    const cardCX     = r.left + r.width / 2;
-
-    // Allumer quand le camion arrive à hauteur du haut de la carte
-    if (!card.classList.contains('card-lit')) {
-      const arriving = _truckY >= cardTop - coneLen * 0.8 && _truckY <= cardBottom + 20;
-      const hClose   = Math.abs(_truckX - cardCX) < r.width / 2 + coneLen * 0.55;
-      if (arriving && hClose) {
-        card.classList.add('card-lit');
-      }
-      // Le camion est sous une carte pas encore allumée → bloquer les phares
-      if (_truckY > cardBottom + 10 && Math.abs(_truckX - cardCX) < r.width / 2 + 60) {
-        blockedByCard = true;
-      }
+    // Sur desktop le camion peut être loin horizontalement — on ignore hClose
+    const arriving = _truckY >= cardTop - coneLen * 0.9 && _truckY <= cardBottom + 40;
+    if (arriving) {
+      card.classList.add('card-lit');
     }
   });
 
-  // Couper visuellement les phares si bloqués par une carte non-allumée au-dessus
+  // Phares toujours visibles (on ne bloque plus sur desktop)
   const hlSvg = document.getElementById('headlight-svg');
-  hlSvg.style.opacity = blockedByCard ? '0' : '1';
-  hlSvg.style.transition = blockedByCard ? 'opacity 0.1s' : 'opacity 0.4s';
+  hlSvg.style.opacity = '1';
+  hlSvg.style.transition = 'opacity 0.4s';
 
 }
 
