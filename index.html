@@ -44,7 +44,7 @@
   "alternateName": "Mobilo Moving",
   "url": "https://themobilo.com",
   "telephone": "+14388738605",
-  "email": "mobilomoving@gmail.com",
+  "email": "mobilomoving.co@gmail.com",
   "description": "Déménagement résidentiel et commercial, désencombrement, enlèvement de débris et livraison à Gatineau, Ottawa et Outaouais. Service bilingue, disponible 7 jours sur 7.",
   "address": {
     "@type": "PostalAddress",
@@ -907,7 +907,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
         <div class="content-card reveal">
           <div class="eyebrow" data-fr="Questions fréquentes" data-en="FAQ">Questions fréquentes</div>
           <h2 class="sh2" data-fr="On répond à <em>tout</em>" data-en="We answer <em>everything</em>">On répond à <em>tout</em></h2>
-          <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span data-fr="Comment obtenir un devis ?" data-en="How do I get a quote?">Comment obtenir un devis ?</span> <span class="faq-icon">+</span></div><div class="faq-a" data-fr="Appelez-nous au (438) 873-8605 ou écrivez à [email]. Réponse en moins de 24h, gratuit et sans engagement." data-en="Call us at (438) 873-8605 or email us. Response within 24h, free and no commitment.">Appelez-nous au (438) 873-8605 ou écrivez à <a href="/cdn-cgi/l/email-protection#85e8eae7ece9eae8eaf3ecebe2abe6eac5e2e8e4ece9abe6eae8"><span class="__cf_email__" data-cfemail="f29f9d909b9e9d9f9d849b9c95dc919db2959f939b9edc919d9f">[email&#160;protected]</span></a>. Réponse en moins de 24h, gratuit et sans engagement.</div></div>
+          <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span data-fr="Comment obtenir un devis ?" data-en="How do I get a quote?">Comment obtenir un devis ?</span> <span class="faq-icon">+</span></div><div class="faq-a" data-fr="Appelez-nous au (438) 873-8605 ou écrivez à mobilomoving.co@gmail.com. Réponse en moins de 24h, gratuit et sans engagement." data-en="Call us at (438) 873-8605 or email us at mobilomoving.co@gmail.com. Response within 24h, free and no commitment.">Appelez-nous au (438) 873-8605 ou écrivez à <a href="mailto:mobilomoving.co@gmail.com">mobilomoving.co@gmail.com</a>. Réponse en moins de 24h, gratuit et sans engagement.</div></div>
           <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span data-fr="Faites-vous les déménagements longue distance ?" data-en="Do you do long distance moves?">Faites-vous les déménagements longue distance ?</span> <span class="faq-icon">+</span></div><div class="faq-a" data-fr="Oui. On peut gérer des déménagements au-delà de Gatineau et Ottawa." data-en="Yes. We can handle moves beyond Gatineau and Ottawa.">Oui. On peut gérer des déménagements au-delà de Gatineau et Ottawa.</div></div>
           <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span data-fr="Disponibles les fins de semaine ?" data-en="Available on weekends?">Disponibles les fins de semaine ?</span> <span class="faq-icon">+</span></div><div class="faq-a" data-fr="Absolument. 7 jours sur 7, incluant samedis, dimanches et jours fériés." data-en="Absolutely. 7 days a week, including Saturdays, Sundays and holidays.">Absolument. 7 jours sur 7, incluant samedis, dimanches et jours fériés.</div></div>
           <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><span data-fr="Service bilingue ?" data-en="Bilingual service?">Service bilingue ?</span> <span class="faq-icon">+</span></div><div class="faq-a" data-fr="Oui, entièrement bilingues. Français ou anglais selon votre préférence." data-en="Yes, fully bilingual. French or English according to your preference.">Oui, entièrement bilingues. Français ou anglais selon votre préférence.</div></div>
@@ -927,31 +927,140 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
           <p style="font-size:.82rem;color:var(--ink3);line-height:1.75;font-weight:300;margin-bottom:1.5rem" data-fr="Remplissez ce formulaire et on vous répond dans les 24h — sans engagement." data-en="Fill out this form and we'll get back to you within 24h — no commitment.">Remplissez ce formulaire et on vous répond dans les 24h — sans engagement.</p>
           <div id="formMsg" style="display:none;padding:.75rem 1rem;background:var(--g5);border-left:3px solid var(--g2);font-size:.78rem;color:var(--g1);margin-bottom:1rem"></div>
           <div class="calc-fields">
+
+            <!-- Nom -->
             <div>
-              <label class="field-label" for="fName" data-fr="Votre nom" data-en="Your name">Votre nom</label>
+              <label class="field-label" for="fName" data-fr="Votre nom *" data-en="Your name *">Votre nom *</label>
               <input type="text" class="calc-input" id="fName" placeholder="Marie Tremblay">
             </div>
+
+            <!-- Téléphone -->
             <div>
-              <label class="field-label" for="fPhone" data-fr="Téléphone" data-en="Phone">Téléphone</label>
+              <label class="field-label" for="fPhone" data-fr="Téléphone *" data-en="Phone *">Téléphone *</label>
               <input type="tel" class="calc-input" id="fPhone" placeholder="(819) 555-0000">
             </div>
+
+            <!-- Courriel -->
             <div>
               <label class="field-label" for="fEmail" data-fr="Courriel" data-en="Email">Courriel</label>
               <input type="email" class="calc-input" id="fEmail" placeholder="marie@exemple.com">
             </div>
+
+            <!-- Type de service -->
             <div>
-              <label class="field-label" for="fService" data-fr="Type de service" data-en="Service type">Type de service</label>
+              <label class="field-label" for="fService" data-fr="Type de service *" data-en="Service type *">Type de service *</label>
               <select class="calc-select" id="fService">
                 <option value="" data-fr="Choisir..." data-en="Choose...">Choisir...</option>
-                <option value="move" data-fr="Déménagement" data-en="Moving">Déménagement</option>
-                <option value="junk" data-fr="Désencombrement" data-en="Junk removal">Désencombrement</option>
-                <option value="delivery" data-fr="Petite livraison" data-en="Small delivery">Petite livraison</option>
+                <option value="Déménagement" data-fr="Déménagement" data-en="Moving">Déménagement</option>
+                <option value="Désencombrement" data-fr="Désencombrement" data-en="Junk removal">Désencombrement</option>
+                <option value="Petite livraison" data-fr="Petite livraison" data-en="Small delivery">Petite livraison</option>
               </select>
             </div>
-            <div>
-              <label class="field-label" for="fMsg" data-fr="Message (optionnel)" data-en="Message (optional)">Message (optionnel)</label>
-              <textarea class="calc-input" id="fMsg" rows="3" style="resize:vertical;min-height:72px" placeholder="Date souhaitée, adresses, détails..."></textarea>
+
+            <!-- Divider -->
+            <div style="grid-column:1/-1;border-top:1px solid var(--line);margin:.25rem 0"></div>
+
+            <!-- Adresse de départ -->
+            <div style="grid-column:1/-1">
+              <label class="field-label" for="fPickup" data-fr="Adresse de départ *" data-en="Pickup address *">Adresse de départ *</label>
+              <input type="text" class="calc-input" id="fPickup" placeholder="123 rue Principale, Gatineau">
             </div>
+
+            <!-- Apt départ -->
+            <div>
+              <label class="field-label" for="fPickupType" data-fr="Type — départ" data-en="Type — pickup">Type — départ</label>
+              <select class="calc-select" id="fPickupType">
+                <option value="Maison" data-fr="Maison" data-en="House">Maison</option>
+                <option value="Appartement" data-fr="Appartement" data-en="Apartment">Appartement</option>
+                <option value="Bureau/Commercial" data-fr="Bureau / Commercial" data-en="Office / Commercial">Bureau / Commercial</option>
+                <option value="Autre" data-fr="Autre" data-en="Other">Autre</option>
+              </select>
+            </div>
+
+            <!-- Étage départ -->
+            <div>
+              <label class="field-label" for="fPickupFloor" data-fr="Étage — départ" data-en="Floor — pickup">Étage — départ</label>
+              <select class="calc-select" id="fPickupFloor">
+                <option value="Rez-de-chaussée" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option>
+                <option value="1er étage" data-fr="1er étage" data-en="1st floor">1er étage</option>
+                <option value="2e étage" data-fr="2e étage" data-en="2nd floor">2e étage</option>
+                <option value="3e étage ou plus" data-fr="3e étage ou plus" data-en="3rd floor or higher">3e étage ou plus</option>
+              </select>
+            </div>
+
+            <!-- Adresse de destination -->
+            <div style="grid-column:1/-1">
+              <label class="field-label" for="fDropoff" data-fr="Adresse de destination *" data-en="Drop-off address *">Adresse de destination *</label>
+              <input type="text" class="calc-input" id="fDropoff" placeholder="456 avenue des Pins, Ottawa">
+            </div>
+
+            <!-- Apt destination -->
+            <div>
+              <label class="field-label" for="fDropoffType" data-fr="Type — destination" data-en="Type — destination">Type — destination</label>
+              <select class="calc-select" id="fDropoffType">
+                <option value="Maison" data-fr="Maison" data-en="House">Maison</option>
+                <option value="Appartement" data-fr="Appartement" data-en="Apartment">Appartement</option>
+                <option value="Bureau/Commercial" data-fr="Bureau / Commercial" data-en="Office / Commercial">Bureau / Commercial</option>
+                <option value="Autre" data-fr="Autre" data-en="Other">Autre</option>
+              </select>
+            </div>
+
+            <!-- Étage destination -->
+            <div>
+              <label class="field-label" for="fDropoffFloor" data-fr="Étage — destination" data-en="Floor — destination">Étage — destination</label>
+              <select class="calc-select" id="fDropoffFloor">
+                <option value="Rez-de-chaussée" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option>
+                <option value="1er étage" data-fr="1er étage" data-en="1st floor">1er étage</option>
+                <option value="2e étage" data-fr="2e étage" data-en="2nd floor">2e étage</option>
+                <option value="3e étage ou plus" data-fr="3e étage ou plus" data-en="3rd floor or higher">3e étage ou plus</option>
+              </select>
+            </div>
+
+            <!-- Divider -->
+            <div style="grid-column:1/-1;border-top:1px solid var(--line);margin:.25rem 0"></div>
+
+            <!-- Date et heure -->
+            <div>
+              <label class="field-label" for="fDate" data-fr="Date souhaitée *" data-en="Preferred date *">Date souhaitée *</label>
+              <input type="date" class="calc-input" id="fDate">
+            </div>
+
+            <!-- Heure -->
+            <div>
+              <label class="field-label" for="fTime" data-fr="Heure approximative" data-en="Approx. time">Heure approximative</label>
+              <select class="calc-select" id="fTime">
+                <option value="" data-fr="Flexible" data-en="Flexible">Flexible</option>
+                <option value="Matin (7h–10h)" data-fr="Matin (7h–10h)" data-en="Morning (7am–10am)">Matin (7h–10h)</option>
+                <option value="Avant-midi (10h–12h)" data-fr="Avant-midi (10h–12h)" data-en="Late morning (10am–12pm)">Avant-midi (10h–12h)</option>
+                <option value="Après-midi (12h–17h)" data-fr="Après-midi (12h–17h)" data-en="Afternoon (12pm–5pm)">Après-midi (12h–17h)</option>
+                <option value="Soir (17h–20h)" data-fr="Soir (17h–20h)" data-en="Evening (5pm–8pm)">Soir (17h–20h)</option>
+              </select>
+            </div>
+
+            <!-- Nb de boîtes -->
+            <div>
+              <label class="field-label" for="fBoxes" data-fr="Nombre de boîtes (approx.)" data-en="Estimated # of boxes">Nombre de boîtes (approx.)</label>
+              <select class="calc-select" id="fBoxes">
+                <option value="" data-fr="Je ne sais pas encore" data-en="Not sure yet">Je ne sais pas encore</option>
+                <option value="Moins de 10 boîtes" data-fr="Moins de 10 boîtes" data-en="Fewer than 10 boxes">Moins de 10 boîtes</option>
+                <option value="10–25 boîtes" data-fr="10–25 boîtes" data-en="10–25 boxes">10–25 boîtes</option>
+                <option value="25–50 boîtes" data-fr="25–50 boîtes" data-en="25–50 boxes">25–50 boîtes</option>
+                <option value="50+ boîtes" data-fr="50+ boîtes" data-en="50+ boxes">50+ boîtes</option>
+              </select>
+            </div>
+
+            <!-- Items / meubles -->
+            <div style="grid-column:1/-1">
+              <label class="field-label" for="fItems" data-fr="Liste des items / meubles principaux" data-en="List of main items / furniture">Liste des items / meubles principaux</label>
+              <textarea class="calc-input" id="fItems" rows="3" style="resize:vertical;min-height:72px" placeholder="Ex : sofa, lit double, réfrigérateur, table de salle à manger..."></textarea>
+            </div>
+
+            <!-- Notes supplémentaires -->
+            <div style="grid-column:1/-1">
+              <label class="field-label" for="fMsg" data-fr="Notes supplémentaires (optionnel)" data-en="Additional notes (optional)">Notes supplémentaires (optionnel)</label>
+              <textarea class="calc-input" id="fMsg" rows="2" style="resize:vertical;min-height:56px" placeholder="Accès difficile, objets fragiles, animaux..."></textarea>
+            </div>
+
           </div>
           <button class="btn-main" onclick="submitForm()" style="margin-top:.5rem;width:100%;justify-content:center" id="formBtn">
             <span id="formBtnTxt">Envoyer la demande →</span>
@@ -969,7 +1078,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
     <a href="tel:4388738605" class="btn-wp reveal" style="margin:0 auto;display:inline-flex;font-size:.82rem;padding:.85rem 1.8rem">📞 Appeler maintenant</a>
     <div class="cta-contact">
       <div class="cti"><div class="cti-label" data-fr="Téléphone" data-en="Phone">Téléphone</div><div class="cti-val"><a href="tel:4388738605">(438) 873-8605</a></div></div>
-      <div class="cti"><div class="cti-label" data-fr="Courriel" data-en="Email">Courriel</div><div class="cti-val"><a href="/cdn-cgi/l/email-protection#c5a8aaa7aca9aaa8aab3acaba2eba6aa85a2a8a4aca9eba6aaa8"><span class="__cf_email__" data-cfemail="deb3b1bcb7b2b1b3b1a8b7b0b9f0bdb19eb9b3bfb7b2f0bdb1b3">[email&#160;protected]</span></a></div></div>
+      <div class="cti"><div class="cti-label" data-fr="Courriel" data-en="Email">Courriel</div><div class="cti-val"><a href="mailto:mobilomoving.co@gmail.com">mobilomoving.co@gmail.com</a></div></div>
       <div class="cti"><div class="cti-label" data-fr="Instagram" data-en="Instagram">Instagram</div><div class="cti-val"><a href="https://instagram.com/mobilo.co" target="_blank">@mobilo.co</a></div></div>
     </div>
   </section>
@@ -1385,17 +1494,21 @@ function applyLang() {
 }
 
 // ═══════════════════════════════════════
-// FORM SUBMIT (placeholder — no API key yet)
+// FORM SUBMIT — Formspree mwvragyl
 // ═══════════════════════════════════════
-function submitForm() {
+async function submitForm() {
   const t = translations[currentLang];
-  const name = document.getElementById('fName').value.trim();
-  const phone = document.getElementById('fPhone').value.trim();
+  const name    = document.getElementById('fName').value.trim();
+  const phone   = document.getElementById('fPhone').value.trim();
   const service = document.getElementById('fService').value;
-  const msgEl = document.getElementById('formMsg');
+  const pickup  = document.getElementById('fPickup').value.trim();
+  const dropoff = document.getElementById('fDropoff').value.trim();
+  const msgEl   = document.getElementById('formMsg');
 
-  if(!name || !phone || !service) {
-    msgEl.textContent = t.formError;
+  if (!name || !phone || !service || !pickup || !dropoff) {
+    msgEl.textContent = currentLang === 'fr'
+      ? 'Veuillez remplir les champs obligatoires (*) : nom, téléphone, service, adresses.'
+      : 'Please fill in required fields (*): name, phone, service, addresses.';
     msgEl.style.display = 'block';
     msgEl.style.borderLeftColor = '#e05';
     msgEl.style.background = '#fff0f3';
@@ -1403,25 +1516,68 @@ function submitForm() {
     return;
   }
 
-  // Placeholder — formulaire désactivé en attente de la clé API
   const btn = document.getElementById('formBtn');
   btn.style.opacity = '.6';
   btn.style.pointerEvents = 'none';
   document.getElementById('formBtnTxt').textContent = '...';
 
-  setTimeout(() => {
-    msgEl.textContent = t.formSuccess;
+  const payload = {
+    _subject: `Nouvelle demande de devis — ${name} (${service})`,
+    Nom: name,
+    Téléphone: phone,
+    Courriel: document.getElementById('fEmail').value.trim() || '—',
+    Service: service,
+    'Adresse départ': pickup,
+    'Type départ': document.getElementById('fPickupType').value,
+    'Étage départ': document.getElementById('fPickupFloor').value,
+    'Adresse destination': dropoff,
+    'Type destination': document.getElementById('fDropoffType').value,
+    'Étage destination': document.getElementById('fDropoffFloor').value,
+    'Date souhaitée': document.getElementById('fDate').value || '—',
+    'Heure': document.getElementById('fTime').value || 'Flexible',
+    'Nombre de boîtes': document.getElementById('fBoxes').value || 'Non précisé',
+    'Liste des items': document.getElementById('fItems').value.trim() || '—',
+    'Notes': document.getElementById('fMsg').value.trim() || '—',
+  };
+
+  try {
+    const res = await fetch('https://formspree.io/f/mwvragyl', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      msgEl.textContent = currentLang === 'fr'
+        ? '✓ Demande reçue ! On vous contacte dans les 24h.'
+        : "✓ Request received! We'll contact you within 24h.";
+      msgEl.style.display = 'block';
+      msgEl.style.borderLeftColor = 'var(--g2)';
+      msgEl.style.background = 'var(--g5)';
+      msgEl.style.color = 'var(--g1)';
+      // Reset
+      ['fName','fPhone','fEmail','fPickup','fDropoff','fDate','fItems','fMsg'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+      });
+      ['fService','fPickupType','fPickupFloor','fDropoffType','fDropoffFloor','fTime','fBoxes'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.selectedIndex = 0;
+      });
+    } else {
+      throw new Error('Formspree error');
+    }
+  } catch(e) {
+    msgEl.textContent = currentLang === 'fr'
+      ? 'Erreur d\'envoi. Appelez-nous au (438) 873-8605 ou écrivez à mobilomoving.co@gmail.com'
+      : 'Send error. Call us at (438) 873-8605 or email mobilomoving.co@gmail.com';
     msgEl.style.display = 'block';
-    msgEl.style.borderLeftColor = 'var(--g2)';
-    msgEl.style.background = 'var(--g5)';
-    msgEl.style.color = 'var(--g1)';
+    msgEl.style.borderLeftColor = '#e05';
+    msgEl.style.background = '#fff0f3';
+    msgEl.style.color = '#c00';
+  } finally {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
     document.getElementById('formBtnTxt').textContent = t.formBtn;
-    // Reset fields
-    ['fName','fPhone','fEmail','fMsg'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
-    document.getElementById('fService').value = '';
-  }, 1200);
+  }
 }
 
 // ═══════════════════════════════════════
