@@ -525,6 +525,12 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 .nav-links a.active { color: var(--g2); }
 /* Textarea style */
 textarea.calc-input { font-family: 'DM Sans', sans-serif; }
+/* PAGE LOADER */
+#page-loader{position:fixed;inset:0;background:#EDF5EF;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease,visibility .7s ease}
+#page-loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loader-truck{animation:loaderBounce .8s ease-in-out infinite alternate}
+@keyframes loaderBounce{0%{transform:translateY(0)}100%{transform:translateY(-8px)}}
+
 /* SECTION HERO has z-index:5 — truck (2) goes behind it */
 #hero{z-index:5}
 /* marquee above truck */
@@ -534,6 +540,21 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 </style>
 </head>
 <body>
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <svg width="90" height="40" viewBox="-38 -16 76 32" xmlns="http://www.w3.org/2000/svg" class="loader-truck">
+    <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#5BA368"/><stop offset="100%" stop-color="#3A7D44"/></linearGradient></defs>
+    <rect x="-36" y="-11" width="72" height="22" rx="3" fill="#163A1B"/>
+    <rect x="-34" y="-10" width="46" height="20" rx="2" fill="url(#lg1)"/>
+    <rect x="10" y="-10" width="3" height="20" fill="#1E4D26"/>
+    <rect x="13" y="-10" width="24" height="20" rx="2" fill="#1E4D26"/>
+    <rect x="14" y="-9" width="10" height="9" rx="1" fill="rgba(180,230,255,0.5)"/>
+    <ellipse cx="22" cy="-12" rx="4" ry="2.2" fill="#111"/>
+    <ellipse cx="22" cy="12" rx="4" ry="2.2" fill="#111"/>
+    <ellipse cx="-10" cy="-12" rx="4" ry="2.2" fill="#111"/>
+    <ellipse cx="-10" cy="12" rx="4" ry="2.2" fill="#111"/>
+  </svg>
+</div>
 <div id="scroll-progress"></div>
 
 <!-- Background decorative dots -->
@@ -1403,7 +1424,7 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? 1.5 : 0.5,
+      scrub: isMob ? 3 : 1.8,
     }
   });
 
@@ -1453,6 +1474,9 @@ function checkLandmarkProximity(progress) {
 // INIT
 // ═══════════════════════════════════════
 window.addEventListener('load', () => {
+  // Cacher le loader
+  const loader = document.getElementById('page-loader');
+  if(loader) setTimeout(() => loader.classList.add('hidden'), 200);
   // Rendre tout visible immédiatement pour que scrollHeight soit correct
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
