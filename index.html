@@ -338,7 +338,8 @@ section{position:relative;z-index:5}
 #hero .content{max-width:460px}
 
 /* Panels — alternate left/right */
-.panel{padding:4.5rem 0;display:flex;align-items:center}
+.panel{padding:2.2rem 0;display:flex;align-items:center}
+@media(min-width:769px){.panel{padding:2.5rem 0}}
 .panel.left  .inner{margin-left:2rem; margin-right:auto; max-width:460px}
 .panel.right .inner{margin-left:auto; margin-right:2rem; max-width:460px}
 @media(max-width:768px){
@@ -872,7 +873,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
   </section>
 
   <!-- REVIEWS — full width, z:10 so truck hides -->
-  <section id="reviews" style="padding:3rem 0;z-index:10;position:relative">
+  <section id="reviews" style="padding:1.5rem 0;z-index:10;position:relative">
     <div style="padding:0 2rem;max-width:460px;margin-bottom:1.3rem" class="reveal">
       <div class="eyebrow" data-fr="Témoignages" data-en="Reviews">Témoignages</div>
       <div class="sh2" data-fr="Ce qu'ils <em>disent</em>" data-en="What they <em>say</em>">Ce qu'ils <em>disent</em></div>
@@ -900,7 +901,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
       </div>
     </div>
     <div style="text-align:center;margin-top:1.5rem;position:relative;z-index:10">
-      <a href="https://www.google.com/maps/place/Mobilo/@45.2809286,-75.8002569,17z/data=!4m7!3m6!1s0xa3ddcdbfd945bab3:0x2c0e185b59e471d3!8m2!3d45.2809286!4d-75.8002569!16s%2Fg%2F11yhrgd1rj" target="_blank" rel="noopener" class="btn-main" style="display:inline-flex;align-items:center;gap:.5rem;margin:0 auto">
+      <a href="https://www.google.com/maps/place/Mobilo/@45.2799979,-76.4596758,9z/data=!4m8!3m7!1s0xa3ddcdbfd945bab3:0x2c0e185b59e471d3!8m2!3d45.2809286!4d-75.8002569!9m1!1b1!16s%2Fg%2F11yhrgd1rj?entry=ttu&g_ep=EgoyMDI2MDQxMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="btn-main" style="display:inline-flex;align-items:center;gap:.5rem;margin:0 auto">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         Voir tous nos avis Google
       </a>
@@ -993,8 +994,9 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 
           <!-- ÉTAPE 2 : Adresse(s) — selon service -->
           <div class="form-step" id="fStep1">
-            <!-- Déménagement / Livraison : départ + destination -->
-            <div id="groupPickup">
+
+            <!-- DÉMÉNAGEMENT : départ (type+étage) + destination (type+étage) -->
+            <div id="groupMove" style="display:none">
               <div class="step-group">
                 <label class="field-label" for="fPickup" data-fr="Adresse de départ *" data-en="Pickup address *">Adresse de départ *</label>
                 <input type="text" class="calc-input" id="fPickup" placeholder="123 rue Principale, Gatineau">
@@ -1019,11 +1021,11 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
                   </select>
                 </div>
               </div>
-              <div class="step-group" id="groupDropoff">
+              <div class="step-group">
                 <label class="field-label" for="fDropoff" data-fr="Adresse de destination *" data-en="Drop-off address *">Adresse de destination *</label>
                 <input type="text" class="calc-input" id="fDropoff" placeholder="456 avenue des Pins, Ottawa">
               </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem" id="groupDropoffDetails">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
                 <div class="step-group">
                   <label class="field-label" for="fDropoffType" data-fr="Type" data-en="Type">Type</label>
                   <select class="calc-select" id="fDropoffType">
@@ -1044,7 +1046,8 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
                 </div>
               </div>
             </div>
-            <!-- Désencombrement : adresse de ramassage seulement -->
+
+            <!-- DÉSENCOMBREMENT : adresse de ramassage + items -->
             <div id="groupJunk" style="display:none">
               <div class="step-group">
                 <label class="field-label" for="fJunkAddr" data-fr="Adresse de ramassage *" data-en="Pickup address *">Adresse de ramassage *</label>
@@ -1053,6 +1056,31 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
               <div class="step-group">
                 <label class="field-label" for="fJunkItems" data-fr="Qu'est-ce qu'on vient chercher ? *" data-en="What do we pick up? *">Qu'est-ce qu'on vient chercher ? *</label>
                 <textarea class="calc-input" id="fJunkItems" rows="3" style="resize:vertical;min-height:72px" placeholder="Ex : sofa, réfrigérateur, débris de réno, vieux électros..."></textarea>
+              </div>
+            </div>
+
+            <!-- LIVRAISON : où aller chercher + adresse livraison + étage destination -->
+            <div id="groupDelivery" style="display:none">
+              <div class="step-group">
+                <label class="field-label" for="fDeliveryFrom" data-fr="Où aller chercher l'item ? *" data-en="Where to pick up the item? *">Où aller chercher l'item ? *</label>
+                <input type="text" class="calc-input" id="fDeliveryFrom" placeholder="Ex : IKEA Gloucester, Marketplace 456 avenue des Pins...">
+              </div>
+              <div class="step-group">
+                <label class="field-label" for="fDeliveryItem" data-fr="Quoi livrer ? *" data-en="What to deliver? *">Quoi livrer ? *</label>
+                <input type="text" class="calc-input" id="fDeliveryItem" placeholder="Ex : bibliothèque IKEA BILLY, sofa Facebook Marketplace...">
+              </div>
+              <div class="step-group">
+                <label class="field-label" for="fDeliveryAddr" data-fr="Adresse de livraison *" data-en="Delivery address *">Adresse de livraison *</label>
+                <input type="text" class="calc-input" id="fDeliveryAddr" placeholder="123 rue Principale, Gatineau">
+              </div>
+              <div class="step-group">
+                <label class="field-label" for="fDeliveryFloor" data-fr="Étage de livraison" data-en="Delivery floor">Étage de livraison</label>
+                <select class="calc-select" id="fDeliveryFloor">
+                  <option value="Rez-de-chaussée" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option>
+                  <option value="1er étage" data-fr="1er étage" data-en="1st floor">1er étage</option>
+                  <option value="2e étage" data-fr="2e étage" data-en="2nd floor">2e étage</option>
+                  <option value="3e+" data-fr="3e étage ou +" data-en="3rd floor+">3e étage ou +</option>
+                </select>
               </div>
             </div>
             <div class="step-btns">
@@ -1561,12 +1589,11 @@ function selectChip(el, hiddenId) {
   el.closest('.service-chips').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById(hiddenId).value = el.getAttribute('data-value');
-  // Adapter étape 2 selon service
   const svc = el.getAttribute('data-value');
-  const isJunk = svc === 'Désencombrement';
-  document.getElementById('groupPickup').style.display = isJunk ? 'none' : 'block';
-  document.getElementById('groupJunk').style.display   = isJunk ? 'block' : 'none';
-  document.getElementById('groupBoxes').style.display  = isJunk ? 'none' : 'block';
+  document.getElementById('groupMove').style.display     = svc === 'Déménagement'   ? 'block' : 'none';
+  document.getElementById('groupJunk').style.display     = svc === 'Désencombrement' ? 'block' : 'none';
+  document.getElementById('groupDelivery').style.display = svc === 'Petite livraison' ? 'block' : 'none';
+  document.getElementById('groupBoxes').style.display    = svc === 'Déménagement'   ? 'block' : 'none';
 }
 
 function showStep(n) {
@@ -1606,6 +1633,16 @@ function nextStep(from) {
         showStepError(currentLang === 'fr'
           ? 'Veuillez indiquer l\'adresse et les items à ramasser.'
           : 'Please provide the address and items to pick up.');
+        return;
+      }
+    } else if(svc === 'Petite livraison') {
+      const from2 = document.getElementById('fDeliveryFrom').value.trim();
+      const item  = document.getElementById('fDeliveryItem').value.trim();
+      const addr  = document.getElementById('fDeliveryAddr').value.trim();
+      if(!from2 || !item || !addr) {
+        showStepError(currentLang === 'fr'
+          ? 'Veuillez remplir tous les champs de livraison.'
+          : 'Please fill in all delivery fields.');
         return;
       }
     } else {
@@ -1663,6 +1700,7 @@ async function submitForm() {
   document.getElementById('formBtnTxt').textContent = '...';
 
   const isJunk = service === 'Désencombrement';
+  const isDelivery = service === 'Petite livraison';
   const payload = {
     _subject: `Nouvelle demande — ${name} (${service})`,
     Nom: name,
@@ -1672,6 +1710,11 @@ async function submitForm() {
     ...(isJunk ? {
       'Adresse ramassage': document.getElementById('fJunkAddr').value.trim(),
       'Items à ramasser': document.getElementById('fJunkItems').value.trim(),
+    } : isDelivery ? {
+      'Ramassage chez': document.getElementById('fDeliveryFrom').value.trim(),
+      'Item à livrer': document.getElementById('fDeliveryItem').value.trim(),
+      'Adresse livraison': document.getElementById('fDeliveryAddr').value.trim(),
+      'Étage livraison': document.getElementById('fDeliveryFloor').value,
     } : {
       'Adresse départ': document.getElementById('fPickup').value.trim(),
       'Type départ': document.getElementById('fPickupType').value,
