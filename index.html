@@ -816,6 +816,13 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <div class="zone-pill">Kanata</div><div class="zone-pill">Nepean</div>
             <div class="zone-pill">Gloucester</div><div class="zone-pill">Embrun</div><div class="zone-pill">Rockland</div>
           </div>
+          <div style="display:flex;align-items:center;gap:.75rem;margin-top:1.1rem;padding:.7rem .9rem;background:var(--g5);border:1.5px solid var(--g3);border-radius:2px">
+            <span style="font-size:1.25rem">🛣️</span>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--g2)" data-fr="Longue distance disponible" data-en="Long distance available">Longue distance disponible</div>
+              <div style="font-size:.72rem;color:var(--ink3);font-weight:300;margin-top:.1rem" data-fr="On se déplace partout au Québec et en Ontario." data-en="We travel anywhere in Quebec and Ontario.">On se déplace partout au Québec et en Ontario.</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -926,145 +933,188 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
           <div class="sh2" data-fr="Demande de <em>devis</em>" data-en="Request a <em>quote</em>">Demande de <em>devis</em></div>
           <p style="font-size:.82rem;color:var(--ink3);line-height:1.75;font-weight:300;margin-bottom:1.5rem" data-fr="Remplissez ce formulaire et on vous répond dans les 24h — sans engagement." data-en="Fill out this form and we'll get back to you within 24h — no commitment.">Remplissez ce formulaire et on vous répond dans les 24h — sans engagement.</p>
           <div id="formMsg" style="display:none;padding:.75rem 1rem;background:var(--g5);border-left:3px solid var(--g2);font-size:.78rem;color:var(--g1);margin-bottom:1rem"></div>
-          <div class="calc-fields">
 
-            <!-- Nom -->
-            <div>
+          <!-- PROGRESSIVE FORM — étapes qui se révèlent -->
+          <style>
+            .form-step { display:none; animation: stepIn .35s cubic-bezier(.16,1,.3,1) both; }
+            .form-step.active { display:block; }
+            @keyframes stepIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+            .step-progress { display:flex; gap:.35rem; margin-bottom:1.2rem; }
+            .step-dot { height:3px; border-radius:2px; background:var(--line); flex:1; transition:background .4s; }
+            .step-dot.done { background:var(--g2); }
+            .step-dot.active { background:var(--g3); }
+            .step-group { margin-bottom:.9rem; }
+            .step-group label.field-label { display:block; margin-bottom:.3rem; }
+            .step-btns { display:flex; gap:.6rem; margin-top:1rem; }
+            .btn-back { font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);background:transparent;border:1px solid var(--line);padding:.6rem 1rem;cursor:pointer;border-radius:1px; }
+            .btn-next { font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--g2);border:none;padding:.6rem 1.4rem;cursor:pointer;flex:1;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); }
+            .btn-next:hover { background:var(--g1); }
+            .service-chips { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.4rem; }
+            .chip { font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:1.2px;text-transform:uppercase;padding:.45rem .9rem;border:1.5px solid var(--line);border-radius:2px;cursor:pointer;color:var(--ink2);background:#fff;transition:all .2s; }
+            .chip:hover { border-color:var(--g3);color:var(--g2); }
+            .chip.selected { border-color:var(--g2);background:var(--g5);color:var(--g1);font-weight:500; }
+          </style>
+
+          <!-- Barre de progression -->
+          <div class="step-progress" id="stepProgress">
+            <div class="step-dot active" id="dot0"></div>
+            <div class="step-dot" id="dot1"></div>
+            <div class="step-dot" id="dot2"></div>
+            <div class="step-dot" id="dot3"></div>
+          </div>
+
+          <!-- ÉTAPE 1 : Service + contact -->
+          <div class="form-step active" id="fStep0">
+            <div class="step-group">
+              <label class="field-label" data-fr="Type de service *" data-en="Service type *">Type de service *</label>
+              <div class="service-chips">
+                <div class="chip" data-value="Déménagement" onclick="selectChip(this,'fService')" data-fr="🚛 Déménagement" data-en="🚛 Moving">🚛 Déménagement</div>
+                <div class="chip" data-value="Désencombrement" onclick="selectChip(this,'fService')" data-fr="🗑 Désencombrement" data-en="🗑 Junk removal">🗑 Désencombrement</div>
+                <div class="chip" data-value="Petite livraison" onclick="selectChip(this,'fService')" data-fr="📦 Petite livraison" data-en="📦 Small delivery">📦 Petite livraison</div>
+              </div>
+              <input type="hidden" id="fService">
+            </div>
+            <div class="step-group">
               <label class="field-label" for="fName" data-fr="Votre nom *" data-en="Your name *">Votre nom *</label>
               <input type="text" class="calc-input" id="fName" placeholder="Marie Tremblay">
             </div>
-
-            <!-- Téléphone -->
-            <div>
+            <div class="step-group">
               <label class="field-label" for="fPhone" data-fr="Téléphone *" data-en="Phone *">Téléphone *</label>
               <input type="tel" class="calc-input" id="fPhone" placeholder="(819) 555-0000">
             </div>
-
-            <!-- Courriel -->
-            <div>
-              <label class="field-label" for="fEmail" data-fr="Courriel" data-en="Email">Courriel</label>
+            <div class="step-group">
+              <label class="field-label" for="fEmail" data-fr="Courriel (optionnel)" data-en="Email (optional)">Courriel (optionnel)</label>
               <input type="email" class="calc-input" id="fEmail" placeholder="marie@exemple.com">
             </div>
-
-            <!-- Type de service -->
-            <div>
-              <label class="field-label" for="fService" data-fr="Type de service *" data-en="Service type *">Type de service *</label>
-              <select class="calc-select" id="fService">
-                <option value="" data-fr="Choisir..." data-en="Choose...">Choisir...</option>
-                <option value="Déménagement" data-fr="Déménagement" data-en="Moving">Déménagement</option>
-                <option value="Désencombrement" data-fr="Désencombrement" data-en="Junk removal">Désencombrement</option>
-                <option value="Petite livraison" data-fr="Petite livraison" data-en="Small delivery">Petite livraison</option>
-              </select>
+            <div class="step-btns">
+              <button class="btn-next" onclick="nextStep(0)" id="btnStep0" data-fr="Continuer →" data-en="Continue →">Continuer →</button>
             </div>
-
-            <!-- Divider -->
-            <div style="grid-column:1/-1;border-top:1px solid var(--line);margin:.25rem 0"></div>
-
-            <!-- Adresse de départ -->
-            <div style="grid-column:1/-1">
-              <label class="field-label" for="fPickup" data-fr="Adresse de départ *" data-en="Pickup address *">Adresse de départ *</label>
-              <input type="text" class="calc-input" id="fPickup" placeholder="123 rue Principale, Gatineau">
-            </div>
-
-            <!-- Apt départ -->
-            <div>
-              <label class="field-label" for="fPickupType" data-fr="Type — départ" data-en="Type — pickup">Type — départ</label>
-              <select class="calc-select" id="fPickupType">
-                <option value="Maison" data-fr="Maison" data-en="House">Maison</option>
-                <option value="Appartement" data-fr="Appartement" data-en="Apartment">Appartement</option>
-                <option value="Bureau/Commercial" data-fr="Bureau / Commercial" data-en="Office / Commercial">Bureau / Commercial</option>
-                <option value="Autre" data-fr="Autre" data-en="Other">Autre</option>
-              </select>
-            </div>
-
-            <!-- Étage départ -->
-            <div>
-              <label class="field-label" for="fPickupFloor" data-fr="Étage — départ" data-en="Floor — pickup">Étage — départ</label>
-              <select class="calc-select" id="fPickupFloor">
-                <option value="Rez-de-chaussée" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option>
-                <option value="1er étage" data-fr="1er étage" data-en="1st floor">1er étage</option>
-                <option value="2e étage" data-fr="2e étage" data-en="2nd floor">2e étage</option>
-                <option value="3e étage ou plus" data-fr="3e étage ou plus" data-en="3rd floor or higher">3e étage ou plus</option>
-              </select>
-            </div>
-
-            <!-- Adresse de destination -->
-            <div style="grid-column:1/-1">
-              <label class="field-label" for="fDropoff" data-fr="Adresse de destination *" data-en="Drop-off address *">Adresse de destination *</label>
-              <input type="text" class="calc-input" id="fDropoff" placeholder="456 avenue des Pins, Ottawa">
-            </div>
-
-            <!-- Apt destination -->
-            <div>
-              <label class="field-label" for="fDropoffType" data-fr="Type — destination" data-en="Type — destination">Type — destination</label>
-              <select class="calc-select" id="fDropoffType">
-                <option value="Maison" data-fr="Maison" data-en="House">Maison</option>
-                <option value="Appartement" data-fr="Appartement" data-en="Apartment">Appartement</option>
-                <option value="Bureau/Commercial" data-fr="Bureau / Commercial" data-en="Office / Commercial">Bureau / Commercial</option>
-                <option value="Autre" data-fr="Autre" data-en="Other">Autre</option>
-              </select>
-            </div>
-
-            <!-- Étage destination -->
-            <div>
-              <label class="field-label" for="fDropoffFloor" data-fr="Étage — destination" data-en="Floor — destination">Étage — destination</label>
-              <select class="calc-select" id="fDropoffFloor">
-                <option value="Rez-de-chaussée" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option>
-                <option value="1er étage" data-fr="1er étage" data-en="1st floor">1er étage</option>
-                <option value="2e étage" data-fr="2e étage" data-en="2nd floor">2e étage</option>
-                <option value="3e étage ou plus" data-fr="3e étage ou plus" data-en="3rd floor or higher">3e étage ou plus</option>
-              </select>
-            </div>
-
-            <!-- Divider -->
-            <div style="grid-column:1/-1;border-top:1px solid var(--line);margin:.25rem 0"></div>
-
-            <!-- Date et heure -->
-            <div>
-              <label class="field-label" for="fDate" data-fr="Date souhaitée *" data-en="Preferred date *">Date souhaitée *</label>
-              <input type="date" class="calc-input" id="fDate">
-            </div>
-
-            <!-- Heure -->
-            <div>
-              <label class="field-label" for="fTime" data-fr="Heure approximative" data-en="Approx. time">Heure approximative</label>
-              <select class="calc-select" id="fTime">
-                <option value="" data-fr="Flexible" data-en="Flexible">Flexible</option>
-                <option value="Matin (7h–10h)" data-fr="Matin (7h–10h)" data-en="Morning (7am–10am)">Matin (7h–10h)</option>
-                <option value="Avant-midi (10h–12h)" data-fr="Avant-midi (10h–12h)" data-en="Late morning (10am–12pm)">Avant-midi (10h–12h)</option>
-                <option value="Après-midi (12h–17h)" data-fr="Après-midi (12h–17h)" data-en="Afternoon (12pm–5pm)">Après-midi (12h–17h)</option>
-                <option value="Soir (17h–20h)" data-fr="Soir (17h–20h)" data-en="Evening (5pm–8pm)">Soir (17h–20h)</option>
-              </select>
-            </div>
-
-            <!-- Nb de boîtes -->
-            <div>
-              <label class="field-label" for="fBoxes" data-fr="Nombre de boîtes (approx.)" data-en="Estimated # of boxes">Nombre de boîtes (approx.)</label>
-              <select class="calc-select" id="fBoxes">
-                <option value="" data-fr="Je ne sais pas encore" data-en="Not sure yet">Je ne sais pas encore</option>
-                <option value="Moins de 10 boîtes" data-fr="Moins de 10 boîtes" data-en="Fewer than 10 boxes">Moins de 10 boîtes</option>
-                <option value="10–25 boîtes" data-fr="10–25 boîtes" data-en="10–25 boxes">10–25 boîtes</option>
-                <option value="25–50 boîtes" data-fr="25–50 boîtes" data-en="25–50 boxes">25–50 boîtes</option>
-                <option value="50+ boîtes" data-fr="50+ boîtes" data-en="50+ boxes">50+ boîtes</option>
-              </select>
-            </div>
-
-            <!-- Items / meubles -->
-            <div style="grid-column:1/-1">
-              <label class="field-label" for="fItems" data-fr="Liste des items / meubles principaux" data-en="List of main items / furniture">Liste des items / meubles principaux</label>
-              <textarea class="calc-input" id="fItems" rows="3" style="resize:vertical;min-height:72px" placeholder="Ex : sofa, lit double, réfrigérateur, table de salle à manger..."></textarea>
-            </div>
-
-            <!-- Notes supplémentaires -->
-            <div style="grid-column:1/-1">
-              <label class="field-label" for="fMsg" data-fr="Notes supplémentaires (optionnel)" data-en="Additional notes (optional)">Notes supplémentaires (optionnel)</label>
-              <textarea class="calc-input" id="fMsg" rows="2" style="resize:vertical;min-height:56px" placeholder="Accès difficile, objets fragiles, animaux..."></textarea>
-            </div>
-
           </div>
-          <button class="btn-main" onclick="submitForm()" style="margin-top:.5rem;width:100%;justify-content:center" id="formBtn">
-            <span id="formBtnTxt">Envoyer la demande →</span>
-          </button>
+
+          <!-- ÉTAPE 2 : Adresse(s) — selon service -->
+          <div class="form-step" id="fStep1">
+            <!-- Déménagement / Livraison : départ + destination -->
+            <div id="groupPickup">
+              <div class="step-group">
+                <label class="field-label" for="fPickup" data-fr="Adresse de départ *" data-en="Pickup address *">Adresse de départ *</label>
+                <input type="text" class="calc-input" id="fPickup" placeholder="123 rue Principale, Gatineau">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+                <div class="step-group">
+                  <label class="field-label" for="fPickupType" data-fr="Type" data-en="Type">Type</label>
+                  <select class="calc-select" id="fPickupType">
+                    <option value="Maison" data-fr="Maison" data-en="House">Maison</option>
+                    <option value="Appartement" data-fr="Appartement" data-en="Apartment">Appartement</option>
+                    <option value="Bureau" data-fr="Bureau" data-en="Office">Bureau</option>
+                    <option value="Autre" data-fr="Autre" data-en="Other">Autre</option>
+                  </select>
+                </div>
+                <div class="step-group">
+                  <label class="field-label" for="fPickupFloor" data-fr="Étage" data-en="Floor">Étage</label>
+                  <select class="calc-select" id="fPickupFloor">
+                    <option value="Rez-de-chaussée" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option>
+                    <option value="1er étage" data-fr="1er étage" data-en="1st floor">1er étage</option>
+                    <option value="2e étage" data-fr="2e étage" data-en="2nd floor">2e étage</option>
+                    <option value="3e+" data-fr="3e étage ou +" data-en="3rd floor+">3e étage ou +</option>
+                  </select>
+                </div>
+              </div>
+              <div class="step-group" id="groupDropoff">
+                <label class="field-label" for="fDropoff" data-fr="Adresse de destination *" data-en="Drop-off address *">Adresse de destination *</label>
+                <input type="text" class="calc-input" id="fDropoff" placeholder="456 avenue des Pins, Ottawa">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem" id="groupDropoffDetails">
+                <div class="step-group">
+                  <label class="field-label" for="fDropoffType" data-fr="Type" data-en="Type">Type</label>
+                  <select class="calc-select" id="fDropoffType">
+                    <option value="Maison" data-fr="Maison" data-en="House">Maison</option>
+                    <option value="Appartement" data-fr="Appartement" data-en="Apartment">Appartement</option>
+                    <option value="Bureau" data-fr="Bureau" data-en="Office">Bureau</option>
+                    <option value="Autre" data-fr="Autre" data-en="Other">Autre</option>
+                  </select>
+                </div>
+                <div class="step-group">
+                  <label class="field-label" for="fDropoffFloor" data-fr="Étage" data-en="Floor">Étage</label>
+                  <select class="calc-select" id="fDropoffFloor">
+                    <option value="Rez-de-chaussée" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option>
+                    <option value="1er étage" data-fr="1er étage" data-en="1st floor">1er étage</option>
+                    <option value="2e étage" data-fr="2e étage" data-en="2nd floor">2e étage</option>
+                    <option value="3e+" data-fr="3e étage ou +" data-en="3rd floor+">3e étage ou +</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- Désencombrement : adresse de ramassage seulement -->
+            <div id="groupJunk" style="display:none">
+              <div class="step-group">
+                <label class="field-label" for="fJunkAddr" data-fr="Adresse de ramassage *" data-en="Pickup address *">Adresse de ramassage *</label>
+                <input type="text" class="calc-input" id="fJunkAddr" placeholder="123 rue Principale, Gatineau">
+              </div>
+              <div class="step-group">
+                <label class="field-label" for="fJunkItems" data-fr="Qu'est-ce qu'on vient chercher ? *" data-en="What do we pick up? *">Qu'est-ce qu'on vient chercher ? *</label>
+                <textarea class="calc-input" id="fJunkItems" rows="3" style="resize:vertical;min-height:72px" placeholder="Ex : sofa, réfrigérateur, débris de réno, vieux électros..."></textarea>
+              </div>
+            </div>
+            <div class="step-btns">
+              <button class="btn-back" onclick="prevStep(1)" data-fr="← Retour" data-en="← Back">← Retour</button>
+              <button class="btn-next" onclick="nextStep(1)" data-fr="Continuer →" data-en="Continue →">Continuer →</button>
+            </div>
+          </div>
+
+          <!-- ÉTAPE 3 : Date + détails -->
+          <div class="form-step" id="fStep2">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+              <div class="step-group">
+                <label class="field-label" for="fDate" data-fr="Date souhaitée *" data-en="Preferred date *">Date souhaitée *</label>
+                <input type="date" class="calc-input" id="fDate">
+              </div>
+              <div class="step-group">
+                <label class="field-label" for="fTime" data-fr="Heure" data-en="Time">Heure</label>
+                <select class="calc-select" id="fTime">
+                  <option value="Flexible" data-fr="Flexible" data-en="Flexible">Flexible</option>
+                  <option value="Matin (7h–10h)" data-fr="Matin (7h–10h)" data-en="Morning (7–10am)">Matin (7h–10h)</option>
+                  <option value="Avant-midi (10h–12h)" data-fr="Avant-midi" data-en="Late morning">Avant-midi</option>
+                  <option value="Après-midi (12h–17h)" data-fr="Après-midi" data-en="Afternoon">Après-midi</option>
+                  <option value="Soir (17h–20h)" data-fr="Soir" data-en="Evening">Soir</option>
+                </select>
+              </div>
+            </div>
+            <!-- Champs conditionnels : déménagement seulement -->
+            <div id="groupBoxes">
+              <div class="step-group">
+                <label class="field-label" for="fBoxes" data-fr="Nombre de boîtes (approx.)" data-en="Estimated # of boxes">Nombre de boîtes (approx.)</label>
+                <select class="calc-select" id="fBoxes">
+                  <option value="Non précisé" data-fr="Je ne sais pas encore" data-en="Not sure yet">Je ne sais pas encore</option>
+                  <option value="Moins de 10 boîtes" data-fr="Moins de 10 boîtes" data-en="Fewer than 10 boxes">Moins de 10 boîtes</option>
+                  <option value="10–25 boîtes" data-fr="10–25 boîtes" data-en="10–25 boxes">10–25 boîtes</option>
+                  <option value="25–50 boîtes" data-fr="25–50 boîtes" data-en="25–50 boxes">25–50 boîtes</option>
+                  <option value="50+ boîtes" data-fr="50+ boîtes" data-en="50+ boxes">50+ boîtes</option>
+                </select>
+              </div>
+              <div class="step-group">
+                <label class="field-label" for="fItems" data-fr="Meubles principaux (optionnel)" data-en="Main furniture (optional)">Meubles principaux (optionnel)</label>
+                <textarea class="calc-input" id="fItems" rows="2" style="resize:vertical;min-height:56px" placeholder="Ex : sofa, lit double, réfrigérateur..."></textarea>
+              </div>
+            </div>
+            <div class="step-group">
+              <label class="field-label" for="fMsg" data-fr="Notes (optionnel)" data-en="Notes (optional)">Notes (optionnel)</label>
+              <textarea class="calc-input" id="fMsg" rows="2" style="resize:vertical;min-height:48px" placeholder="Accès difficile, objets fragiles, animaux..."></textarea>
+            </div>
+            <div class="step-btns">
+              <button class="btn-back" onclick="prevStep(2)" data-fr="← Retour" data-en="← Back">← Retour</button>
+              <button class="btn-next" onclick="submitForm()" id="formBtn" data-fr="Envoyer →" data-en="Send →"><span id="formBtnTxt">Envoyer →</span></button>
+            </div>
+          </div>
+
+          <!-- ÉTAPE 4 : Succès -->
+          <div class="form-step" id="fStep3">
+            <div style="text-align:center;padding:1.5rem 0">
+              <div style="font-size:2.5rem;margin-bottom:.6rem">✓</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--g1);margin-bottom:.5rem" id="successTitle">Demande envoyée !</div>
+              <div style="font-size:.8rem;color:var(--ink3);line-height:1.7" id="successSub">On vous contacte dans les 24h.<br>Merci de nous faire confiance.</div>
+            </div>
+          </div>
+
           <p style="font-size:.58rem;color:var(--ink3);margin-top:.7rem;text-align:center;line-height:1.6" data-fr="Aucun spam. Réponse en moins de 24h." data-en="No spam. Response within 24h.">Aucun spam. Réponse en moins de 24h.</p>
         </div>
       </div>
@@ -1378,6 +1428,11 @@ window.addEventListener('load', () => {
   // Rendre tout visible immédiatement pour que scrollHeight soit correct
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
+  // Appliquer la langue détectée dès le chargement
+  const langBtn = document.getElementById('langBtn');
+  if(langBtn) langBtn.textContent = currentLang === 'fr' ? 'EN' : 'FR';
+  if(currentLang === 'en') applyLang();
+
   // Délai court pour laisser le layout se stabiliser avant de dessiner la route
   setTimeout(() => {
     buildRoad();
@@ -1408,7 +1463,10 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 // ═══════════════════════════════════════
 // LANGUAGE SWITCHER
 // ═══════════════════════════════════════
-let currentLang = 'fr';
+// Auto-detect browser language — EN si anglophone, FR par défaut
+const _browserLang = (navigator.language || navigator.userLanguage || 'fr').toLowerCase();
+const _urlLang = new URLSearchParams(window.location.search).get('lang');
+let currentLang = _urlLang === 'en' || (!_urlLang && _browserLang.startsWith('en')) ? 'en' : 'fr';
 const translations = {
   fr: {
     heroTag: 'Gatineau · Ottawa · Outaouais',
@@ -1494,25 +1552,108 @@ function applyLang() {
 }
 
 // ═══════════════════════════════════════
-// FORM SUBMIT — Formspree mwvragyl
+// MULTI-STEP FORM
+// ═══════════════════════════════════════
+let _currentStep = 0;
+const TOTAL_STEPS = 3; // steps 0,1,2 (step 3 = success)
+
+function selectChip(el, hiddenId) {
+  el.closest('.service-chips').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(hiddenId).value = el.getAttribute('data-value');
+  // Adapter étape 2 selon service
+  const svc = el.getAttribute('data-value');
+  const isJunk = svc === 'Désencombrement';
+  document.getElementById('groupPickup').style.display = isJunk ? 'none' : 'block';
+  document.getElementById('groupJunk').style.display   = isJunk ? 'block' : 'none';
+  document.getElementById('groupBoxes').style.display  = isJunk ? 'none' : 'block';
+}
+
+function showStep(n) {
+  document.querySelectorAll('.form-step').forEach((s,i) => {
+    s.classList.toggle('active', i === n);
+  });
+  // Progress dots
+  for(let i = 0; i < TOTAL_STEPS; i++) {
+    const dot = document.getElementById('dot' + i);
+    if(!dot) continue;
+    dot.classList.remove('done','active');
+    if(i < n)      dot.classList.add('done');
+    else if(i === n) dot.classList.add('active');
+  }
+  _currentStep = n;
+}
+
+function nextStep(from) {
+  // Validation par étape
+  if(from === 0) {
+    const name = document.getElementById('fName').value.trim();
+    const phone = document.getElementById('fPhone').value.trim();
+    const service = document.getElementById('fService').value;
+    if(!name || !phone || !service) {
+      showStepError(currentLang === 'fr'
+        ? 'Veuillez remplir votre nom, téléphone et choisir un service.'
+        : 'Please fill in your name, phone and select a service.');
+      return;
+    }
+  }
+  if(from === 1) {
+    const svc = document.getElementById('fService').value;
+    if(svc === 'Désencombrement') {
+      const addr = document.getElementById('fJunkAddr').value.trim();
+      const items = document.getElementById('fJunkItems').value.trim();
+      if(!addr || !items) {
+        showStepError(currentLang === 'fr'
+          ? 'Veuillez indiquer l\'adresse et les items à ramasser.'
+          : 'Please provide the address and items to pick up.');
+        return;
+      }
+    } else {
+      const pickup = document.getElementById('fPickup').value.trim();
+      const dropoff = document.getElementById('fDropoff').value.trim();
+      if(!pickup || !dropoff) {
+        showStepError(currentLang === 'fr'
+          ? 'Veuillez indiquer les adresses de départ et de destination.'
+          : 'Please fill in both pickup and drop-off addresses.');
+        return;
+      }
+    }
+  }
+  hideStepError();
+  showStep(from + 1);
+}
+
+function prevStep(from) {
+  hideStepError();
+  showStep(from - 1);
+}
+
+function showStepError(msg) {
+  const el = document.getElementById('formMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.borderLeftColor = '#e05';
+  el.style.background = '#fff0f3';
+  el.style.color = '#c00';
+}
+function hideStepError() {
+  const el = document.getElementById('formMsg');
+  el.style.display = 'none';
+}
+
+// ═══════════════════════════════════════
+// FORM SUBMIT — Formspree mvzdglgk (Mobilo)
 // ═══════════════════════════════════════
 async function submitForm() {
-  const t = translations[currentLang];
   const name    = document.getElementById('fName').value.trim();
   const phone   = document.getElementById('fPhone').value.trim();
   const service = document.getElementById('fService').value;
-  const pickup  = document.getElementById('fPickup').value.trim();
-  const dropoff = document.getElementById('fDropoff').value.trim();
-  const msgEl   = document.getElementById('formMsg');
+  const date    = document.getElementById('fDate').value || '—';
 
-  if (!name || !phone || !service || !pickup || !dropoff) {
-    msgEl.textContent = currentLang === 'fr'
-      ? 'Veuillez remplir les champs obligatoires (*) : nom, téléphone, service, adresses.'
-      : 'Please fill in required fields (*): name, phone, service, addresses.';
-    msgEl.style.display = 'block';
-    msgEl.style.borderLeftColor = '#e05';
-    msgEl.style.background = '#fff0f3';
-    msgEl.style.color = '#c00';
+  if (!name || !phone || !service || !date || date === '—') {
+    showStepError(currentLang === 'fr'
+      ? 'Veuillez indiquer une date souhaitée.'
+      : 'Please provide a preferred date.');
     return;
   }
 
@@ -1521,62 +1662,57 @@ async function submitForm() {
   btn.style.pointerEvents = 'none';
   document.getElementById('formBtnTxt').textContent = '...';
 
+  const isJunk = service === 'Désencombrement';
   const payload = {
-    _subject: `Nouvelle demande de devis — ${name} (${service})`,
+    _subject: `Nouvelle demande — ${name} (${service})`,
     Nom: name,
     Téléphone: phone,
     Courriel: document.getElementById('fEmail').value.trim() || '—',
     Service: service,
-    'Adresse départ': pickup,
-    'Type départ': document.getElementById('fPickupType').value,
-    'Étage départ': document.getElementById('fPickupFloor').value,
-    'Adresse destination': dropoff,
-    'Type destination': document.getElementById('fDropoffType').value,
-    'Étage destination': document.getElementById('fDropoffFloor').value,
-    'Date souhaitée': document.getElementById('fDate').value || '—',
+    ...(isJunk ? {
+      'Adresse ramassage': document.getElementById('fJunkAddr').value.trim(),
+      'Items à ramasser': document.getElementById('fJunkItems').value.trim(),
+    } : {
+      'Adresse départ': document.getElementById('fPickup').value.trim(),
+      'Type départ': document.getElementById('fPickupType').value,
+      'Étage départ': document.getElementById('fPickupFloor').value,
+      'Adresse destination': document.getElementById('fDropoff').value.trim(),
+      'Type destination': document.getElementById('fDropoffType').value,
+      'Étage destination': document.getElementById('fDropoffFloor').value,
+      'Nombre de boîtes': document.getElementById('fBoxes').value || 'Non précisé',
+      'Meubles principaux': document.getElementById('fItems').value.trim() || '—',
+    }),
+    'Date souhaitée': date,
     'Heure': document.getElementById('fTime').value || 'Flexible',
-    'Nombre de boîtes': document.getElementById('fBoxes').value || 'Non précisé',
-    'Liste des items': document.getElementById('fItems').value.trim() || '—',
     'Notes': document.getElementById('fMsg').value.trim() || '—',
   };
 
   try {
-    const res = await fetch('https://formspree.io/f/mwvragyl', {
+    const res = await fetch('https://formspree.io/f/mvzdglgk', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(payload),
     });
 
     if (res.ok) {
-      msgEl.textContent = currentLang === 'fr'
-        ? '✓ Demande reçue ! On vous contacte dans les 24h.'
-        : "✓ Request received! We'll contact you within 24h.";
-      msgEl.style.display = 'block';
-      msgEl.style.borderLeftColor = 'var(--g2)';
-      msgEl.style.background = 'var(--g5)';
-      msgEl.style.color = 'var(--g1)';
-      // Reset
-      ['fName','fPhone','fEmail','fPickup','fDropoff','fDate','fItems','fMsg'].forEach(id => {
-        const el = document.getElementById(id); if (el) el.value = '';
-      });
-      ['fService','fPickupType','fPickupFloor','fDropoffType','fDropoffFloor','fTime','fBoxes'].forEach(id => {
-        const el = document.getElementById(id); if (el) el.selectedIndex = 0;
-      });
+      // Afficher étape succès
+      document.getElementById('successTitle').textContent = currentLang === 'fr' ? 'Demande envoyée !' : 'Request sent!';
+      document.getElementById('successSub').innerHTML = currentLang === 'fr'
+        ? 'On vous contacte dans les 24h.<br>Merci de nous faire confiance.'
+        : "We'll contact you within 24h.<br>Thank you for choosing Mobilo!";
+      showStep(3);
+      document.getElementById('stepProgress').style.display = 'none';
     } else {
       throw new Error('Formspree error');
     }
   } catch(e) {
-    msgEl.textContent = currentLang === 'fr'
-      ? 'Erreur d\'envoi. Appelez-nous au (438) 873-8605 ou écrivez à mobilomoving.co@gmail.com'
-      : 'Send error. Call us at (438) 873-8605 or email mobilomoving.co@gmail.com';
-    msgEl.style.display = 'block';
-    msgEl.style.borderLeftColor = '#e05';
-    msgEl.style.background = '#fff0f3';
-    msgEl.style.color = '#c00';
+    showStepError(currentLang === 'fr'
+      ? 'Erreur d\'envoi. Appelez-nous au (438) 873-8605.'
+      : 'Send error. Call us at (438) 873-8605.');
   } finally {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
-    document.getElementById('formBtnTxt').textContent = t.formBtn;
+    document.getElementById('formBtnTxt').textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send →';
   }
 }
 
