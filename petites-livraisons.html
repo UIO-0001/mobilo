@@ -32,7 +32,7 @@ nav{position:sticky;top:0;z-index:500;padding:.85rem 2rem;display:flex;justify-c
 .srv-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.8rem;display:flex;align-items:center;gap:.8rem}
 .srv-eyebrow::before{content:'';width:22px;height:1px;background:rgba(255,255,255,.4)}
 .srv-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);line-height:.88;letter-spacing:-1px;color:#fff;margin-bottom:1rem}
-.srv-h1 em{font-style:normal;-webkit-text-stroke:1.5px #fff;color:transparent}
+.srv-h1 em{font-style:normal;color:var(--g4)}
 .srv-sub{font-size:.92rem;color:rgba(255,255,255,.65);font-weight:300;line-height:1.75;max-width:480px;margin-bottom:1.8rem}
 .btn-white{display:inline-flex;align-items:center;gap:.6rem;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;color:var(--g1);background:#fff;padding:.8rem 1.6rem;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:background .25s,transform .2s;border:none;cursor:pointer}
 .btn-white:hover{background:var(--g5);transform:translateX(3px)}
@@ -90,6 +90,11 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
+
+/* PHOTO SECTION */
+.photo-section{position:relative;z-index:5;padding:0 2rem 4rem;max-width:860px;margin:0 auto}
+.photo-single{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center;display:block;border:1px solid var(--linem)}
+.photo-caption{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-top:.6rem;text-align:right}
 </style>
 </head>
 <body>
@@ -107,7 +112,7 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 <section class="srv-hero">
   <div class="srv-hero-inner">
     <div class="srv-eyebrow">Service 03</div>
-    <h1 class="srv-h1">Petites <em>Livrai</em>sons</h1>
+    <h1 class="srv-h1">Petites Livraisons</h1>
     <p class="srv-sub">Marketplace, IKEA, achats encombrants — on va chercher et on livre là où vous voulez.</p>
     <div class="hero-btns">
       <a href="tel:4388738605" class="btn-white">Obtenir un devis →</a>
@@ -171,6 +176,13 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
     <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text"><strong>Service bilingue</strong> — Français ou anglais selon votre préférence</div></div>
   </div>
 
+</div>
+
+<!-- PHOTO -->
+<div class="photo-section">
+  <div class="section-label reveal">En action</div>
+  <img src="images/Petites_livraisons.jpeg" alt="Camion chargé de meubles protégés pour une livraison" class="photo-single reveal">
+  <p class="photo-caption reveal">Livraison de meubles — Gatineau · Ottawa</p>
 </div>
 
 <!-- CTA -->

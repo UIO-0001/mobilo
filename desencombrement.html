@@ -42,7 +42,7 @@ nav{position:sticky;top:0;z-index:500;padding:.85rem 2rem;display:flex;justify-c
 .srv-eyebrow{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.8rem;display:flex;align-items:center;gap:.8rem}
 .srv-eyebrow::before{content:'';width:22px;height:1px;background:rgba(255,255,255,.4)}
 .srv-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,8vw,7rem);line-height:.88;letter-spacing:-1px;color:#fff;margin-bottom:1rem}
-.srv-h1 em{font-style:normal;-webkit-text-stroke:1.5px #fff;color:transparent}
+.srv-h1 em{font-style:normal;color:var(--g4)}
 .srv-sub{font-size:.92rem;color:rgba(255,255,255,.65);font-weight:300;line-height:1.75;max-width:480px;margin-bottom:1.8rem}
 .btn-white{display:inline-flex;align-items:center;gap:.6rem;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;color:var(--g1);background:#fff;padding:.8rem 1.6rem;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:background .25s,transform .2s;border:none;cursor:pointer}
 .btn-white:hover{background:var(--g5);transform:translateX(3px)}
@@ -96,6 +96,16 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
+
+/* GALERIE PHOTOS */
+.photo-section{position:relative;z-index:5;padding:0 2rem 4rem;max-width:860px;margin:0 auto}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
+.photo-grid-top{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:600px){.photo-grid,.photo-grid-top{grid-template-columns:1fr 1fr}}
+.photo-item{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--linem);transition:transform .3s,box-shadow .3s}
+.photo-item:hover{transform:scale(1.015);box-shadow:0 8px 28px rgba(30,77,38,0.14)}
+.photo-item.tall{aspect-ratio:3/4}
+.photo-caption{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-top:.4rem;text-align:right}
 </style>
 </head>
 <body>
@@ -113,7 +123,7 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 <section class="srv-hero">
   <div class="srv-hero-inner">
     <div class="srv-eyebrow">Service 02</div>
-    <h1 class="srv-h1">Désen<em>com</em>brement</h1>
+    <h1 class="srv-h1">Désencombrement</h1>
     <p class="srv-sub">Meubles, électros, déchets de rénovation — on vient ramasser, on s'occupe du reste.</p>
     <div class="hero-btns">
       <a href="tel:4388738605" class="btn-white">Obtenir un devis →</a>
@@ -178,6 +188,21 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
     <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text"><strong>Vieux équipements</strong> — Électroniques, équipements sportifs, divers encombrants</div></div>
   </div>
 
+</div>
+
+<!-- GALERIE PHOTOS -->
+<div class="photo-section">
+  <div class="section-label reveal">Nos réalisations</div>
+  <div class="photo-grid photo-grid-top reveal">
+    <img src="images/Junk_removal_2.jpeg" alt="Garage encombré avant désencombrement" class="photo-item">
+    <img src="images/Junk_removal_3.jpeg" alt="Garage vidé après désencombrement" class="photo-item">
+    <img src="images/Junk_removal_4.jpeg" alt="Trailer rempli de débris de désencombrement" class="photo-item">
+  </div>
+  <div class="photo-grid reveal">
+    <img src="images/Junk_removal_1.jpeg" alt="Camion chargé de meubles et encombrants" class="photo-item">
+    <img src="images/Junk_removal_5.jpeg" alt="Pickup et trailer chargés de sacs lors d'un désencombrement" class="photo-item">
+  </div>
+  <p class="photo-caption reveal">Désencombrement résidentiel — Gatineau · Outaouais</p>
 </div>
 
 <!-- CTA -->
