@@ -892,7 +892,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
           </div>
 
           <!-- TRUCK ANIMATION (désencombrement seulement) -->
-          <div id="truck-viz-calc" style="display:none;margin-bottom:.8rem">
+          <div id="truck-viz-calc" style="visibility:hidden;height:0;overflow:hidden;margin:0;padding:0;margin-bottom:.8rem">
           <style>
           .calc-truck-progress-track{height:3px;background:rgba(42,96,50,0.1);border-radius:2px;margin-bottom:.8rem;overflow:hidden}
           .calc-truck-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--g1),var(--g3));border-radius:2px;transition:width .8s cubic-bezier(.16,1,.3,1)}
@@ -904,165 +904,172 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
               <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--g2)" id="calc-truck-pct">0%</span>
             </div>
             <div class="calc-truck-progress-track"><div class="calc-truck-progress-bar" id="calc-truck-progress-bar"></div></div>
-            <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:linear-gradient(160deg,#f7fbf8,#edf5ef);border-radius:4px;overflow:visible">
+            <svg viewBox="0 0 560 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:linear-gradient(160deg,#f7fbf8,#edf5ef);border-radius:4px;overflow:visible">
               <defs>
                 <linearGradient id="calcTrailerGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stop-color="#e8f4eb"/><stop offset="100%" stop-color="#d4ecda"/>
                 </linearGradient>
-                <linearGradient id="calcCabGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#2C4A32"/><stop offset="100%" stop-color="#1E3324"/>
-                </linearGradient>
-                <linearGradient id="calcWheelGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#2a2a2a"/><stop offset="100%" stop-color="#111"/>
+                <linearGradient id="calcCabGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2C4A32"/><stop offset="100%" stop-color="#1A3020"/>
                 </linearGradient>
                 <linearGradient id="calcRoofGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stop-color="#3A7D44"/><stop offset="100%" stop-color="#2C6035"/>
                 </linearGradient>
-                <clipPath id="calcTrailerClip">
-                  <rect x="14" y="28" width="368" height="112" rx="2"/>
-                </clipPath>
-                <filter id="calcShadow" x="-5%" y="-5%" width="115%" height="130%">
-                  <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.15)"/>
+                <linearGradient id="calcWheelGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#383838"/><stop offset="100%" stop-color="#111"/>
+                </linearGradient>
+                <clipPath id="cwL1"><rect x="48" y="132" width="50" height="30"/></clipPath>
+                <clipPath id="cwL2"><rect x="178" y="132" width="50" height="30"/></clipPath>
+                <clipPath id="cwR"><rect x="402" y="132" width="50" height="30"/></clipPath>
+                <clipPath id="calcTrailerClip"><rect x="16" y="30" width="356" height="110"/></clipPath>
+                <filter id="calcShadow" x="-4%" y="-8%" width="115%" height="135%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="rgba(0,0,0,0.18)"/>
                 </filter>
               </defs>
-              <!-- Ground shadow -->
-              <ellipse cx="270" cy="172" rx="240" ry="7" fill="rgba(30,77,38,0.09)"/>
+              <!-- Wheels behind body -->
+              <g clip-path="url(#cwL1)">
+                <circle cx="73" cy="142" r="20" fill="url(#calcWheelGrad)" stroke="#222" stroke-width="1.5"/>
+                <circle cx="73" cy="142" r="12" fill="#1e1e1e"/>
+                <circle cx="73" cy="142" r="7" fill="#3A7D44"/>
+                <circle cx="73" cy="134" r="2" fill="#555"/><circle cx="81" cy="142" r="2" fill="#555"/>
+                <circle cx="73" cy="150" r="2" fill="#555"/><circle cx="65" cy="142" r="2" fill="#555"/>
+              </g>
+              <g clip-path="url(#cwL2)">
+                <circle cx="203" cy="142" r="20" fill="url(#calcWheelGrad)" stroke="#222" stroke-width="1.5"/>
+                <circle cx="203" cy="142" r="12" fill="#1e1e1e"/>
+                <circle cx="203" cy="142" r="7" fill="#3A7D44"/>
+                <circle cx="203" cy="134" r="2" fill="#555"/><circle cx="211" cy="142" r="2" fill="#555"/>
+                <circle cx="203" cy="150" r="2" fill="#555"/><circle cx="195" cy="142" r="2" fill="#555"/>
+              </g>
+              <g clip-path="url(#cwR)">
+                <circle cx="427" cy="142" r="20" fill="url(#calcWheelGrad)" stroke="#222" stroke-width="1.5"/>
+                <circle cx="427" cy="142" r="12" fill="#1e1e1e"/>
+                <circle cx="427" cy="142" r="7" fill="#3A7D44"/>
+                <circle cx="427" cy="134" r="2" fill="#555"/><circle cx="435" cy="142" r="2" fill="#555"/>
+                <circle cx="427" cy="150" r="2" fill="#555"/><circle cx="419" cy="142" r="2" fill="#555"/>
+              </g>
               <!-- Trailer body -->
-              <rect x="12" y="26" width="372" height="116" rx="4" fill="url(#calcTrailerGrad)" stroke="#3A7D44" stroke-width="2" filter="url(#calcShadow)"/>
-              <rect x="14" y="27" width="368" height="8" rx="3" fill="rgba(255,255,255,0.5)"/>
-              <line x1="14" y1="75" x2="382" y2="75" stroke="rgba(58,125,68,0.2)" stroke-width="1"/>
-              <line x1="110" y1="28" x2="110" y2="140" stroke="rgba(58,125,68,0.18)" stroke-width="1.5"/>
-              <line x1="205" y1="28" x2="205" y2="140" stroke="rgba(58,125,68,0.18)" stroke-width="1.5"/>
-              <line x1="300" y1="28" x2="300" y2="140" stroke="rgba(58,125,68,0.18)" stroke-width="1.5"/>
-              <text x="196" y="20" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" fill="rgba(58,125,68,0.45)" letter-spacing="2">MOBILO MOVING · 16ft</text>
-              <rect x="368" y="28" width="14" height="114" rx="2" fill="rgba(58,125,68,0.08)" stroke="#3A7D44" stroke-width="1.5" stroke-dasharray="5,3"/>
-              <rect x="371" y="82" width="8" height="14" rx="3" fill="none" stroke="#3A7D44" stroke-width="1.5"/>
-              <rect x="12" y="140" width="372" height="8" rx="2" fill="#2C3F30"/>
-              <rect x="370" y="138" width="10" height="20" rx="2" fill="#1E4D26"/>
-              <!-- Items inside trailer -->
+              <rect x="12" y="28" width="372" height="114" rx="4" fill="url(#calcTrailerGrad)" stroke="#3A7D44" stroke-width="2" filter="url(#calcShadow)"/>
+              <rect x="14" y="29" width="368" height="7" rx="3" fill="rgba(255,255,255,0.55)"/>
+              <line x1="14" y1="80" x2="382" y2="80" stroke="rgba(58,125,68,0.18)" stroke-width="1"/>
+              <line x1="108" y1="30" x2="108" y2="140" stroke="rgba(58,125,68,0.14)" stroke-width="1.2"/>
+              <line x1="204" y1="30" x2="204" y2="140" stroke="rgba(58,125,68,0.14)" stroke-width="1.2"/>
+              <line x1="300" y1="30" x2="300" y2="140" stroke="rgba(58,125,68,0.14)" stroke-width="1.2"/>
+              <rect x="12" y="140" width="372" height="7" rx="2" fill="#2A3C2D"/>
+              <line x1="375" y1="29" x2="375" y2="140" stroke="#3A7D44" stroke-width="2.5"/>
+              <line x1="381" y1="29" x2="381" y2="140" stroke="#2A5030" stroke-width="1"/>
+              <rect x="372" y="78" width="5" height="8" rx="2" fill="#3A7D44"/>
+              <text x="192" y="22" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="rgba(58,125,68,0.4)" letter-spacing="2">MOBILO MOVING · 16ft</text>
+              <!-- Items -->
               <g clip-path="url(#calcTrailerClip)">
                 <g id="ci-sofa" class="calc-svg-item">
-                  <rect x="22" y="95" width="72" height="40" rx="4" fill="#5BA368" stroke="#3A7D44" stroke-width="1.2"/>
-                  <rect x="22" y="80" width="72" height="20" rx="4" fill="#3A7D44" stroke="#2C6035" stroke-width="1"/>
-                  <rect x="25" y="97" width="30" height="34" rx="3" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
-                  <rect x="61" y="97" width="30" height="34" rx="3" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
-                  <rect x="26" y="133" width="6" height="6" rx="1" fill="#1E4D26"/>
-                  <rect x="84" y="133" width="6" height="6" rx="1" fill="#1E4D26"/>
+                  <rect x="18" y="96" width="70" height="16" rx="3" fill="#3A7D44" stroke="#2C6035" stroke-width="1"/>
+                  <rect x="18" y="112" width="70" height="28" rx="3" fill="#5BA368" stroke="#3A7D44" stroke-width="1.2"/>
+                  <rect x="21" y="114" width="29" height="22" rx="2" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
+                  <rect x="57" y="114" width="28" height="22" rx="2" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
+                  <rect x="22" y="138" width="5" height="4" rx="1" fill="#1E4D26"/>
+                  <rect x="80" y="138" width="5" height="4" rx="1" fill="#1E4D26"/>
                 </g>
                 <g id="ci-box1" class="calc-svg-item">
-                  <rect x="102" y="105" width="44" height="35" rx="2" fill="#A8D5B5" stroke="#5BA368" stroke-width="1.2"/>
-                  <line x1="124" y1="105" x2="124" y2="140" stroke="#3A7D44" stroke-width="1.5"/>
-                  <line x1="102" y1="122" x2="146" y2="122" stroke="#3A7D44" stroke-width="1.5"/>
-                  <rect x="108" y="113" width="14" height="9" rx="1" fill="rgba(255,255,255,0.6)"/>
+                  <rect x="100" y="108" width="44" height="32" rx="2" fill="#A8D5B5" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="122" y1="108" x2="122" y2="140" stroke="#3A7D44" stroke-width="1.5"/>
+                  <line x1="100" y1="124" x2="144" y2="124" stroke="#3A7D44" stroke-width="1.5"/>
+                  <rect x="106" y="114" width="14" height="9" rx="1" fill="rgba(255,255,255,0.6)"/>
                 </g>
                 <g id="ci-armchair" class="calc-svg-item">
-                  <rect x="157" y="100" width="44" height="38" rx="4" fill="#4A9058" stroke="#3A7D44" stroke-width="1.2"/>
-                  <rect x="157" y="88" width="44" height="16" rx="4" fill="#3A7D44" stroke="#2C6035" stroke-width="1"/>
-                  <rect x="157" y="100" width="8" height="28" rx="3" fill="#3A7D44"/>
-                  <rect x="193" y="100" width="8" height="28" rx="3" fill="#3A7D44"/>
-                  <rect x="167" y="105" width="24" height="28" rx="3" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
-                  <rect x="160" y="133" width="5" height="6" rx="1" fill="#1E4D26"/>
-                  <rect x="193" y="133" width="5" height="6" rx="1" fill="#1E4D26"/>
+                  <rect x="152" y="100" width="46" height="16" rx="3" fill="#3A7D44" stroke="#2C6035" stroke-width="1"/>
+                  <rect x="152" y="114" width="46" height="26" rx="3" fill="#4A9058" stroke="#3A7D44" stroke-width="1.2"/>
+                  <rect x="152" y="114" width="8" height="20" rx="2" fill="#3A7D44"/>
+                  <rect x="190" y="114" width="8" height="20" rx="2" fill="#3A7D44"/>
+                  <rect x="162" y="117" width="26" height="18" rx="2" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
+                  <rect x="155" y="138" width="5" height="4" rx="1" fill="#1E4D26"/>
+                  <rect x="190" y="138" width="5" height="4" rx="1" fill="#1E4D26"/>
                 </g>
                 <g id="ci-box2" class="calc-svg-item">
-                  <rect x="212" y="90" width="52" height="50" rx="2" fill="#C5E3CE" stroke="#5BA368" stroke-width="1.2"/>
-                  <line x1="238" y1="90" x2="238" y2="140" stroke="#3A7D44" stroke-width="1.5"/>
-                  <line x1="212" y1="115" x2="264" y2="115" stroke="#3A7D44" stroke-width="1.5"/>
-                  <rect x="217" y="95" width="18" height="12" rx="1" fill="rgba(255,255,255,.7)"/>
-                  <text x="226" y="103.5" text-anchor="middle" font-family="sans-serif" font-size="5.5" fill="#3A7D44" font-weight="bold">FRAGILE</text>
+                  <rect x="210" y="92" width="52" height="48" rx="2" fill="#C5E3CE" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="236" y1="92" x2="236" y2="140" stroke="#3A7D44" stroke-width="1.5"/>
+                  <line x1="210" y1="116" x2="262" y2="116" stroke="#3A7D44" stroke-width="1.5"/>
+                  <rect x="215" y="97" width="18" height="12" rx="1" fill="rgba(255,255,255,.7)"/>
+                  <text x="224" y="105" text-anchor="middle" font-family="sans-serif" font-size="5.5" fill="#3A7D44" font-weight="bold">FRAGILE</text>
                 </g>
                 <g id="ci-fridge" class="calc-svg-item">
-                  <rect x="22" y="42" width="38" height="52" rx="3" fill="#d0ebd6" stroke="#5BA368" stroke-width="1.2"/>
-                  <line x1="22" y1="65" x2="60" y2="65" stroke="#5BA368" stroke-width="1"/>
-                  <rect x="55" y="47" width="4" height="12" rx="2" fill="#3A7D44"/>
-                  <rect x="55" y="68" width="4" height="10" rx="2" fill="#3A7D44"/>
-                  <text x="41" y="58" text-anchor="middle" font-family="'DM Mono',monospace" font-size="5" fill="rgba(58,125,68,0.6)">FRIGO</text>
+                  <rect x="18" y="44" width="40" height="96" rx="3" fill="#d0ebd6" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="18" y1="76" x2="58" y2="76" stroke="#5BA368" stroke-width="1.2"/>
+                  <rect x="53" y="52" width="4" height="14" rx="2" fill="#3A7D44"/>
+                  <rect x="53" y="80" width="4" height="14" rx="2" fill="#3A7D44"/>
+                  <text x="38" y="64" text-anchor="middle" font-family="'DM Mono',monospace" font-size="5.5" fill="rgba(58,125,68,0.55)">FRIGO</text>
                 </g>
                 <g id="ci-box3" class="calc-svg-item">
-                  <rect x="102" y="70" width="44" height="34" rx="2" fill="#B8DEC1" stroke="#5BA368" stroke-width="1.2"/>
-                  <line x1="124" y1="70" x2="124" y2="104" stroke="#3A7D44" stroke-width="1.2"/>
-                  <line x1="102" y1="87" x2="146" y2="87" stroke="#3A7D44" stroke-width="1.2"/>
+                  <rect x="100" y="76" width="44" height="32" rx="2" fill="#B8DEC1" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="122" y1="76" x2="122" y2="108" stroke="#3A7D44" stroke-width="1.2"/>
+                  <line x1="100" y1="92" x2="144" y2="92" stroke="#3A7D44" stroke-width="1.2"/>
                 </g>
                 <g id="ci-mattress" class="calc-svg-item">
-                  <rect x="158" y="35" width="42" height="100" rx="4" fill="#A8D5B5" stroke="#5BA368" stroke-width="1.5"/>
-                  <line x1="166" y1="35" x2="166" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
-                  <line x1="174" y1="35" x2="174" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
-                  <line x1="182" y1="35" x2="182" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
-                  <line x1="190" y1="35" x2="190" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
-                  <line x1="158" y1="55" x2="200" y2="55" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
-                  <line x1="158" y1="75" x2="200" y2="75" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
-                  <line x1="158" y1="95" x2="200" y2="95" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
-                  <line x1="158" y1="115" x2="200" y2="115" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <rect x="60" y="33" width="38" height="107" rx="3" fill="#A8D5B5" stroke="#5BA368" stroke-width="1.5"/>
+                  <line x1="67" y1="33" x2="67" y2="140" stroke="rgba(58,125,68,0.22)" stroke-width="1"/>
+                  <line x1="75" y1="33" x2="75" y2="140" stroke="rgba(58,125,68,0.22)" stroke-width="1"/>
+                  <line x1="83" y1="33" x2="83" y2="140" stroke="rgba(58,125,68,0.22)" stroke-width="1"/>
+                  <line x1="91" y1="33" x2="91" y2="140" stroke="rgba(58,125,68,0.22)" stroke-width="1"/>
+                  <line x1="60" y1="60" x2="98" y2="60" stroke="rgba(58,125,68,0.22)" stroke-width="1"/>
+                  <line x1="60" y1="87" x2="98" y2="87" stroke="rgba(58,125,68,0.22)" stroke-width="1"/>
+                  <line x1="60" y1="114" x2="98" y2="114" stroke="rgba(58,125,68,0.22)" stroke-width="1"/>
                 </g>
                 <g id="ci-washer" class="calc-svg-item">
-                  <rect x="212" y="50" width="50" height="54" rx="3" fill="#d8eedd" stroke="#5BA368" stroke-width="1.2"/>
-                  <circle cx="237" cy="80" r="14" fill="none" stroke="#3A7D44" stroke-width="2"/>
-                  <circle cx="237" cy="80" r="9" fill="rgba(168,213,181,0.4)" stroke="#5BA368" stroke-width="1"/>
-                  <rect x="212" y="50" width="50" height="14" rx="3" fill="#3A7D44"/>
-                  <circle cx="225" cy="57" r="3" fill="rgba(255,255,255,0.5)"/>
-                  <circle cx="237" cy="57" r="4" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
-                  <circle cx="250" cy="57" r="2" fill="rgba(255,255,255,0.4)"/>
+                  <rect x="152" y="86" width="52" height="54" rx="3" fill="#d8eedd" stroke="#5BA368" stroke-width="1.2"/>
+                  <rect x="152" y="86" width="52" height="14" rx="3" fill="#3A7D44"/>
+                  <circle cx="164" cy="93" r="3" fill="rgba(255,255,255,0.5)"/>
+                  <circle cx="178" cy="93" r="4" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+                  <circle cx="193" cy="93" r="2" fill="rgba(255,255,255,0.4)"/>
+                  <circle cx="178" cy="120" r="15" fill="none" stroke="#3A7D44" stroke-width="2"/>
+                  <circle cx="178" cy="120" r="9" fill="rgba(168,213,181,0.4)" stroke="#5BA368" stroke-width="1"/>
                 </g>
                 <g id="ci-box4" class="calc-svg-item">
-                  <rect x="22" y="32" width="36" height="10" rx="2" fill="#C5E3CE" stroke="#5BA368" stroke-width="1"/>
-                  <line x1="40" y1="32" x2="40" y2="42" stroke="#3A7D44" stroke-width="1"/>
+                  <rect x="18" y="32" width="40" height="13" rx="2" fill="#C5E3CE" stroke="#5BA368" stroke-width="1"/>
+                  <line x1="38" y1="32" x2="38" y2="45" stroke="#3A7D44" stroke-width="1"/>
                 </g>
                 <g id="ci-table" class="calc-svg-item">
-                  <rect x="62" y="35" width="38" height="8" rx="2" fill="#8BC49A" stroke="#5BA368" stroke-width="1.2"/>
-                  <rect x="65" y="43" width="5" height="28" rx="1" fill="#5BA368" stroke="#3A7D44" stroke-width="1"/>
-                  <rect x="90" y="43" width="5" height="28" rx="1" fill="#5BA368" stroke="#3A7D44" stroke-width="1"/>
-                  <rect x="72" y="43" width="20" height="4" rx="1" fill="#3A7D44"/>
+                  <rect x="210" y="92" width="52" height="10" rx="2" fill="#8BC49A" stroke="#5BA368" stroke-width="1.2"/>
+                  <rect x="214" y="100" width="5" height="40" rx="1" fill="#5BA368" stroke="#3A7D44" stroke-width="1"/>
+                  <rect x="253" y="100" width="5" height="40" rx="1" fill="#5BA368" stroke="#3A7D44" stroke-width="1"/>
+                  <rect x="220" y="106" width="32" height="4" rx="1" fill="#3A7D44"/>
                 </g>
                 <g id="ci-tv" class="calc-svg-item">
-                  <rect x="272" y="70" width="56" height="38" rx="3" fill="#2C3F30" stroke="#1E4D26" stroke-width="1.5"/>
-                  <rect x="275" y="73" width="50" height="30" rx="2" fill="rgba(168,213,181,0.15)"/>
-                  <line x1="278" y1="76" x2="285" y2="83" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
-                  <rect x="293" y="108" width="20" height="5" rx="1" fill="#2C3F30"/>
-                  <rect x="297" y="113" width="12" height="4" rx="1" fill="#1E4D26"/>
+                  <rect x="270" y="56" width="60" height="36" rx="3" fill="#2C3F30" stroke="#1E4D26" stroke-width="1.5"/>
+                  <rect x="274" y="60" width="52" height="26" rx="2" fill="rgba(168,213,181,0.12)"/>
+                  <line x1="277" y1="63" x2="286" y2="72" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
                 </g>
                 <g id="ci-wardrobe" class="calc-svg-item">
-                  <rect x="272" y="30" width="56" height="96" rx="3" fill="#B8DEC1" stroke="#5BA368" stroke-width="1.5"/>
-                  <line x1="300" y1="30" x2="300" y2="126" stroke="#5BA368" stroke-width="1.5"/>
-                  <rect x="276" y="38" width="20" height="38" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
-                  <rect x="304" y="38" width="20" height="38" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
-                  <rect x="276" y="82" width="20" height="36" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
-                  <rect x="304" y="82" width="20" height="36" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
-                  <circle cx="294" cy="60" r="2.5" fill="#3A7D44"/>
-                  <circle cx="306" cy="60" r="2.5" fill="#3A7D44"/>
-                  <circle cx="294" cy="102" r="2.5" fill="#3A7D44"/>
-                  <circle cx="306" cy="102" r="2.5" fill="#3A7D44"/>
+                  <rect x="270" y="33" width="60" height="107" rx="3" fill="#B8DEC1" stroke="#5BA368" stroke-width="1.5"/>
+                  <line x1="300" y1="33" x2="300" y2="140" stroke="#5BA368" stroke-width="1.5"/>
+                  <rect x="274" y="42" width="22" height="42" rx="2" fill="none" stroke="rgba(58,125,68,0.28)" stroke-width="1"/>
+                  <rect x="304" y="42" width="22" height="42" rx="2" fill="none" stroke="rgba(58,125,68,0.28)" stroke-width="1"/>
+                  <rect x="274" y="90" width="22" height="44" rx="2" fill="none" stroke="rgba(58,125,68,0.28)" stroke-width="1"/>
+                  <rect x="304" y="90" width="22" height="44" rx="2" fill="none" stroke="rgba(58,125,68,0.28)" stroke-width="1"/>
+                  <circle cx="293" cy="65" r="2.5" fill="#3A7D44"/><circle cx="307" cy="65" r="2.5" fill="#3A7D44"/>
+                  <circle cx="293" cy="114" r="2.5" fill="#3A7D44"/><circle cx="307" cy="114" r="2.5" fill="#3A7D44"/>
                 </g>
               </g>
-              <!-- Truck cab -->
-              <path d="M384,52 L430,52 Q450,52 458,65 L468,90 L468,148 L384,148 Z" fill="url(#calcCabGrad)" stroke="#1E3324" stroke-width="2" filter="url(#calcShadow)"/>
-              <path d="M384,52 L430,52 Q448,52 456,64 L384,64 Z" fill="url(#calcRoofGrad)" stroke="#2C6035" stroke-width="1"/>
-              <path d="M388,66 L428,66 Q443,66 450,76 L450,100 L388,100 Z" fill="rgba(168,213,181,0.3)" stroke="#3A7D44" stroke-width="1.2"/>
-              <line x1="392" y1="70" x2="402" y2="80" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
-              <rect x="388" y="104" width="36" height="22" rx="2" fill="rgba(168,213,181,0.2)" stroke="#3A7D44" stroke-width="1"/>
-              <rect x="390" y="118" width="12" height="4" rx="2" fill="#3A7D44"/>
-              <rect x="454" y="82" width="10" height="16" rx="3" fill="rgba(255,240,120,0.85)" stroke="#3A7D44" stroke-width="1"/>
-              <rect x="453" y="28" width="7" height="26" rx="3" fill="#2C3F30" stroke="#1E3324" stroke-width="1"/>
-              <ellipse cx="456.5" cy="28" rx="3.5" ry="2" fill="#1E3324"/>
-              <rect x="454" y="140" width="14" height="8" rx="2" fill="#2C3F30" stroke="#1E3324" stroke-width="1"/>
-              <rect x="384" y="138" width="40" height="10" rx="2" fill="#253D2A" stroke="#1E3324" stroke-width="1"/>
-              <rect x="382" y="128" width="6" height="8" rx="1" fill="#3A7D44"/>
-              <!-- Wheels -->
-              <circle cx="70" cy="152" r="16" fill="url(#calcWheelGrad)" stroke="#333" stroke-width="1.5"/>
-              <circle cx="70" cy="152" r="10" fill="#222"/>
-              <circle cx="70" cy="152" r="6" fill="#3A7D44"/>
-              <circle cx="70" cy="145" r="1.5" fill="#555"/><circle cx="77" cy="152" r="1.5" fill="#555"/><circle cx="70" cy="159" r="1.5" fill="#555"/><circle cx="63" cy="152" r="1.5" fill="#555"/>
-              <circle cx="200" cy="152" r="16" fill="url(#calcWheelGrad)" stroke="#333" stroke-width="1.5"/>
-              <circle cx="200" cy="152" r="10" fill="#222"/>
-              <circle cx="200" cy="152" r="6" fill="#3A7D44"/>
-              <circle cx="200" cy="145" r="1.5" fill="#555"/><circle cx="207" cy="152" r="1.5" fill="#555"/><circle cx="200" cy="159" r="1.5" fill="#555"/><circle cx="193" cy="152" r="1.5" fill="#555"/>
-              <circle cx="86" cy="152" r="13" fill="url(#calcWheelGrad)" stroke="#444" stroke-width="1"/>
-              <circle cx="86" cy="152" r="8" fill="#1a1a1a"/>
-              <circle cx="215" cy="152" r="13" fill="url(#calcWheelGrad)" stroke="#444" stroke-width="1"/>
-              <circle cx="215" cy="152" r="8" fill="#1a1a1a"/>
-              <circle cx="420" cy="152" r="16" fill="url(#calcWheelGrad)" stroke="#333" stroke-width="1.5"/>
-              <circle cx="420" cy="152" r="10" fill="#222"/>
-              <circle cx="420" cy="152" r="6" fill="#3A7D44"/>
-              <circle cx="420" cy="145" r="1.5" fill="#555"/><circle cx="427" cy="152" r="1.5" fill="#555"/><circle cx="420" cy="159" r="1.5" fill="#555"/><circle cx="413" cy="152" r="1.5" fill="#555"/>
+              <!-- CAB -->
+              <rect x="384" y="34" width="76" height="106" rx="5" fill="url(#calcCabGrad)" stroke="#1A3020" stroke-width="2" filter="url(#calcShadow)"/>
+              <rect x="384" y="34" width="76" height="10" rx="5" fill="url(#calcRoofGrad)" stroke="#2C6035" stroke-width="1"/>
+              <rect x="390" y="48" width="62" height="48" rx="4" fill="rgba(160,220,200,0.28)" stroke="#3A7D44" stroke-width="1.5"/>
+              <line x1="394" y1="52" x2="408" y2="66" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="390" y1="98" x2="458" y2="98" stroke="#2C5030" stroke-width="1.2"/>
+              <rect x="390" y="102" width="52" height="24" rx="3" fill="rgba(140,200,180,0.18)" stroke="#3A7D44" stroke-width="1"/>
+              <rect x="393" y="116" width="14" height="4" rx="2" fill="#3A7D44"/>
+              <rect x="440" y="76" width="18" height="40" rx="2" fill="#1A3020" stroke="#2C6035" stroke-width="1"/>
+              <line x1="441" y1="84" x2="457" y2="84" stroke="#3A7D44" stroke-width="1"/>
+              <line x1="441" y1="92" x2="457" y2="92" stroke="#3A7D44" stroke-width="1"/>
+              <line x1="441" y1="100" x2="457" y2="100" stroke="#3A7D44" stroke-width="1"/>
+              <line x1="441" y1="108" x2="457" y2="108" stroke="#3A7D44" stroke-width="1"/>
+              <rect x="440" y="118" width="18" height="14" rx="3" fill="rgba(255,242,100,0.9)" stroke="#c8a800" stroke-width="1"/>
+              <ellipse cx="449" cy="125" rx="6" ry="4" fill="rgba(255,250,180,0.4)"/>
+              <rect x="455" y="8" width="7" height="28" rx="3" fill="#2A3C2D" stroke="#1A3020" stroke-width="1"/>
+              <ellipse cx="458.5" cy="8" rx="3.5" ry="2.2" fill="#111"/>
+              <rect x="384" y="136" width="56" height="7" rx="2" fill="#1A3020" stroke="#111" stroke-width="1"/>
+              <rect x="381" y="126" width="8" height="10" rx="2" fill="#3A7D44"/>
+              <ellipse cx="260" cy="166" rx="240" ry="7" fill="rgba(30,77,38,0.09)"/>
+              <line x1="0" y1="162" x2="560" y2="162" stroke="rgba(42,96,50,0.15)" stroke-width="1" stroke-dasharray="28,18"/>
             </svg>
           </div>
 
@@ -2146,7 +2153,12 @@ function calcPrice() {
   document.getElementById('f-vol').style.display       = t === 'junk'     ? '' : 'none';
   document.getElementById('f-meubles').style.display   = t === 'delivery' ? '' : 'none';
   document.getElementById('f-dist-del').style.display  = t === 'delivery' ? '' : 'none';
-  document.getElementById('truck-viz-calc').style.display = t === 'junk'  ? '' : 'none';
+  const tvCalc = document.getElementById('truck-viz-calc');
+  if(t === 'junk'){
+    tvCalc.style.visibility='visible';tvCalc.style.height='auto';tvCalc.style.overflow='visible';tvCalc.style.margin='';tvCalc.style.padding='';
+  } else {
+    tvCalc.style.visibility='hidden';tvCalc.style.height='0';tvCalc.style.overflow='hidden';tvCalc.style.margin='0';tvCalc.style.padding='0';
+  }
 
   let label = '';
 
