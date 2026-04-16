@@ -892,100 +892,177 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
           </div>
 
           <!-- TRUCK ANIMATION (désencombrement seulement) -->
-          <div id="truck-viz-calc" style="display:none;margin-bottom:.8rem;background:rgba(234,245,237,0.6);border:1px solid var(--linem);padding:1rem">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+          <div id="truck-viz-calc" style="display:none;margin-bottom:.8rem">
+          <style>
+          .calc-truck-progress-track{height:3px;background:rgba(42,96,50,0.1);border-radius:2px;margin-bottom:.8rem;overflow:hidden}
+          .calc-truck-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--g1),var(--g3));border-radius:2px;transition:width .8s cubic-bezier(.16,1,.3,1)}
+          .calc-svg-item{transition:opacity .45s ease, transform .45s cubic-bezier(.34,1.56,.64,1);opacity:0;transform:translateY(14px) scale(.85)}
+          .calc-svg-item.visible{opacity:1;transform:translateY(0) scale(1)}
+          </style>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
               <span style="font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3)" data-fr="Capacité utilisée" data-en="Capacity used">Capacité utilisée</span>
-              <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--g2)" id="calc-truck-pct">0%</span>
+              <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--g2)" id="calc-truck-pct">0%</span>
             </div>
-            <!-- Truck top-down detailed view -->
-            <svg viewBox="0 0 420 145" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+            <div class="calc-truck-progress-track"><div class="calc-truck-progress-bar" id="calc-truck-progress-bar"></div></div>
+            <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:linear-gradient(160deg,#f7fbf8,#edf5ef);border-radius:4px;overflow:visible">
               <defs>
-                <linearGradient id="trailerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#e8f5ec"/><stop offset="100%" stop-color="#d4ecda"/>
+                <linearGradient id="calcTrailerGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e8f4eb"/><stop offset="100%" stop-color="#d4ecda"/>
                 </linearGradient>
-                <linearGradient id="cabTopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#2C3F30"/><stop offset="100%" stop-color="#1E4D26"/>
+                <linearGradient id="calcCabGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#2C4A32"/><stop offset="100%" stop-color="#1E3324"/>
                 </linearGradient>
-                <filter id="truckShadow">
-                  <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(30,77,38,0.2)"/>
+                <linearGradient id="calcWheelGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2a2a2a"/><stop offset="100%" stop-color="#111"/>
+                </linearGradient>
+                <linearGradient id="calcRoofGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3A7D44"/><stop offset="100%" stop-color="#2C6035"/>
+                </linearGradient>
+                <clipPath id="calcTrailerClip">
+                  <rect x="14" y="28" width="368" height="112" rx="2"/>
+                </clipPath>
+                <filter id="calcShadow" x="-5%" y="-5%" width="115%" height="130%">
+                  <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.15)"/>
                 </filter>
               </defs>
-
               <!-- Ground shadow -->
-              <ellipse cx="195" cy="138" rx="180" ry="6" fill="rgba(30,77,38,0.07)"/>
-
-              <!-- ═══ TRAILER (cargo box) — top-down ═══ -->
-              <!-- Outer shell -->
-              <rect x="8" y="18" width="305" height="96" rx="4" fill="#2C3F30" filter="url(#truckShadow)"/>
-              <!-- Inner floor -->
-              <rect x="12" y="22" width="297" height="88" rx="3" fill="url(#trailerGrad)"/>
-              <!-- Fill indicator (remplissage) -->
-              <rect id="calc-trailer-fill" x="14" y="24" width="0" height="84" rx="2" fill="rgba(58,125,68,0.18)" style="transition:width .7s cubic-bezier(.16,1,.3,1)"/>
-              <!-- Floor planks (lignes horizontales plancher) -->
-              <line x1="12" y1="44" x2="309" y2="44" stroke="rgba(58,125,68,0.12)" stroke-width="0.8"/>
-              <line x1="12" y1="64" x2="309" y2="64" stroke="rgba(58,125,68,0.12)" stroke-width="0.8"/>
-              <line x1="12" y1="84" x2="309" y2="84" stroke="rgba(58,125,68,0.12)" stroke-width="0.8"/>
-              <line x1="12" y1="104" x2="309" y2="104" stroke="rgba(58,125,68,0.12)" stroke-width="0.8"/>
-              <!-- Wall lines latérales -->
-              <rect x="8" y="18" width="305" height="4" rx="2" fill="#1E4D26" opacity=".6"/>
-              <rect x="8" y="110" width="305" height="4" rx="2" fill="#1E4D26" opacity=".6"/>
-              <!-- Séparateurs verticaux internes légers -->
-              <line x1="110" y1="22" x2="110" y2="110" stroke="rgba(58,125,68,0.15)" stroke-width="1"/>
-              <line x1="210" y1="22" x2="210" y2="110" stroke="rgba(58,125,68,0.15)" stroke-width="1"/>
-              <!-- Dimensions label -->
-              <text x="157" y="14" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6" fill="rgba(58,125,68,0.4)" letter-spacing="1">16ft × 7ft × 4ft</text>
-              <!-- Portes arrière (double porte) -->
-              <line x1="8" y1="66" x2="12" y2="66" stroke="#3A7D44" stroke-width="2"/>
-              <!-- Rear door handles -->
-              <rect x="6" y="58" width="3" height="8" rx="1" fill="#3A7D44" opacity=".7"/>
-              <rect x="6" y="70" width="3" height="8" rx="1" fill="#3A7D44" opacity=".7"/>
-
-              <!-- ═══ ROUES trailer ═══ -->
-              <!-- Roues avant remorque -->
-              <rect x="220" y="8" width="22" height="8" rx="3" fill="#1a1a1a" stroke="#333" stroke-width=".5"/>
-              <rect x="220" y="120" width="22" height="8" rx="3" fill="#1a1a1a" stroke="#333" stroke-width=".5"/>
-              <!-- Roues arrière remorque (doubles) -->
-              <rect x="60" y="8" width="22" height="8" rx="3" fill="#1a1a1a" stroke="#333" stroke-width=".5"/>
-              <rect x="60" y="120" width="22" height="8" rx="3" fill="#1a1a1a" stroke="#333" stroke-width=".5"/>
-              <!-- Jantes -->
-              <rect x="225" y="10" width="12" height="4" rx="1.5" fill="#444"/>
-              <rect x="225" y="122" width="12" height="4" rx="1.5" fill="#444"/>
-              <rect x="65" y="10" width="12" height="4" rx="1.5" fill="#444"/>
-              <rect x="65" y="122" width="12" height="4" rx="1.5" fill="#444"/>
-
-              <!-- ═══ CABINE (vue de haut) ═══ -->
-              <!-- Corps cabine -->
-              <rect x="313" y="26" width="86" height="84" rx="5" fill="url(#cabTopGrad)" stroke="#163A1B" stroke-width="1.5"/>
-              <!-- Toit cabine (plus clair au centre) -->
-              <ellipse cx="356" cy="68" rx="32" ry="32" fill="rgba(255,255,255,0.04)"/>
-              <!-- Pare-brise (avant, côté droit = avant du camion) -->
-              <rect x="388" y="38" width="8" height="60" rx="3" fill="rgba(140,210,240,0.55)" stroke="rgba(100,190,220,0.3)" stroke-width=".5"/>
-              <rect x="389" y="42" width="3" height="12" rx="1" fill="rgba(255,255,255,0.3)"/>
-              <!-- Fenêtres latérales (fines bandes vue de haut) -->
-              <rect x="320" y="28" width="58" height="3" rx="1.5" fill="rgba(140,210,240,0.5)"/>
-              <rect x="320" y="105" width="58" height="3" rx="1.5" fill="rgba(140,210,240,0.5)"/>
-              <!-- Reflet pare-brise -->
-              <line x1="389" y1="38" x2="395" y2="98" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
-              <!-- Rétroviseurs -->
-              <rect x="395" y="24" width="9" height="4" rx="2" fill="#1E4D26" stroke="#163A1B" stroke-width=".5"/>
-              <rect x="395" y="108" width="9" height="4" rx="2" fill="#1E4D26" stroke="#163A1B" stroke-width=".5"/>
-              <!-- Phares avant -->
-              <rect x="393" y="32" width="9" height="12" rx="2" fill="#FFFACC" stroke="#E8D850" stroke-width=".5"/>
-              <rect x="393" y="92" width="9" height="12" rx="2" fill="#FFFACC" stroke="#E8D850" stroke-width=".5"/>
-              <!-- Lueur phares -->
-              <ellipse cx="404" cy="38" rx="5" ry="4" fill="rgba(255,250,150,0.25)"/>
-              <ellipse cx="404" cy="98" rx="5" ry="4" fill="rgba(255,250,150,0.25)"/>
-              <!-- Roues cabine -->
-              <rect x="313" y="8" width="20" height="8" rx="3" fill="#1a1a1a" stroke="#333" stroke-width=".5"/>
-              <rect x="313" y="120" width="20" height="8" rx="3" fill="#1a1a1a" stroke="#333" stroke-width=".5"/>
-              <rect x="316" y="10" width="10" height="4" rx="1.5" fill="#444"/>
-              <rect x="316" y="122" width="10" height="4" rx="1.5" fill="#444"/>
-              <!-- Attelage (5ème roue) -->
-              <rect x="308" y="58" width="8" height="20" rx="2" fill="#163A1B" stroke="#0C1A0F" stroke-width="1"/>
-              <circle cx="312" cy="68" r="4" fill="#0C1A0F" stroke="#2A6032" stroke-width=".8"/>
-
-              <!-- ═══ ITEMS SVG INSIDE CARGO (positionnés dans la zone 14-309, 24-108) ═══ -->
-              <g id="calc-truck-items-svg"></g>
+              <ellipse cx="270" cy="172" rx="240" ry="7" fill="rgba(30,77,38,0.09)"/>
+              <!-- Trailer body -->
+              <rect x="12" y="26" width="372" height="116" rx="4" fill="url(#calcTrailerGrad)" stroke="#3A7D44" stroke-width="2" filter="url(#calcShadow)"/>
+              <rect x="14" y="27" width="368" height="8" rx="3" fill="rgba(255,255,255,0.5)"/>
+              <line x1="14" y1="75" x2="382" y2="75" stroke="rgba(58,125,68,0.2)" stroke-width="1"/>
+              <line x1="110" y1="28" x2="110" y2="140" stroke="rgba(58,125,68,0.18)" stroke-width="1.5"/>
+              <line x1="205" y1="28" x2="205" y2="140" stroke="rgba(58,125,68,0.18)" stroke-width="1.5"/>
+              <line x1="300" y1="28" x2="300" y2="140" stroke="rgba(58,125,68,0.18)" stroke-width="1.5"/>
+              <text x="196" y="20" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7.5" fill="rgba(58,125,68,0.45)" letter-spacing="2">MOBILO MOVING · 16ft</text>
+              <rect x="368" y="28" width="14" height="114" rx="2" fill="rgba(58,125,68,0.08)" stroke="#3A7D44" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <rect x="371" y="82" width="8" height="14" rx="3" fill="none" stroke="#3A7D44" stroke-width="1.5"/>
+              <rect x="12" y="140" width="372" height="8" rx="2" fill="#2C3F30"/>
+              <rect x="370" y="138" width="10" height="20" rx="2" fill="#1E4D26"/>
+              <!-- Items inside trailer -->
+              <g clip-path="url(#calcTrailerClip)">
+                <g id="ci-sofa" class="calc-svg-item">
+                  <rect x="22" y="95" width="72" height="40" rx="4" fill="#5BA368" stroke="#3A7D44" stroke-width="1.2"/>
+                  <rect x="22" y="80" width="72" height="20" rx="4" fill="#3A7D44" stroke="#2C6035" stroke-width="1"/>
+                  <rect x="25" y="97" width="30" height="34" rx="3" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
+                  <rect x="61" y="97" width="30" height="34" rx="3" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
+                  <rect x="26" y="133" width="6" height="6" rx="1" fill="#1E4D26"/>
+                  <rect x="84" y="133" width="6" height="6" rx="1" fill="#1E4D26"/>
+                </g>
+                <g id="ci-box1" class="calc-svg-item">
+                  <rect x="102" y="105" width="44" height="35" rx="2" fill="#A8D5B5" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="124" y1="105" x2="124" y2="140" stroke="#3A7D44" stroke-width="1.5"/>
+                  <line x1="102" y1="122" x2="146" y2="122" stroke="#3A7D44" stroke-width="1.5"/>
+                  <rect x="108" y="113" width="14" height="9" rx="1" fill="rgba(255,255,255,0.6)"/>
+                </g>
+                <g id="ci-armchair" class="calc-svg-item">
+                  <rect x="157" y="100" width="44" height="38" rx="4" fill="#4A9058" stroke="#3A7D44" stroke-width="1.2"/>
+                  <rect x="157" y="88" width="44" height="16" rx="4" fill="#3A7D44" stroke="#2C6035" stroke-width="1"/>
+                  <rect x="157" y="100" width="8" height="28" rx="3" fill="#3A7D44"/>
+                  <rect x="193" y="100" width="8" height="28" rx="3" fill="#3A7D44"/>
+                  <rect x="167" y="105" width="24" height="28" rx="3" fill="#6EB87A" stroke="#3A7D44" stroke-width=".8"/>
+                  <rect x="160" y="133" width="5" height="6" rx="1" fill="#1E4D26"/>
+                  <rect x="193" y="133" width="5" height="6" rx="1" fill="#1E4D26"/>
+                </g>
+                <g id="ci-box2" class="calc-svg-item">
+                  <rect x="212" y="90" width="52" height="50" rx="2" fill="#C5E3CE" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="238" y1="90" x2="238" y2="140" stroke="#3A7D44" stroke-width="1.5"/>
+                  <line x1="212" y1="115" x2="264" y2="115" stroke="#3A7D44" stroke-width="1.5"/>
+                  <rect x="217" y="95" width="18" height="12" rx="1" fill="rgba(255,255,255,.7)"/>
+                  <text x="226" y="103.5" text-anchor="middle" font-family="sans-serif" font-size="5.5" fill="#3A7D44" font-weight="bold">FRAGILE</text>
+                </g>
+                <g id="ci-fridge" class="calc-svg-item">
+                  <rect x="22" y="42" width="38" height="52" rx="3" fill="#d0ebd6" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="22" y1="65" x2="60" y2="65" stroke="#5BA368" stroke-width="1"/>
+                  <rect x="55" y="47" width="4" height="12" rx="2" fill="#3A7D44"/>
+                  <rect x="55" y="68" width="4" height="10" rx="2" fill="#3A7D44"/>
+                  <text x="41" y="58" text-anchor="middle" font-family="'DM Mono',monospace" font-size="5" fill="rgba(58,125,68,0.6)">FRIGO</text>
+                </g>
+                <g id="ci-box3" class="calc-svg-item">
+                  <rect x="102" y="70" width="44" height="34" rx="2" fill="#B8DEC1" stroke="#5BA368" stroke-width="1.2"/>
+                  <line x1="124" y1="70" x2="124" y2="104" stroke="#3A7D44" stroke-width="1.2"/>
+                  <line x1="102" y1="87" x2="146" y2="87" stroke="#3A7D44" stroke-width="1.2"/>
+                </g>
+                <g id="ci-mattress" class="calc-svg-item">
+                  <rect x="158" y="35" width="42" height="100" rx="4" fill="#A8D5B5" stroke="#5BA368" stroke-width="1.5"/>
+                  <line x1="166" y1="35" x2="166" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <line x1="174" y1="35" x2="174" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <line x1="182" y1="35" x2="182" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <line x1="190" y1="35" x2="190" y2="135" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <line x1="158" y1="55" x2="200" y2="55" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <line x1="158" y1="75" x2="200" y2="75" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <line x1="158" y1="95" x2="200" y2="95" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                  <line x1="158" y1="115" x2="200" y2="115" stroke="rgba(58,125,68,0.25)" stroke-width="1"/>
+                </g>
+                <g id="ci-washer" class="calc-svg-item">
+                  <rect x="212" y="50" width="50" height="54" rx="3" fill="#d8eedd" stroke="#5BA368" stroke-width="1.2"/>
+                  <circle cx="237" cy="80" r="14" fill="none" stroke="#3A7D44" stroke-width="2"/>
+                  <circle cx="237" cy="80" r="9" fill="rgba(168,213,181,0.4)" stroke="#5BA368" stroke-width="1"/>
+                  <rect x="212" y="50" width="50" height="14" rx="3" fill="#3A7D44"/>
+                  <circle cx="225" cy="57" r="3" fill="rgba(255,255,255,0.5)"/>
+                  <circle cx="237" cy="57" r="4" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+                  <circle cx="250" cy="57" r="2" fill="rgba(255,255,255,0.4)"/>
+                </g>
+                <g id="ci-box4" class="calc-svg-item">
+                  <rect x="22" y="32" width="36" height="10" rx="2" fill="#C5E3CE" stroke="#5BA368" stroke-width="1"/>
+                  <line x1="40" y1="32" x2="40" y2="42" stroke="#3A7D44" stroke-width="1"/>
+                </g>
+                <g id="ci-table" class="calc-svg-item">
+                  <rect x="62" y="35" width="38" height="8" rx="2" fill="#8BC49A" stroke="#5BA368" stroke-width="1.2"/>
+                  <rect x="65" y="43" width="5" height="28" rx="1" fill="#5BA368" stroke="#3A7D44" stroke-width="1"/>
+                  <rect x="90" y="43" width="5" height="28" rx="1" fill="#5BA368" stroke="#3A7D44" stroke-width="1"/>
+                  <rect x="72" y="43" width="20" height="4" rx="1" fill="#3A7D44"/>
+                </g>
+                <g id="ci-tv" class="calc-svg-item">
+                  <rect x="272" y="70" width="56" height="38" rx="3" fill="#2C3F30" stroke="#1E4D26" stroke-width="1.5"/>
+                  <rect x="275" y="73" width="50" height="30" rx="2" fill="rgba(168,213,181,0.15)"/>
+                  <line x1="278" y1="76" x2="285" y2="83" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/>
+                  <rect x="293" y="108" width="20" height="5" rx="1" fill="#2C3F30"/>
+                  <rect x="297" y="113" width="12" height="4" rx="1" fill="#1E4D26"/>
+                </g>
+                <g id="ci-wardrobe" class="calc-svg-item">
+                  <rect x="272" y="30" width="56" height="96" rx="3" fill="#B8DEC1" stroke="#5BA368" stroke-width="1.5"/>
+                  <line x1="300" y1="30" x2="300" y2="126" stroke="#5BA368" stroke-width="1.5"/>
+                  <rect x="276" y="38" width="20" height="38" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
+                  <rect x="304" y="38" width="20" height="38" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
+                  <rect x="276" y="82" width="20" height="36" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
+                  <rect x="304" y="82" width="20" height="36" rx="2" fill="none" stroke="rgba(58,125,68,0.3)" stroke-width="1"/>
+                  <circle cx="294" cy="60" r="2.5" fill="#3A7D44"/>
+                  <circle cx="306" cy="60" r="2.5" fill="#3A7D44"/>
+                  <circle cx="294" cy="102" r="2.5" fill="#3A7D44"/>
+                  <circle cx="306" cy="102" r="2.5" fill="#3A7D44"/>
+                </g>
+              </g>
+              <!-- Truck cab -->
+              <path d="M384,52 L430,52 Q450,52 458,65 L468,90 L468,148 L384,148 Z" fill="url(#calcCabGrad)" stroke="#1E3324" stroke-width="2" filter="url(#calcShadow)"/>
+              <path d="M384,52 L430,52 Q448,52 456,64 L384,64 Z" fill="url(#calcRoofGrad)" stroke="#2C6035" stroke-width="1"/>
+              <path d="M388,66 L428,66 Q443,66 450,76 L450,100 L388,100 Z" fill="rgba(168,213,181,0.3)" stroke="#3A7D44" stroke-width="1.2"/>
+              <line x1="392" y1="70" x2="402" y2="80" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
+              <rect x="388" y="104" width="36" height="22" rx="2" fill="rgba(168,213,181,0.2)" stroke="#3A7D44" stroke-width="1"/>
+              <rect x="390" y="118" width="12" height="4" rx="2" fill="#3A7D44"/>
+              <rect x="454" y="82" width="10" height="16" rx="3" fill="rgba(255,240,120,0.85)" stroke="#3A7D44" stroke-width="1"/>
+              <rect x="453" y="28" width="7" height="26" rx="3" fill="#2C3F30" stroke="#1E3324" stroke-width="1"/>
+              <ellipse cx="456.5" cy="28" rx="3.5" ry="2" fill="#1E3324"/>
+              <rect x="454" y="140" width="14" height="8" rx="2" fill="#2C3F30" stroke="#1E3324" stroke-width="1"/>
+              <rect x="384" y="138" width="40" height="10" rx="2" fill="#253D2A" stroke="#1E3324" stroke-width="1"/>
+              <rect x="382" y="128" width="6" height="8" rx="1" fill="#3A7D44"/>
+              <!-- Wheels -->
+              <circle cx="70" cy="152" r="16" fill="url(#calcWheelGrad)" stroke="#333" stroke-width="1.5"/>
+              <circle cx="70" cy="152" r="10" fill="#222"/>
+              <circle cx="70" cy="152" r="6" fill="#3A7D44"/>
+              <circle cx="70" cy="145" r="1.5" fill="#555"/><circle cx="77" cy="152" r="1.5" fill="#555"/><circle cx="70" cy="159" r="1.5" fill="#555"/><circle cx="63" cy="152" r="1.5" fill="#555"/>
+              <circle cx="200" cy="152" r="16" fill="url(#calcWheelGrad)" stroke="#333" stroke-width="1.5"/>
+              <circle cx="200" cy="152" r="10" fill="#222"/>
+              <circle cx="200" cy="152" r="6" fill="#3A7D44"/>
+              <circle cx="200" cy="145" r="1.5" fill="#555"/><circle cx="207" cy="152" r="1.5" fill="#555"/><circle cx="200" cy="159" r="1.5" fill="#555"/><circle cx="193" cy="152" r="1.5" fill="#555"/>
+              <circle cx="86" cy="152" r="13" fill="url(#calcWheelGrad)" stroke="#444" stroke-width="1"/>
+              <circle cx="86" cy="152" r="8" fill="#1a1a1a"/>
+              <circle cx="215" cy="152" r="13" fill="url(#calcWheelGrad)" stroke="#444" stroke-width="1"/>
+              <circle cx="215" cy="152" r="8" fill="#1a1a1a"/>
+              <circle cx="420" cy="152" r="16" fill="url(#calcWheelGrad)" stroke="#333" stroke-width="1.5"/>
+              <circle cx="420" cy="152" r="10" fill="#222"/>
+              <circle cx="420" cy="152" r="6" fill="#3A7D44"/>
+              <circle cx="420" cy="145" r="1.5" fill="#555"/><circle cx="427" cy="152" r="1.5" fill="#555"/><circle cx="420" cy="159" r="1.5" fill="#555"/><circle cx="413" cy="152" r="1.5" fill="#555"/>
             </svg>
           </div>
 
@@ -2087,134 +2164,33 @@ function calcPrice() {
     const vol = document.getElementById('cVol').value;
     const prices = { '1meuble': '100$', 'quart': '250$', 'demi': '450$', 'trois_quart': '550$', 'full': '640$' };
     const pcts   = { '1meuble': 8,      'quart': 25,     'demi': 50,     'trois_quart': 75,      'full': 100  };
-    const fills  = { '1meuble': 1,      'quart': 3,      'demi': 6,      'trois_quart': 9,       'full': 12   };
-
-    // SVG item templates (top-down icons inside cargo)
-    // Each returns SVG string for item at position (cx, cy) with size s
-    const svgItems = [
-      // 0: canapé (sofa) — vue de haut
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.9}" y="${-s*.4}" width="${s*1.8}" height="${s*.8}" rx="${s*.12}" fill="#8B6F5E" stroke="#6B5244" stroke-width="${s*.05}"/>
-        <rect x="${-s*.9}" y="${-s*.4}" width="${s*1.8}" height="${s*.25}" rx="${s*.1}" fill="#A0826D" stroke="none"/>
-        <rect x="${-s*.9}" y="${-s*.4}" width="${s*.22}" height="${s*.8}" rx="${s*.08}" fill="#A0826D"/>
-        <rect x="${s*.68}" y="${-s*.4}" width="${s*.22}" height="${s*.8}" rx="${s*.08}" fill="#A0826D"/>
-      </g>`,
-      // 1: boîte carton — vue de haut
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.7}" y="${-s*.55}" width="${s*1.4}" height="${s*1.1}" rx="${s*.08}" fill="#D4A96A" stroke="#B8894A" stroke-width="${s*.06}"/>
-        <line x1="${-s*.7}" y1="0" x2="${s*.7}" y2="0" stroke="#B8894A" stroke-width="${s*.05}" stroke-dasharray="${s*.1},${s*.06}"/>
-        <line x1="0" y1="${-s*.55}" x2="0" y2="${s*.55}" stroke="#B8894A" stroke-width="${s*.05}" stroke-dasharray="${s*.1},${s*.06}"/>
-      </g>`,
-      // 2: chaise — vue de haut
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.55}" y="${-s*.55}" width="${s*1.1}" height="${s*1.1}" rx="${s*.1}" fill="#C4956A" stroke="#9B7050" stroke-width="${s*.06}"/>
-        <rect x="${-s*.35}" y="${-s*.35}" width="${s*.7}" height="${s*.7}" rx="${s*.06}" fill="#E8C99A" stroke="none"/>
-        <rect x="${-s*.55}" y="${s*.3}" width="${s*.18}" height="${s*.25}" rx="${s*.05}" fill="#9B7050"/>
-        <rect x="${s*.37}" y="${s*.3}" width="${s*.18}" height="${s*.25}" rx="${s*.05}" fill="#9B7050"/>
-        <rect x="${-s*.55}" y="${-s*.55}" width="${s*.18}" height="${s*.25}" rx="${s*.05}" fill="#9B7050"/>
-        <rect x="${s*.37}" y="${-s*.55}" width="${s*.18}" height="${s*.25}" rx="${s*.05}" fill="#9B7050"/>
-      </g>`,
-      // 3: réfrigérateur — vue de haut (rectangle allongé)
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.5}" y="${-s*.75}" width="${s*1}" height="${s*1.5}" rx="${s*.08}" fill="#C8D8D4" stroke="#8AADA8" stroke-width="${s*.06}"/>
-        <line x1="${-s*.5}" y1="${s*.05}" x2="${s*.5}" y2="${s*.05}" stroke="#8AADA8" stroke-width="${s*.05}"/>
-        <rect x="${s*.3}" y="${-s*.3}" width="${s*.08}" height="${s*.25}" rx="${s*.04}" fill="#8AADA8"/>
-        <rect x="${s*.3}" y="${s*.1}" width="${s*.08}" height="${s*.25}" rx="${s*.04}" fill="#8AADA8"/>
-      </g>`,
-      // 4: lit double — vue de haut
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.85}" y="${-s*.6}" width="${s*1.7}" height="${s*1.2}" rx="${s*.1}" fill="#E8DDD0" stroke="#C4B4A0" stroke-width="${s*.06}"/>
-        <rect x="${-s*.85}" y="${-s*.6}" width="${s*1.7}" height="${s*.35}" rx="${s*.08}" fill="#D4C5B5"/>
-        <rect x="${-s*.62}" y="${-s*.55}" width="${s*.55}" height="${s*.25}" rx="${s*.08}" fill="#F0E8DC"/>
-        <rect x="${s*.07}" y="${-s*.55}" width="${s*.55}" height="${s*.25}" rx="${s*.08}" fill="#F0E8DC"/>
-        <line x1="0" y1="${-s*.25}" x2="0" y2="${s*.6}" stroke="#C4B4A0" stroke-width="${s*.04}"/>
-      </g>`,
-      // 5: bureau/table — vue de haut
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.8}" y="${-s*.5}" width="${s*1.6}" height="${s*1}" rx="${s*.08}" fill="#B8956A" stroke="#8B6F45" stroke-width="${s*.06}"/>
-        <rect x="${-s*.75}" y="${-s*.45}" width="${s*1.5}" height="${s*.9}" rx="${s*.05}" fill="#C4A47A" stroke="none"/>
-        <rect x="${-s*.8}" y="${-s*.5}" width="${s*.18}" height="${s*.18}" rx="${s*.05}" fill="#8B6F45"/>
-        <rect x="${s*.62}" y="${-s*.5}" width="${s*.18}" height="${s*.18}" rx="${s*.05}" fill="#8B6F45"/>
-        <rect x="${-s*.8}" y="${s*.32}" width="${s*.18}" height="${s*.18}" rx="${s*.05}" fill="#8B6F45"/>
-        <rect x="${s*.62}" y="${s*.32}" width="${s*.18}" height="${s*.18}" rx="${s*.05}" fill="#8B6F45"/>
-      </g>`,
-      // 6: écran/télé — vue de haut (mince rectangle)
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.75}" y="${-s*.2}" width="${s*1.5}" height="${s*.4}" rx="${s*.06}" fill="#2C2C2C" stroke="#444" stroke-width="${s*.05}"/>
-        <rect x="${-s*.68}" y="${-s*.14}" width="${s*1.36}" height="${s*.28}" rx="${s*.04}" fill="#1A3A5C"/>
-        <rect x="${-s*.2}" y="${s*.2}" width="${s*.4}" height="${s*.15}" rx="${s*.05}" fill="#444"/>
-      </g>`,
-      // 7: armoire — vue de haut
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.65}" y="${-s*.75}" width="${s*1.3}" height="${s*1.5}" rx="${s*.07}" fill="#8B7355" stroke="#6B5535" stroke-width="${s*.07}"/>
-        <line x1="0" y1="${-s*.75}" x2="0" y2="${s*.75}" stroke="#6B5535" stroke-width="${s*.05}"/>
-        <rect x="${-s*.15}" y="${-s*.15}" width="${s*.12}" height="${s*.3}" rx="${s*.04}" fill="#C4A870"/>
-        <rect x="${s*.03}" y="${-s*.15}" width="${s*.12}" height="${s*.3}" rx="${s*.04}" fill="#C4A870"/>
-      </g>`,
-      // 8: machine à laver — vue de haut (carré avec hublot)
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.6}" y="${-s*.6}" width="${s*1.2}" height="${s*1.2}" rx="${s*.1}" fill="#D8E8F0" stroke="#8AAABB" stroke-width="${s*.07}"/>
-        <circle cx="0" cy="0" r="${s*.38}" fill="none" stroke="#8AAABB" stroke-width="${s*.07}"/>
-        <circle cx="0" cy="0" r="${s*.22}" fill="#B8D4E4" stroke="none"/>
-        <circle cx="0" cy="0" r="${s*.08}" fill="#6A9AAA" stroke="none"/>
-      </g>`,
-      // 9: boîte carton grande
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.85}" y="${-s*.65}" width="${s*1.7}" height="${s*1.3}" rx="${s*.08}" fill="#C49A5A" stroke="#A07A3A" stroke-width="${s*.07}"/>
-        <polygon points="0,${-s*.65} ${-s*.85},${-s*.1} ${s*.85},${-s*.1}" fill="rgba(255,255,255,0.1)" stroke="none"/>
-        <line x1="0" y1="${-s*.65}" x2="0" y2="${s*.65}" stroke="#A07A3A" stroke-width="${s*.05}"/>
-        <line x1="${-s*.85}" y1="0" x2="${s*.85}" y2="0" stroke="#A07A3A" stroke-width="${s*.05}"/>
-      </g>`,
-      // 10: canapé long (autre orientation)
-      (cx,cy,s) => `<g transform="translate(${cx},${cy}) rotate(90)">
-        <rect x="${-s*.9}" y="${-s*.4}" width="${s*1.8}" height="${s*.8}" rx="${s*.12}" fill="#7A8FA0" stroke="#5A7080" stroke-width="${s*.05}"/>
-        <rect x="${-s*.9}" y="${-s*.4}" width="${s*1.8}" height="${s*.25}" rx="${s*.1}" fill="#8FAABB" stroke="none"/>
-        <rect x="${-s*.9}" y="${-s*.4}" width="${s*.22}" height="${s*.8}" rx="${s*.08}" fill="#8FAABB"/>
-        <rect x="${s*.68}" y="${-s*.4}" width="${s*.22}" height="${s*.8}" rx="${s*.08}" fill="#8FAABB"/>
-      </g>`,
-      // 11: matelas — vue de haut
-      (cx,cy,s) => `<g transform="translate(${cx},${cy})">
-        <rect x="${-s*.8}" y="${-s*.55}" width="${s*1.6}" height="${s*1.1}" rx="${s*.1}" fill="#E8E0F0" stroke="#C0B0D8" stroke-width="${s*.06}"/>
-        <line x1="${-s*.8}" y1="${-s*.18}" x2="${s*.8}" y2="${-s*.18}" stroke="#C0B0D8" stroke-width="${s*.04}" stroke-dasharray="${s*.1},${s*.06}"/>
-        <line x1="${-s*.8}" y1="${s*.18}" x2="${s*.8}" y2="${s*.18}" stroke="#C0B0D8" stroke-width="${s*.04}" stroke-dasharray="${s*.1},${s*.06}"/>
-        <line x1="${-s*.27}" y1="${-s*.55}" x2="${-s*.27}" y2="${s*.55}" stroke="#C0B0D8" stroke-width="${s*.04}" stroke-dasharray="${s*.1},${s*.06}"/>
-        <line x1="${s*.27}" y1="${-s*.55}" x2="${s*.27}" y2="${s*.55}" stroke="#C0B0D8" stroke-width="${s*.04}" stroke-dasharray="${s*.1},${s*.06}"/>
-      </g>`,
-    ];
-
-    // Grid layout inside cargo: 4 cols × 3 rows, cargo zone x:14–293 (=279px), y:24–108 (=84px) in SVG units
-    const itemPositions = [
-      [48,47],[108,47],[168,47],[228,47],
-      [48,66],[108,66],[168,66],[228,66],
-      [48,87],[108,87],[168,87],[228,87],
-    ];
+    const levelItems = {
+      '1meuble':     ['ci-sofa'],
+      'quart':       ['ci-sofa','ci-box1','ci-armchair'],
+      'demi':        ['ci-sofa','ci-box1','ci-armchair','ci-box2','ci-fridge','ci-box3'],
+      'trois_quart': ['ci-sofa','ci-box1','ci-armchair','ci-box2','ci-fridge','ci-box3','ci-mattress','ci-washer','ci-box4'],
+      'full':        ['ci-sofa','ci-box1','ci-armchair','ci-box2','ci-fridge','ci-box3','ci-mattress','ci-washer','ci-box4','ci-table','ci-tv','ci-wardrobe']
+    };
+    const allCalcItems = ['ci-sofa','ci-box1','ci-armchair','ci-box2','ci-fridge','ci-box3','ci-mattress','ci-washer','ci-box4','ci-table','ci-tv','ci-wardrobe'];
 
     label = prices[vol] || '100$';
-    const pct   = pcts[vol]  || 0;
-    const fill  = fills[vol] || 0;
+    const pct = pcts[vol] || 0;
     document.getElementById('calc-truck-pct').textContent = pct + '%';
-    const maxW = 279; // cargo width in SVG units
-    const barW = Math.round(maxW * (pct / 100));
-    document.getElementById('calc-trailer-fill').setAttribute('width', barW);
-    const itemsEl = document.getElementById('calc-truck-items-svg');
-    itemsEl.innerHTML = '';
-    for (let i = 0; i < 12; i++) {
-      if (i >= fill) break;
-      const [cx, cy] = itemPositions[i];
-      const s = 16;
-      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-      g.innerHTML = svgItems[i % svgItems.length](cx, cy, s);
-      g.style.opacity = '0';
-      g.style.transition = `opacity .3s ease ${i*60}ms, transform .3s ease ${i*60}ms`;
-      g.style.transform = 'translateY(4px)';
-      itemsEl.appendChild(g);
-    }
+    document.getElementById('calc-truck-progress-bar').style.width = pct + '%';
+
+    // Hide all items instantly
+    allCalcItems.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('visible');
+    });
+    // Stagger show active items
+    const active = levelItems[vol] || [];
     setTimeout(() => {
-      itemsEl.querySelectorAll('g').forEach(el => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
+      active.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el) setTimeout(() => el.classList.add('visible'), i * 90);
       });
-    }, 50);
+    }, 60);
 
   } else {
     // Delivery
