@@ -655,27 +655,33 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
       <!-- Pare-choc arrière -->
       <rect x="-38" y="-9" width="4" height="18" rx="1.5" fill="#1E4D26"/>
 
-      <!-- ═══ CABINE ═══ -->
-      <rect x="13" y="-11" width="22" height="22" rx="3" fill="url(#cabGrad)"/>
-      <!-- Fenêtres latérales (vue de haut → fines bandes sur les côtés) -->
-      <rect x="15" y="-10.5" width="14" height="2.5" rx="1" fill="rgba(100,200,230,0.7)"/>
-      <rect x="15" y="8"     width="14" height="2.5" rx="1" fill="rgba(100,200,230,0.7)"/>
-      <rect x="15.5" y="-10" width="5" height="1" rx=".5" fill="rgba(255,255,255,0.45)"/>
-      <rect x="15.5" y="8.5" width="5" height="1" rx=".5" fill="rgba(255,255,255,0.45)"/>
-      <!-- Pare-brise -->
-      <rect x="28" y="-8" width="5" height="16" rx="2" fill="rgba(100,200,230,0.8)"/>
-      <rect x="28.5" y="-7" width="2" height="4" rx=".5" fill="rgba(255,255,255,0.5)"/>
-      <!-- Pare-choc avant -->
-      <rect x="33" y="-9" width="4" height="18" rx="1.5" fill="#163A1B"/>
-      <!-- Phares avant (boîtier) -->
-      <rect x="33" y="-9" width="4" height="6" rx="1" fill="#FFFAAA"/>
-      <rect x="33" y="3"  width="4" height="6" rx="1" fill="#FFFAAA"/>
+      <!-- ═══ CABINE — vue de haut, cabine carrée type box-truck ═══ -->
+      <!-- Corps cabine : rectangle carré (plus large/court que l'ancien) -->
+      <rect x="13" y="-11" width="26" height="22" rx="2.5" fill="url(#cabGrad)"/>
+      <!-- Pare-brise (vue de haut = ligne fine à l'avant de la cabine) -->
+      <rect x="34" y="-9" width="4" height="18" rx="1.5" fill="rgba(100,210,230,0.82)"/>
+      <!-- Reflet pare-brise -->
+      <rect x="34.5" y="-8" width="2" height="6" rx=".5" fill="rgba(255,255,255,0.45)"/>
+      <!-- Ligne séparation toit/porte côté gauche -->
+      <rect x="14" y="-10.5" width="18" height="2.5" rx="1" fill="rgba(100,200,230,0.68)"/>
+      <!-- Ligne séparation toit/porte côté droit -->
+      <rect x="14" y="8" width="18" height="2.5" rx="1" fill="rgba(100,200,230,0.68)"/>
+      <!-- Face avant (calandre + phares vus de haut) -->
+      <rect x="34" y="-11" width="4" height="22" rx="1" fill="#111"/>
+      <!-- Phare avant gauche (vue de haut) -->
+      <rect x="35" y="-11" width="3" height="5" rx="1" fill="#FFFAAA"/>
+      <!-- Phare avant droit (vue de haut) -->
+      <rect x="35" y="6" width="3" height="5" rx="1" fill="#FFFAAA"/>
+      <!-- Pare-choc avant (bande noire épaisse devant) -->
+      <rect x="37" y="-11" width="4" height="22" rx="1.5" fill="#163A1B"/>
       <!-- Faisceaux phares (cônes lumineux vers l'avant) -->
       <polygon points="37,-6 37,-3 70,12 70,-18" fill="url(#beamGrad)" opacity="0.55"/>
       <polygon points="37,4 37,7 70,22 70,-8"   fill="url(#beamGrad)" opacity="0.55"/>
-      <!-- Rétroviseurs -->
-      <rect x="13" y="-13" width="5" height="3" rx="1" fill="#2A6032"/>
-      <rect x="13" y="10"  width="5" height="3" rx="1" fill="#2A6032"/>
+      <!-- Rétroviseurs (grands, type camion) -->
+      <rect x="13" y="-15" width="7" height="4" rx="1.2" fill="#2A6032"/>
+      <rect x="13" y="11"  width="7" height="4" rx="1.2" fill="#2A6032"/>
+      <!-- Cheminée d'échappement (petite, côté caisse de la cabine) -->
+      <rect x="14" y="-8" width="3" height="2" rx="1" fill="#0D1A10"/>
 
       <!-- ═══ ROUES — fines, vue de haut, pas d'intérieur gris ═══ -->
       <!-- Roue avant gauche -->
