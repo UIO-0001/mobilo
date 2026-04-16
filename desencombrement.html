@@ -97,6 +97,42 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s ease,visibility .4s ease}
+#splash.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.splash-logo{display:flex;flex-direction:column;align-items:center;gap:.6rem;animation:splashPop .5s cubic-bezier(.34,1.56,.64,1) both}
+.splash-logo img{width:72px;height:72px;object-fit:contain}
+.splash-wordmark{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--g1)}
+.splash-bar{width:48px;height:2px;background:var(--line);margin-top:.4rem;overflow:hidden;border-radius:2px}
+.splash-bar-inner{height:100%;width:0%;background:linear-gradient(90deg,var(--g1),var(--g3));animation:splashLoad .9s ease forwards .2s}
+@keyframes splashPop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes splashLoad{from{width:0%}to{width:100%}}
+
+/* ESTIMATEUR */
+.estimator{background:var(--white);border:1px solid var(--linem);padding:2rem;margin-bottom:3rem;position:relative;overflow:hidden}
+.estimator::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g1),var(--g3))}
+.est-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.5px;color:var(--ink);margin-bottom:.3rem}
+.est-sub{font-size:.72rem;color:var(--ink3);font-weight:300;margin-bottom:1.5rem;line-height:1.6}
+.est-row{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.2rem}
+.est-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3)}
+.est-select{font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--ink);background:var(--g5);border:1px solid var(--linem);padding:.6rem .9rem;width:100%;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer;transition:border-color .2s}
+.est-select:focus{border-color:var(--g2)}
+.est-result{background:var(--g5);border:1px solid var(--linem);border-left:4px solid var(--g2);padding:1.2rem 1.5rem;margin-top:1rem;display:none}
+.est-result.show{display:block}
+.est-range{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--g2);letter-spacing:-1px;line-height:1}
+.est-breakdown{font-size:.72rem;color:var(--ink3);margin-top:.4rem;line-height:1.7}
+.est-tax-note{font-size:.62rem;color:var(--ink3);font-style:italic;margin-top:.5rem}
+
+/* TRUCK ANIMATION */
+.truck-section{background:var(--white);border:1px solid var(--linem);padding:1.8rem;margin-bottom:3rem;overflow:hidden}
+.truck-section-title{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--g2);margin-bottom:1rem;display:flex;align-items:center;gap:.8rem}
+.truck-section-title::before{content:'';width:16px;height:1px;background:var(--g2)}
+.truck-wrap{position:relative;width:100%}
+/* SVG truck canvas */
+#truck-canvas{width:100%;max-width:520px;display:block;margin:0 auto}
+.truck-fill-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);text-align:center;margin-top:.6rem}
+#truck-pct{color:var(--g2);font-weight:500}
+
 /* GALERIE PHOTOS */
 .photo-section{position:relative;z-index:5;padding:0 2rem 4rem;max-width:860px;margin:0 auto}
 .photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
@@ -110,10 +146,33 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 </head>
 <body>
 <div id="scroll-progress"></div>
+<div id="splash">
+  <div class="splash-logo">
+    <img src="logo.png" alt="Mobilo Moving">
+    <div class="splash-wordmark">Mobilo Moving</div>
+    <div class="splash-bar"><div class="splash-bar-inner"></div></div>
+  </div>
+</div>
+<!-- SPLASH SCREEN -->
+<div id="splash" style="position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s ease,visibility .4s ease">
+  <img src="logo.png" alt="Mobilo" style="width:130px;height:auto;animation:splashPulse .6s ease-in-out">
+</div>
+<style>
+@keyframes splashPulse{0%{opacity:0;transform:scale(.85)}60%{opacity:1;transform:scale(1.04)}100%{transform:scale(1)}}
+</style>
+<script>
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const s=document.getElementById('splash');
+    s.style.opacity='0';s.style.visibility='hidden';
+    setTimeout(()=>s.remove(),400);
+  },900);
+});
+</script>
 
 <nav>
-  <a href="https://uio-0001.github.io/mobilo" class="nav-back">← Retour</a>
-  <a href="https://uio-0001.github.io/mobilo" class="nav-logo">Mobilo Moving</a>
+  <a href="index.html" class="nav-back">← Retour</a>
+  <a href="index.html" class="nav-logo">Mobilo Moving</a>
   <div class="nav-right">
     <a href="tel:4388738605" class="nav-cta">📞 (438) 873-8605</a>
   </div>
@@ -127,7 +186,7 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
     <p class="srv-sub">Meubles, électros, déchets de rénovation — on vient ramasser, on s'occupe du reste.</p>
     <div class="hero-btns">
       <a href="tel:4388738605" class="btn-white">Obtenir un devis →</a>
-      <a href="mobilo-moving.html#contact" class="btn-outline-white">Formulaire de contact</a>
+      <a href="index.html#contact" class="btn-outline-white">Formulaire de contact</a>
     </div>
   </div>
 </section>
@@ -140,43 +199,170 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
     <p>Saviez-vous que vous pouvez éviter les frais élevés de l'écocentre ? En vous accompagnant à l'écocentre et en présentant votre permis de conduire avec une <strong>adresse à Gatineau</strong>, vous bénéficiez de <strong>3 dépôts gratuits par année</strong>. Profitez-en pour économiser tout en vous débarrassant de vos encombrants !<br><em style="font-size:.72rem;color:var(--ink3)">* Des conditions s'appliquent</em></p>
   </div>
 
-  <!-- TARIFS -->
-  <div class="section-label reveal">Nos forfaits</div>
-  <div class="pricing-grid">
-    <div class="price-card reveal">
-      <div class="price-tag-label">Forfait</div>
-      <div class="price-tag-name">Boîte simple</div>
-      <div class="price-tag-sub">Petites quantités, chargement rapide</div>
-      <div class="price-amount">80$ <span>+</span></div>
-      <div class="price-note">+ Tarifs écocentre : 76$<br>Inclut 10 minutes de travail</div>
-      <div class="price-features">
-        <div class="pf"><span class="pf-icon">✓</span> Idéal petits articles</div>
-        <div class="pf"><span class="pf-icon">✓</span> Intervention rapide</div>
+  <!-- ESTIMATEUR DÉSENCOMBREMENT -->
+  <div class="section-label reveal">Estimateur de prix</div>
+  <div class="reveal" id="est-desen-wrap">
+  <style>
+  .est-wrap{background:#fff;border:1px solid var(--linem);padding:2rem;margin-bottom:3rem}
+  .est-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+  @media(max-width:560px){.est-row{grid-template-columns:1fr}}
+  .est-field label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);display:block;margin-bottom:.4rem}
+  .est-field select{width:100%;font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--ink);background:var(--g5);border:1px solid var(--linem);padding:.6rem .8rem;appearance:none;-webkit-appearance:none;outline:none;transition:border-color .2s}
+  .est-field select:focus{border-color:var(--g2)}
+  .est-result{background:var(--g1);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:1.2rem}
+  .est-result-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .est-result-price{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:#fff;letter-spacing:-1px;line-height:1}
+  .est-note{font-size:.68rem;color:var(--ink3);margin-top:.8rem;line-height:1.6;font-weight:300}
+  .est-note strong{color:var(--g2)}
+
+  /* TRUCK ANIMATION */
+  .truck-viz{background:#fff;border:1px solid var(--linem);padding:1.5rem 2rem 1.2rem;margin-bottom:1.2rem}
+  .truck-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
+  .truck-viz-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3)}
+  .truck-fill-pct{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--g2)}
+  .truck-container{position:relative;width:100%;max-width:420px;margin:0 auto}
+  /* Truck SVG body */
+  .truck-svg-wrap{width:100%;position:relative}
+  /* Items grid inside trailer */
+  .trailer-items{
+    position:absolute;
+    /* positioned over trailer area of SVG */
+    bottom:18%;left:22%;right:6%;height:48%;
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    grid-template-rows:repeat(2,1fr);
+    gap:2px;
+    align-items:end;
+    padding:4px;
+  }
+  .t-item{
+    width:100%;aspect-ratio:1;border-radius:2px;
+    opacity:0;transform:translateY(8px);
+    transition:opacity .35s ease, transform .35s ease;
+    display:flex;align-items:center;justify-content:center;
+    font-size:clamp(8px,1.8vw,14px);
+    background:rgba(58,125,68,0.15);
+  }
+  .t-item.show{opacity:1;transform:translateY(0)}
+  </style>
+
+  <div class="est-wrap">
+    <div class="est-row" style="grid-template-columns:1fr">
+      <div class="est-field">
+        <label>Volume à désencomber</label>
+        <select id="desen-vol" onchange="calcDesen()">
+          <option value="">— Choisir un forfait —</option>
+          <option value="1meuble">1 meuble (100$)</option>
+          <option value="quart">¼ de camion (250$)</option>
+          <option value="demi">½ camion (450$)</option>
+          <option value="trois_quart">¾ de camion (550$)</option>
+          <option value="full">Camion complet (640$)</option>
+        </select>
       </div>
     </div>
-    <div class="price-card reveal">
-      <div class="price-tag-label">Forfait</div>
-      <div class="price-tag-name">Boîte + Trailer 5×9</div>
-      <div class="price-tag-sub">Volume moyen, meubles et électros</div>
-      <div class="price-amount">150$ <span>+</span></div>
-      <div class="price-note">+ Tarifs écocentre : min. 100$ — 165$/tonne<br>Inclut 40 minutes de travail</div>
-      <div class="price-features">
-        <div class="pf"><span class="pf-icon">✓</span> Meubles et électros</div>
-        <div class="pf"><span class="pf-icon">✓</span> Trailer 5×9 inclus</div>
+
+    <!-- TRUCK VISUAL -->
+    <div class="truck-viz" id="truck-viz" style="display:none">
+      <div class="truck-label-row">
+        <span class="truck-viz-label">Capacité utilisée</span>
+        <span class="truck-fill-pct" id="truck-pct">0%</span>
+      </div>
+      <div class="truck-container">
+        <div class="truck-svg-wrap">
+          <!-- Truck SVG: trailer 16ft × 7ft × 4ft -->
+          <svg viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+            <!-- Road shadow -->
+            <ellipse cx="210" cy="135" rx="190" ry="6" fill="rgba(30,77,38,0.08)"/>
+            <!-- Trailer body -->
+            <rect x="10" y="30" width="300" height="90" rx="3" fill="#f0f7f2" stroke="#3A7D44" stroke-width="2"/>
+            <!-- Trailer fill bar (animated) -->
+            <rect id="trailer-fill" x="12" y="32" width="0" height="86" rx="2" fill="rgba(58,125,68,0.18)" style="transition:width .7s cubic-bezier(.16,1,.3,1)"/>
+            <!-- Trailer door line -->
+            <line x1="308" y1="30" x2="308" y2="120" stroke="#3A7D44" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <!-- Trailer ribs -->
+            <line x1="110" y1="32" x2="110" y2="118" stroke="rgba(58,125,68,0.2)" stroke-width="1"/>
+            <line x1="210" y1="32" x2="210" y2="118" stroke="rgba(58,125,68,0.2)" stroke-width="1"/>
+            <!-- Truck cab -->
+            <rect x="310" y="50" width="80" height="70" rx="4" fill="#2C3F30" stroke="#1E4D26" stroke-width="1.5"/>
+            <rect x="320" y="55" width="55" height="35" rx="3" fill="rgba(168,213,181,0.35)" stroke="#3A7D44" stroke-width="1"/>
+            <!-- Exhaust -->
+            <rect x="375" y="38" width="6" height="18" rx="2" fill="#2C3F30"/>
+            <!-- Wheels -->
+            <circle cx="80" cy="124" r="12" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/>
+            <circle cx="80" cy="124" r="5" fill="#EDF5EF"/>
+            <circle cx="220" cy="124" r="12" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/>
+            <circle cx="220" cy="124" r="5" fill="#EDF5EF"/>
+            <circle cx="340" cy="124" r="12" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/>
+            <circle cx="340" cy="124" r="5" fill="#EDF5EF"/>
+            <circle cx="375" cy="124" r="12" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/>
+            <circle cx="375" cy="124" r="5" fill="#EDF5EF"/>
+            <!-- Trailer undercarriage -->
+            <rect x="10" y="118" width="300" height="6" rx="2" fill="#2C3F30"/>
+            <!-- Hitch -->
+            <rect x="308" y="110" width="10" height="6" rx="1" fill="#3A7D44"/>
+            <!-- Dimensions label -->
+            <text x="155" y="27" text-anchor="middle" font-family="'DM Mono',monospace" font-size="7" fill="rgba(58,125,68,0.5)" letter-spacing="1">16ft × 7ft × 4ft</text>
+          </svg>
+          <!-- Items layer -->
+          <div class="trailer-items" id="trailer-items"></div>
+        </div>
       </div>
     </div>
-    <div class="price-card reveal">
-      <div class="price-tag-label">Forfait</div>
-      <div class="price-tag-name">Boîte + Trailer 6×12</div>
-      <div class="price-tag-sub">Grand volume, rénovation</div>
-      <div class="price-amount">200$ <span>+</span></div>
-      <div class="price-note">+ Tarifs écocentre : min. 100$ — 165$/tonne<br>Inclut 1h de travail</div>
-      <div class="price-features">
-        <div class="pf"><span class="pf-icon">✓</span> Gros volumes</div>
-        <div class="pf"><span class="pf-icon">✓</span> Déchets de rénovation</div>
+
+    <div class="est-result" id="desen-result" style="display:none">
+      <div>
+        <div class="est-result-label">Prix estimé</div>
+        <div class="est-result-price" id="desen-price">—</div>
       </div>
+      <a href="tel:4388738605" class="btn-white" style="font-size:.65rem">Obtenir un devis →</a>
     </div>
+    <p class="est-note" id="desen-note" style="display:none">* Les taxes ne sont pas incluses. <strong>1 meuble = 100$</strong> flat. Dimensions du trailer : 16ft(L) × 7ft(W) × 4ft(H).</p>
   </div>
+  </div>
+
+  <script>
+  var ITEMS_DATA = {
+    '1meuble': { pct:8,  price:'100$',      items:['🛋️'], fill:1 },
+    'quart':   { pct:25, price:'250$',      items:['🛋️','📦','🪑'], fill:3 },
+    'demi':    { pct:50, price:'450$',      items:['🛋️','📦','🪑','🚪','📦','🪑'], fill:6 },
+    'trois_quart':{ pct:75, price:'550$',   items:['🛋️','📦','🪑','🚪','📦','🪑','🧊','📦','🪑'], fill:9 },
+    'full':    { pct:100, price:'640$',     items:['🛋️','📦','🪑','🚪','📦','🪑','🧊','📦','🪑','🛏️','📦','🪑'], fill:12 }
+  };
+  function calcDesen(){
+    var v=document.getElementById('desen-vol').value;
+    var viz=document.getElementById('truck-viz');
+    var res=document.getElementById('desen-result');
+    var note=document.getElementById('desen-note');
+    if(!v){viz.style.display='none';res.style.display='none';note.style.display='none';return;}
+    var d=ITEMS_DATA[v];
+    // Show result
+    document.getElementById('desen-price').textContent=d.price;
+    document.getElementById('truck-pct').textContent=d.pct+'%';
+    // Animate fill bar (width of trailer = 296px)
+    document.getElementById('trailer-fill').setAttribute('width', Math.round(296*(d.pct/100)));
+    viz.style.display='block';res.style.display='flex';note.style.display='block';
+    // Build items
+    var container=document.getElementById('trailer-items');
+    container.innerHTML='';
+    var total=12;
+    var emojis=['🛋️','📦','🪑','🚪','🧊','🛏️','🖥️','📦','🪑','📦','🛋️','🪑'];
+    for(var i=0;i<total;i++){
+      var el=document.createElement('div');
+      el.className='t-item';
+      el.textContent = i < d.fill ? (emojis[i]||'📦') : '';
+      container.appendChild(el);
+    }
+    // Stagger reveal
+    setTimeout(()=>{
+      var items=container.querySelectorAll('.t-item');
+      items.forEach((el,i)=>{
+        if(i<d.fill){
+          setTimeout(()=>el.classList.add('show'), i*60);
+        }
+      });
+    },50);
+  }
+  </script>
 
   <!-- CE QU'ON ACCEPTE -->
   <div class="section-label reveal">Ce qu'on peut enlever</div>
@@ -211,7 +397,7 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
   <p>Appelez-nous pour un devis rapide — on s'occupe du reste.</p>
   <div class="cta-band-btns">
     <a href="tel:4388738605" class="btn-white">📞 (438) 873-8605</a>
-    <a href="mobilo-moving.html#contact" class="btn-outline-white">Formulaire →</a>
+    <a href="index.html#contact" class="btn-outline-white">Formulaire →</a>
   </div>
 </div>
 

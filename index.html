@@ -526,10 +526,10 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 /* Textarea style */
 textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 /* PAGE LOADER */
-#page-loader{position:fixed;inset:0;background:#EDF5EF;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease,visibility .7s ease}
+#page-loader{position:fixed;inset:0;background:#fff;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity .4s ease,visibility .4s ease}
 #page-loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.loader-truck{animation:loaderBounce .8s ease-in-out infinite alternate}
-@keyframes loaderBounce{0%{transform:translateY(0)}100%{transform:translateY(-8px)}}
+@keyframes splashPop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes splashLoad{from{width:0%}to{width:100%}}
 
 /* SECTION HERO has z-index:5 — truck (2) goes behind it */
 #hero{z-index:5}
@@ -542,18 +542,11 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 <body>
 <!-- PAGE LOADER -->
 <div id="page-loader">
-  <svg width="90" height="40" viewBox="-38 -16 76 32" xmlns="http://www.w3.org/2000/svg" class="loader-truck">
-    <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#5BA368"/><stop offset="100%" stop-color="#3A7D44"/></linearGradient></defs>
-    <rect x="-36" y="-11" width="72" height="22" rx="3" fill="#163A1B"/>
-    <rect x="-34" y="-10" width="46" height="20" rx="2" fill="url(#lg1)"/>
-    <rect x="10" y="-10" width="3" height="20" fill="#1E4D26"/>
-    <rect x="13" y="-10" width="24" height="20" rx="2" fill="#1E4D26"/>
-    <rect x="14" y="-9" width="10" height="9" rx="1" fill="rgba(180,230,255,0.5)"/>
-    <ellipse cx="22" cy="-12" rx="4" ry="2.2" fill="#111"/>
-    <ellipse cx="22" cy="12" rx="4" ry="2.2" fill="#111"/>
-    <ellipse cx="-10" cy="-12" rx="4" ry="2.2" fill="#111"/>
-    <ellipse cx="-10" cy="12" rx="4" ry="2.2" fill="#111"/>
-  </svg>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:.7rem;animation:splashPop .45s cubic-bezier(.34,1.56,.64,1) both">
+    <img src="logo.jpeg" alt="Mobilo Moving" style="width:76px;height:76px;object-fit:contain">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:#1E4D26">Mobilo Moving</span>
+    <div style="width:52px;height:2px;background:rgba(42,96,50,0.15);border-radius:2px;overflow:hidden"><div style="height:100%;width:0%;background:linear-gradient(90deg,#1E4D26,#5BA368);animation:splashLoad .95s ease forwards .15s;border-radius:2px"></div></div>
+  </div>
 </div>
 <div id="scroll-progress"></div>
 
@@ -858,16 +851,77 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
           <div class="eyebrow" data-fr="Estimateur" data-en="Estimator">Estimateur</div>
           <div class="sh2" data-fr="Combien ça <em>coûte</em>?" data-en="How much <em>does it cost</em>?">Combien ça <em>coûte</em>?</div>
           <div class="calc-fields">
-            <div><label class="field-label" data-fr="Type de service" data-en="Service type">Type de service</label><select class="calc-select" id="cType" onchange="calcPrice()"><option value="move" data-fr="Déménagement" data-en="Moving">Déménagement</option><option value="junk" data-fr="Désencombrement" data-en="Junk removal">Désencombrement</option><option value="delivery" data-fr="Petite livraison" data-en="Small delivery">Petite livraison</option></select></div>
-            <div><label class="field-label" data-fr="Taille du logement" data-en="Home size">Taille du logement</label><select class="calc-select" id="cSize" onchange="calcPrice()"><option value="1" data-fr="Studio / 1½" data-en="Studio / Bachelor">Studio / 1½</option><option value="2" data-fr="2½ à 3½" data-en="1–2 bedrooms">2½ à 3½</option><option value="3" data-fr="4½ à 5½" data-en="3–4 bedrooms">4½ à 5½</option><option value="4" data-fr="6½ et plus" data-en="5+ bedrooms">6½ et plus</option></select></div>
-            <div><label class="field-label" data-fr="Distance (km)" data-en="Distance (km)">Distance (km)</label><input type="number" class="calc-input" id="cDist" value="10" min="1" max="500" oninput="calcPrice()"></div>
-            <div><label class="field-label" data-fr="Escaliers" data-en="Stairs">Escaliers</label><select class="calc-select" id="cFloor" onchange="calcPrice()"><option value="0" data-fr="Rez-de-chaussée" data-en="Ground floor">Rez-de-chaussée</option><option value="1" data-fr="1 étage" data-en="1 floor">1 étage</option><option value="2" data-fr="2 étages ou plus" data-en="2+ floors">2 étages ou plus</option></select></div>
+            <!-- Service -->
+            <div><label class="field-label" data-fr="Type de service" data-en="Service type">Type de service</label>
+            <select class="calc-select" id="cType" onchange="calcPrice()">
+              <option value="move" data-fr="Déménagement" data-en="Moving">Déménagement</option>
+              <option value="junk" data-fr="Désencombrement" data-en="Junk removal">Désencombrement</option>
+              <option value="delivery" data-fr="Petite livraison" data-en="Small delivery">Petite livraison</option>
+            </select></div>
+
+            <!-- MOVE fields -->
+            <div id="f-size"><label class="field-label" data-fr="Taille du logement" data-en="Home size">Taille du logement</label>
+            <select class="calc-select" id="cSize" onchange="calcPrice()">
+              <option value="studio">Studio / 1½</option>
+              <option value="2.5">2½ / 3½</option>
+              <option value="4.5">4½ / 5½</option>
+              <option value="6.5">6½ et plus</option>
+            </select></div>
+            <div id="f-dist-move"><label class="field-label" data-fr="Distance (km)" data-en="Distance (km)">Distance (km)</label>
+            <input type="number" class="calc-input" id="cDist" value="15" min="0" max="500" oninput="calcPrice()"></div>
+
+            <!-- JUNK fields -->
+            <div id="f-vol" style="display:none"><label class="field-label" data-fr="Volume à désencombrer" data-en="Volume">Volume à désencombrer</label>
+            <select class="calc-select" id="cVol" onchange="calcPrice()">
+              <option value="1meuble">1 meuble</option>
+              <option value="quart">¼ de camion</option>
+              <option value="demi">½ camion</option>
+              <option value="trois_quart">¾ de camion</option>
+              <option value="full">Camion complet</option>
+            </select></div>
+
+            <!-- DELIVERY fields -->
+            <div id="f-meubles" style="display:none"><label class="field-label" data-fr="Nombre de meubles" data-en="Number of items">Nombre de meubles</label>
+            <select class="calc-select" id="cMeubles" onchange="calcPrice()">
+              <option value="1">1 meuble</option>
+              <option value="2">2 meubles</option>
+              <option value="3">3 meubles</option>
+            </select></div>
+            <div id="f-dist-del" style="display:none"><label class="field-label" data-fr="Distance (km)" data-en="Distance (km)">Distance (km)</label>
+            <input type="number" class="calc-input" id="cDistDel" value="15" min="0" max="200" oninput="calcPrice()"></div>
           </div>
+
+          <!-- TRUCK ANIMATION (désencombrement seulement) -->
+          <div id="truck-viz-calc" style="display:none;margin-bottom:.8rem;background:rgba(234,245,237,0.6);border:1px solid var(--linem);padding:1rem">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+              <span style="font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3)" data-fr="Capacité utilisée" data-en="Capacity used">Capacité utilisée</span>
+              <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--g2)" id="calc-truck-pct">0%</span>
+            </div>
+            <svg viewBox="0 0 420 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+              <ellipse cx="210" cy="126" rx="185" ry="5" fill="rgba(30,77,38,0.07)"/>
+              <rect x="10" y="28" width="300" height="85" rx="3" fill="#f0f7f2" stroke="#3A7D44" stroke-width="2"/>
+              <rect id="calc-trailer-fill" x="12" y="30" width="0" height="81" rx="2" fill="rgba(58,125,68,0.2)" style="transition:width .7s cubic-bezier(.16,1,.3,1)"/>
+              <line x1="308" y1="28" x2="308" y2="113" stroke="#3A7D44" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <line x1="110" y1="30" x2="110" y2="112" stroke="rgba(58,125,68,0.18)" stroke-width="1"/>
+              <line x1="210" y1="30" x2="210" y2="112" stroke="rgba(58,125,68,0.18)" stroke-width="1"/>
+              <rect x="310" y="46" width="80" height="67" rx="4" fill="#2C3F30" stroke="#1E4D26" stroke-width="1.5"/>
+              <rect x="320" y="52" width="52" height="32" rx="3" fill="rgba(168,213,181,0.3)" stroke="#3A7D44" stroke-width="1"/>
+              <rect x="373" y="36" width="5" height="16" rx="2" fill="#2C3F30"/>
+              <circle cx="80" cy="117" r="11" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/><circle cx="80" cy="117" r="4.5" fill="#EDF5EF"/>
+              <circle cx="220" cy="117" r="11" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/><circle cx="220" cy="117" r="4.5" fill="#EDF5EF"/>
+              <circle cx="340" cy="117" r="11" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/><circle cx="340" cy="117" r="4.5" fill="#EDF5EF"/>
+              <circle cx="375" cy="117" r="11" fill="#1E4D26" stroke="#0C1A0F" stroke-width="1.5"/><circle cx="375" cy="117" r="4.5" fill="#EDF5EF"/>
+              <rect x="10" y="111" width="300" height="5" rx="2" fill="#2C3F30"/>
+              <text x="152" y="25" text-anchor="middle" font-family="'DM Mono',monospace" font-size="6.5" fill="rgba(58,125,68,0.45)" letter-spacing="1">16ft × 7ft × 4ft</text>
+            </svg>
+            <div id="calc-truck-items" style="display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:.3rem;font-size:13px;text-align:center"></div>
+          </div>
+
           <div class="calc-result">
             <div class="price-label-sm" data-fr="Estimation approximative" data-en="Approximate estimate">Estimation approximative</div>
-            <div class="price-big" id="calcOut">$250 – $380</div>
-            <a href="tel:4388738605" class="btn-wp">Vrai devis gratuit →</a>
-            <p class="calc-note" data-fr="* Estimation indicative. Appelez pour un devis précis." data-en="* Indicative estimate. Call for an exact quote.">* Estimation indicative. Appelez pour un devis précis.</p>
+            <div class="price-big" id="calcOut">300$ – 500$</div>
+            <a href="tel:4388738605" class="btn-wp" data-fr="Vrai devis gratuit →" data-en="Free quote →">Vrai devis gratuit →</a>
+            <p class="calc-note" data-fr="* Taxes non incluses. Estimation indicative." data-en="* Taxes not included. Indicative estimate.">* Taxes non incluses. Estimation indicative.</p>
           </div>
         </div>
       </div>
@@ -1476,7 +1530,7 @@ function checkLandmarkProximity(progress) {
 window.addEventListener('load', () => {
   // Cacher le loader
   const loader = document.getElementById('page-loader');
-  if(loader) setTimeout(() => loader.classList.add('hidden'), 200);
+  if(loader) setTimeout(() => loader.classList.add('hidden'), 1100);
   // Rendre tout visible immédiatement pour que scrollHeight soit correct
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
@@ -1935,32 +1989,66 @@ function updateDarkZones(progress) {
 // Calculator
 function calcPrice() {
   const t = document.getElementById('cType').value;
-  const s = parseInt(document.getElementById('cSize').value);
-  const d = parseInt(document.getElementById('cDist').value) || 10;
-  const f = parseInt(document.getElementById('cFloor').value) || 0;
+  const out = document.getElementById('calcOut');
 
-  let base = 0;
+  // Toggle field visibility
+  document.getElementById('f-size').style.display      = t === 'move'     ? '' : 'none';
+  document.getElementById('f-dist-move').style.display = t === 'move'     ? '' : 'none';
+  document.getElementById('f-vol').style.display       = t === 'junk'     ? '' : 'none';
+  document.getElementById('f-meubles').style.display   = t === 'delivery' ? '' : 'none';
+  document.getElementById('f-dist-del').style.display  = t === 'delivery' ? '' : 'none';
+  document.getElementById('truck-viz-calc').style.display = t === 'junk'  ? '' : 'none';
+
+  let label = '';
+
   if (t === 'move') {
-    const sizes = [150, 250, 380, 520];
-    base = sizes[s - 1] || 250;
+    const size = document.getElementById('cSize').value;
+    const km   = parseFloat(document.getElementById('cDist').value) || 0;
+    const bases = { 'studio': [300,500], '2.5': [400,750], '4.5': [700,1200], '6.5': [875, null] };
+    const [lo, hi] = bases[size] || [300,500];
+    const kmExtra = Math.round(km * 3);
+    const totalLo = lo + kmExtra;
+    const totalHi = hi ? hi + kmExtra : null;
+    label = totalHi ? totalLo + '$ – ' + totalHi + '$' : totalLo + '$+';
+
   } else if (t === 'junk') {
-    const sizes = [80, 130, 200, 300];
-    base = sizes[s - 1] || 130;
+    const vol = document.getElementById('cVol').value;
+    const prices = { '1meuble': '100$', 'quart': '250$', 'demi': '450$', 'trois_quart': '550$', 'full': '640$' };
+    const pcts   = { '1meuble': 8,      'quart': 25,     'demi': 50,     'trois_quart': 75,      'full': 100  };
+    const fills  = { '1meuble': 1,      'quart': 3,      'demi': 6,      'trois_quart': 9,       'full': 12   };
+    const emojis = ['🛋️','📦','🪑','🚪','🧊','🛏️','🖥️','📦','🪑','📦','🛋️','🪑'];
+    label = prices[vol] || '100$';
+    // Truck animation
+    const pct   = pcts[vol]  || 0;
+    const fill  = fills[vol] || 0;
+    document.getElementById('calc-truck-pct').textContent = pct + '%';
+    const barW = Math.round(296 * (pct / 100));
+    document.getElementById('calc-trailer-fill').setAttribute('width', barW);
+    const itemsEl = document.getElementById('calc-truck-items');
+    itemsEl.innerHTML = '';
+    for (let i = 0; i < 12; i++) {
+      const d = document.createElement('div');
+      d.style.cssText = 'opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease;font-size:clamp(9px,2vw,15px);text-align:center;line-height:1';
+      d.textContent = i < fill ? (emojis[i] || '📦') : '';
+      itemsEl.appendChild(d);
+    }
+    setTimeout(() => {
+      itemsEl.querySelectorAll('div').forEach((el, i) => {
+        if (i < fill) setTimeout(() => { el.style.opacity='1'; el.style.transform='translateY(0)'; }, i * 55);
+      });
+    }, 50);
+
   } else {
-    base = 60;
+    // Delivery
+    const meubles = parseInt(document.getElementById('cMeubles').value) || 1;
+    const km      = parseFloat(document.getElementById('cDistDel').value) || 0;
+    const bases   = { 1: 140, 2: 160, 3: 175 };
+    const base    = bases[meubles] || 140;
+    const kmExtra = km > 25 ? Math.round((km - 25) * 2) : 0;
+    label = (base + kmExtra) + '$';
   }
 
-  // Distance surcharge
-  if (d > 20) base += Math.round((d - 20) * 1.2);
-
-  // Floor surcharge
-  base += f * 40;
-
-  const lo = base;
-  const hi = Math.round(base * 1.45);
-
-  const out = document.getElementById('calcOut');
-  if (out) out.textContent = '$' + lo + ' – $' + hi;
+  if (out) out.textContent = label;
 }
 
 // Scroll progress bar

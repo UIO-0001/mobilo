@@ -121,6 +121,32 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s ease,visibility .4s ease}
+#splash.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.splash-logo{display:flex;flex-direction:column;align-items:center;gap:.6rem;animation:splashPop .5s cubic-bezier(.34,1.56,.64,1) both}
+.splash-logo img{width:72px;height:72px;object-fit:contain}
+.splash-wordmark{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--g1)}
+.splash-bar{width:48px;height:2px;background:var(--line);margin-top:.4rem;overflow:hidden;border-radius:2px}
+.splash-bar-inner{height:100%;width:0%;background:linear-gradient(90deg,var(--g1),var(--g3));animation:splashLoad .9s ease forwards .2s}
+@keyframes splashPop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes splashLoad{from{width:0%}to{width:100%}}
+
+/* ESTIMATEUR */
+.estimator{background:var(--white);border:1px solid var(--linem);padding:2rem;margin-bottom:3rem;position:relative;overflow:hidden}
+.estimator::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g1),var(--g3))}
+.est-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.5px;color:var(--ink);margin-bottom:.3rem}
+.est-sub{font-size:.72rem;color:var(--ink3);font-weight:300;margin-bottom:1.5rem;line-height:1.6}
+.est-row{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.2rem}
+.est-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3)}
+.est-select,.est-input{font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--ink);background:var(--g5);border:1px solid var(--linem);padding:.6rem .9rem;width:100%;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer;transition:border-color .2s}
+.est-select:focus,.est-input:focus{border-color:var(--g2)}
+.est-result{background:var(--g5);border:1px solid var(--linem);border-left:4px solid var(--g2);padding:1.2rem 1.5rem;margin-top:1rem;display:none}
+.est-result.show{display:block}
+.est-range{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--g2);letter-spacing:-1px;line-height:1}
+.est-breakdown{font-size:.72rem;color:var(--ink3);margin-top:.4rem;line-height:1.7}
+.est-tax-note{font-size:.62rem;color:var(--ink3);font-style:italic;margin-top:.5rem}
+
 /* PHOTO SECTION */
 .photo-section{position:relative;z-index:5;padding:0 2rem 4rem;max-width:860px;margin:0 auto}
 .photo-single{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 55%;display:block;border:1px solid var(--linem)}
@@ -129,10 +155,17 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 </head>
 <body>
 <div id="scroll-progress"></div>
+<div id="splash">
+  <div class="splash-logo">
+    <img src="logo.png" alt="Mobilo Moving">
+    <div class="splash-wordmark">Mobilo Moving</div>
+    <div class="splash-bar"><div class="splash-bar-inner"></div></div>
+  </div>
+</div>
 
 <nav>
-  <a href="https://uio-0001.github.io/mobilo" class="nav-back">← Retour</a>
-  <a href="https://uio-0001.github.io/mobilo" class="nav-logo">Mobilo Moving</a>
+  <a href="index.html" class="nav-back">← Retour</a>
+  <a href="index.html" class="nav-logo">Mobilo Moving</a>
   <div class="nav-right">
     <a href="tel:4388738605" class="nav-cta">📞 (438) 873-8605</a>
   </div>
@@ -146,7 +179,7 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
     <p class="srv-sub">Résidentiel, commercial ou longue distance — on s'occupe de tout avec soin et efficacité.</p>
     <div class="hero-btns">
       <a href="tel:4388738605" class="btn-white">Obtenir un devis →</a>
-      <a href="mobilo-moving.html#contact" class="btn-outline-white">Formulaire de contact</a>
+      <a href="index.html#contact" class="btn-outline-white">Formulaire de contact</a>
     </div>
   </div>
 </section>
@@ -207,6 +240,32 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
   <div class="section-label reveal">En action</div>
   <img src="demenagement.png" alt="Équipe Mobilo Moving lors d'un déménagement résidentiel" class="photo-single reveal">
   <p class="photo-caption reveal">Déménagement résidentiel — Gatineau · Outaouais</p>
+  <!-- ESTIMATEUR -->
+  <div class="section-label reveal">Estimateur de prix</div>
+  <div class="estimator reveal">
+    <div class="est-title">Calculez votre déménagement</div>
+    <div class="est-sub">Estimation approximative — taxes non incluses. Prix final confirmé lors de la réservation.</div>
+    <div class="est-row">
+      <div class="est-label">Taille du logement</div>
+      <select class="est-select" id="est-size">
+        <option value="">-- Choisir --</option>
+        <option value="studio">Studio / 1½</option>
+        <option value="2.5">2½ / 3½</option>
+        <option value="4.5">4½ / 5½</option>
+        <option value="6.5">6½ et plus</option>
+      </select>
+    </div>
+    <div class="est-row">
+      <div class="est-label">Distance (km)</div>
+      <input type="number" class="est-input" id="est-km" placeholder="Ex: 15" min="0" max="500">
+    </div>
+    <div class="est-result" id="est-result">
+      <div class="est-range" id="est-range">—</div>
+      <div class="est-breakdown" id="est-breakdown"></div>
+      <div class="est-tax-note">* Les taxes ne sont pas incluses dans ce prix.</div>
+    </div>
+  </div>
+
 </div>
 
 <!-- CTA -->
@@ -215,7 +274,7 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
   <p>On s'occupe de tout. Appelez-nous ou remplissez le formulaire.</p>
   <div class="cta-band-btns">
     <a href="tel:4388738605" class="btn-white">📞 (438) 873-8605</a>
-    <a href="mobilo-moving.html#contact" class="btn-outline-white">Formulaire →</a>
+    <a href="index.html#contact" class="btn-outline-white">Formulaire →</a>
   </div>
 </div>
 
@@ -225,6 +284,11 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 </footer>
 
 <script>
+// Splash
+window.addEventListener('load', () => {
+  setTimeout(() => { document.getElementById('splash').classList.add('hidden'); }, 1100);
+});
+
 window.addEventListener('scroll', () => {
   const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
   document.getElementById('scroll-progress').style.width = pct + '%';
@@ -234,6 +298,44 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
 }, {threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Estimateur déménagements
+const baseRates = {
+  'studio': [300, 500],
+  '2.5':    [400, 750],
+  '4.5':    [700, 1200],
+  '6.5':    [875, null]
+};
+const kmRate = 3;
+
+function calcDemenagement() {
+  const size = document.getElementById('est-size').value;
+  const km = parseFloat(document.getElementById('est-km').value) || 0;
+  const result = document.getElementById('est-result');
+  const rangeEl = document.getElementById('est-range');
+  const breakdownEl = document.getElementById('est-breakdown');
+
+  if (!size) { result.classList.remove('show'); return; }
+
+  const [min, max] = baseRates[size];
+  const kmExtra = km > 0 ? Math.round(km * kmRate) : 0;
+  const totalMin = min + kmExtra;
+  const totalMax = max ? max + kmExtra : null;
+
+  rangeEl.textContent = totalMax
+    ? totalMin + '$ – ' + totalMax + '$'
+    : totalMin + '$+';
+
+  let breakdown = '';
+  const sizeLabels = {'studio':'Studio/1½','2.5':'2½/3½','4.5':'4½/5½','6.5':'6½+'};
+  breakdown += '📦 Logement (' + sizeLabels[size] + ') : ' + min + (max ? '$ – ' + max + '$' : '$+');
+  if (kmExtra > 0) breakdown += '<br>🛣️ Kilométrage (' + km + ' km × 3$/km) : +' + kmExtra + '$';
+  breakdownEl.innerHTML = breakdown;
+  result.classList.add('show');
+}
+
+document.getElementById('est-size').addEventListener('change', calcDemenagement);
+document.getElementById('est-km').addEventListener('input', calcDemenagement);
 </script>
 </body>
 </html>
