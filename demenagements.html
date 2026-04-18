@@ -41,6 +41,8 @@ nav{
 @media(max-width:680px){.nav-links{display:none}}
 .nav-cta{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.8px;color:#fff;background:var(--g2);text-decoration:none;padding:.5rem 1.1rem;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:background .25s;white-space:nowrap}
 .nav-cta:hover{background:var(--g3)}
+.lang-btn{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1px;color:rgba(255,255,255,.75);background:transparent;border:1px solid rgba(255,255,255,.25);padding:.35rem .7rem;cursor:pointer;transition:all .2s;border-radius:2px}
+.lang-btn:hover{color:#fff;border-color:rgba(255,255,255,.6)}
 .nav-logo{height:46px;width:auto;display:block;object-fit:contain}
 @media(max-width:480px){.nav-logo{height:36px}}
 .nav-right{display:flex;align-items:center;gap:.8rem}
@@ -179,7 +181,7 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
     <li><a href="index.html#galerie">Galerie</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
-  <div class="nav-right"><a href="tel:4388738605" class="nav-cta">📞 (438) 873-8605</a></div>
+  <div class="nav-right"><button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button><a href="tel:4388738605" class="nav-cta">📞 (438) 873-8605</a></div>
 </nav>
 
 <!-- HERO -->
@@ -348,5 +350,143 @@ function calcDemenagement() {
 document.getElementById('est-size').addEventListener('change', calcDemenagement);
 document.getElementById('est-km').addEventListener('input', calcDemenagement);
 </script>
+
+<script>
+// ── LANGUAGE SWITCHER ──────────────────────────────────────────
+const _srvBrowserLang = (navigator.language || 'fr').toLowerCase();
+const _srvUrlLang = new URLSearchParams(window.location.search).get('lang');
+let srvLang = _srvUrlLang === 'en' || (!_srvUrlLang && _srvBrowserLang.startsWith('en')) ? 'en' : 'fr';
+
+const srvTrans = {
+  fr: {
+    eyebrow: 'Service 01',
+    h1: 'Déménagements',
+    sub: 'Résidentiel, commercial ou longue distance — on s'occupe de tout avec soin et efficacité.',
+    cta1: 'Obtenir un devis →',
+    cta2: 'Formulaire de contact',
+    sectionLabel: 'Tarification',
+    localName: 'Local', localSub: 'Déménagement de moins de 100 km',
+    localPrice: '120$ <span>/ heure</span>', localNote: '2 employés · Minimum 2 heures',
+    ldfName: 'Longue distance', ldfSub: 'Déménagement de plus de 100 km',
+    ldfPrice: 'Sur<br>demande', ldfNote: 'Estimation personnalisée gratuite · Appelez-nous',
+    ctaBandH: 'Prêt à<br>déménager ?', ctaBandP: 'On s'occupe de tout. Appelez-nous ou remplissez le formulaire.',
+    ctaBandBtn1: '📞 (438) 873-8605', ctaBandBtn2: 'Formulaire →',
+    footerCredit: '© 2026 Mobilo Moving — Gatineau · Ottawa · Outaouais',
+    navLinks: ['Accueil','Services','À propos','Zones','FAQ','Galerie','Contact'],
+    calcTitle: 'Calculez votre déménagement',
+    calcSub: 'Estimation approximative — taxes non incluses. Prix final confirmé lors de la réservation.',
+    sizeLabel: 'Taille du logement', distLabel: 'Distance (km)',
+    sizeOpts: ['-- Choisir --','Studio / 1½','2½ / 3½','4½ / 5½','6½ et plus'],
+    taxNote: '* Les taxes ne sont pas incluses dans ce prix.',
+    estLabel: 'Estimateur de prix',
+  },
+  en: {
+    eyebrow: 'Service 01',
+    h1: 'Moving',
+    sub: 'Residential, commercial or long distance — we handle everything with care and efficiency.',
+    cta1: 'Get a quote →',
+    cta2: 'Contact form',
+    sectionLabel: 'Pricing',
+    localName: 'Local', localSub: 'Move under 100 km',
+    localPrice: '120$ <span>/ hour</span>', localNote: '2 movers · 2-hour minimum',
+    ldfName: 'Long distance', ldfSub: 'Move over 100 km',
+    ldfPrice: 'On<br>request', ldfNote: 'Free personalized estimate · Call us',
+    ctaBandH: 'Ready to<br>move?', ctaBandP: 'We handle everything. Call us or fill out the form.',
+    ctaBandBtn1: '📞 (438) 873-8605', ctaBandBtn2: 'Form →',
+    footerCredit: '© 2026 Mobilo Moving — Gatineau · Ottawa · Outaouais',
+    navLinks: ['Home','Services','About','Zones','FAQ','Gallery','Contact'],
+    calcTitle: 'Calculate your move',
+    calcSub: 'Approximate estimate — taxes not included. Final price confirmed at booking.',
+    sizeLabel: 'Home size', distLabel: 'Distance (km)',
+    sizeOpts: ['-- Choose --','Studio / 1½','2½ / 3½','4½ / 5½','6½ and up'],
+    taxNote: '* Taxes not included in this estimate.',
+    estLabel: 'Price estimator',
+  }
+};
+
+function srvApplyLang() {
+  const t = srvTrans[srvLang];
+  const set = (sel, val, html) => { const e = document.querySelector(sel); if(e){ html ? e.innerHTML=val : e.textContent=val; }};
+  const setAll = (sel, vals) => { const els = document.querySelectorAll(sel); els.forEach((e,i)=>{ if(vals[i]!==undefined) e.textContent=vals[i]; }); };
+  set('.srv-eyebrow', t.eyebrow);
+  set('.srv-h1', t.h1);
+  set('.srv-sub', t.sub);
+  const btns = document.querySelectorAll('.hero-btns a');
+  if(btns[0]) btns[0].textContent = t.cta1;
+  if(btns[1]) btns[1].textContent = t.cta2;
+  // Section labels
+  document.querySelectorAll('.section-label').forEach((el,i) => {
+    if(i===0) el.textContent = t.sectionLabel;
+    if(i===1) el.textContent = t.estLabel;
+  });
+  // Pricing cards
+  const cards = document.querySelectorAll('.price-card');
+  if(cards[0]) {
+    cards[0].querySelector('.price-tag-name').textContent = t.localName;
+    cards[0].querySelector('.price-tag-sub').textContent = t.localSub;
+    cards[0].querySelector('.price-amount').innerHTML = t.localPrice;
+    cards[0].querySelector('.price-note').textContent = t.localNote;
+    const feats = cards[0].querySelectorAll('.pf');
+    const frFeats = ['2 déménageurs professionnels','Camion inclus','Protection des meubles','Disponible 7 jours / 7'];
+    const enFeats = ['2 professional movers','Truck included','Furniture protection','Available 7 days / 7'];
+    feats.forEach((f,i) => { const icon = f.querySelector('.pf-icon'); const txt = srvLang==='en'?enFeats[i]:frFeats[i]; if(icon) f.innerHTML = icon.outerHTML + ' ' + txt; });
+  }
+  if(cards[1]) {
+    cards[1].querySelector('.price-tag-name').textContent = t.ldfName;
+    cards[1].querySelector('.price-tag-sub').textContent = t.ldfSub;
+    const amt = cards[1].querySelector('.price-amount'); if(amt) amt.innerHTML = t.ldfPrice;
+    const note = cards[1].querySelector('.price-note'); if(note) note.textContent = t.ldfNote;
+    const feats = cards[1].querySelectorAll('.pf');
+    const frFeats2 = ['Devis détaillé gratuit','Prix tout compris, sans surprise','Équipe expérimentée','Gatineau · Ottawa · et plus'];
+    const enFeats2 = ['Free detailed quote','All-inclusive price, no surprises','Experienced team','Gatineau · Ottawa · and beyond'];
+    feats.forEach((f,i) => { const icon = f.querySelector('.pf-icon'); const txt = srvLang==='en'?enFeats2[i]:frFeats2[i]; if(icon) f.innerHTML = icon.outerHTML + ' ' + txt; });
+  }
+  // CTA band
+  const ctaH = document.querySelector('.cta-band h2'); if(ctaH) ctaH.innerHTML = t.ctaBandH;
+  const ctaP = document.querySelector('.cta-band p'); if(ctaP) ctaP.textContent = t.ctaBandP;
+  const ctaBtns = document.querySelectorAll('.cta-band-btns a');
+  if(ctaBtns[0]) ctaBtns[0].textContent = t.ctaBandBtn1;
+  if(ctaBtns[1]) ctaBtns[1].textContent = t.ctaBandBtn2;
+  // Footer
+  const fc = document.querySelector('.foot-credit'); if(fc) fc.textContent = t.footerCredit;
+  // Nav links
+  const navAs = document.querySelectorAll('.nav-links li a');
+  navAs.forEach((a,i) => { if(t.navLinks[i]) a.textContent = t.navLinks[i]; });
+  // Nav links — update index.html href with lang
+  document.querySelectorAll('a[href^="index.html"]').forEach(a => {
+    const base = a.getAttribute('href').split('?')[0];
+    a.href = srvLang === 'en' ? base + '?lang=en' : base;
+  });
+  // Estimateur
+  const estTitle = document.querySelector('.est-title'); if(estTitle) estTitle.textContent = t.calcTitle;
+  const estSub = document.querySelector('.est-sub'); if(estSub) estSub.textContent = t.calcSub;
+  const sizeLabel = document.querySelector('.est-row:first-of-type .est-label'); if(sizeLabel) sizeLabel.textContent = t.sizeLabel;
+  const distLabelEl = document.querySelector('.est-row:last-of-type .est-label'); if(distLabelEl) distLabelEl.textContent = t.distLabel;
+  const sizeSelect = document.getElementById('est-size');
+  if(sizeSelect) { const opts = sizeSelect.querySelectorAll('option'); opts.forEach((o,i) => { if(t.sizeOpts[i]) o.textContent = t.sizeOpts[i]; }); }
+  const taxEl = document.querySelector('.est-tax-note'); if(taxEl) taxEl.textContent = t.taxNote;
+  // Button label
+  const btn = document.getElementById('langBtn'); if(btn) btn.textContent = srvLang === 'fr' ? 'EN' : 'FR';
+  // html lang
+  document.documentElement.lang = srvLang;
+}
+
+function toggleLang() {
+  srvLang = srvLang === 'fr' ? 'en' : 'fr';
+  srvApplyLang();
+  // Update URL without reload
+  const url = new URL(window.location);
+  if(srvLang === 'en') url.searchParams.set('lang','en');
+  else url.searchParams.delete('lang');
+  history.replaceState({}, '', url);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('langBtn');
+  if(btn) btn.textContent = srvLang === 'fr' ? 'EN' : 'FR';
+  if(srvLang === 'en') srvApplyLang();
+});
+</script>
+
 </body>
 </html>

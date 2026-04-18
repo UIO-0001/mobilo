@@ -39,6 +39,8 @@ nav{
 @media(max-width:680px){.nav-links{display:none}}
 .nav-cta{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.8px;color:#fff;background:var(--g2);text-decoration:none;padding:.5rem 1.1rem;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:background .25s;white-space:nowrap}
 .nav-cta:hover{background:var(--g3)}
+.lang-btn{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1px;color:rgba(255,255,255,.75);background:transparent;border:1px solid rgba(255,255,255,.25);padding:.35rem .7rem;cursor:pointer;transition:all .2s;border-radius:2px}
+.lang-btn:hover{color:#fff;border-color:rgba(255,255,255,.6)}
 .nav-logo{height:46px;width:auto;display:block;object-fit:contain}
 @media(max-width:480px){.nav-logo{height:36px}}
 .nav-right{display:flex;align-items:center;gap:.8rem}
@@ -184,7 +186,7 @@ window.addEventListener('load',()=>{
     <li><a href="index.html#galerie">Galerie</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
-  <div class="nav-right"><a href="tel:4388738605" class="nav-cta">📞 (438) 873-8605</a></div>
+  <div class="nav-right"><button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button><a href="tel:4388738605" class="nav-cta">📞 (438) 873-8605</a></div>
 </nav>
 
 <!-- HERO -->
@@ -630,5 +632,86 @@ const obs = new IntersectionObserver(entries => {
 }, {threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
+
+<script>
+// ── LANGUAGE SWITCHER ──────────────────────────────────────────
+const _srvBrowserLang = (navigator.language || 'fr').toLowerCase();
+const _srvUrlLang = new URLSearchParams(window.location.search).get('lang');
+let srvLang = _srvUrlLang === 'en' || (!_srvUrlLang && _srvBrowserLang.startsWith('en')) ? 'en' : 'fr';
+
+const srvTrans = {
+  fr: {
+    eyebrow: 'Service 02',
+    h1: 'Désencombrement',
+    sub: 'Meubles, électros, déchets de rénovation — on enlève tout proprement et rapidement.',
+    cta1: 'Obtenir un devis →',
+    cta2: 'Formulaire de contact',
+    ctaBandH: 'Libérez votre<br>espace ?', ctaBandP: 'Appelez-nous ou remplissez le formulaire — devis gratuit.',
+    ctaBandBtn1: '📞 (438) 873-8605', ctaBandBtn2: 'Formulaire →',
+    footerCredit: '© 2026 Mobilo Moving — Gatineau · Ottawa · Outaouais',
+    navLinks: ['Accueil','Services','À propos','Zones','FAQ','Galerie','Contact'],
+  },
+  en: {
+    eyebrow: 'Service 02',
+    h1: 'Junk Removal',
+    sub: 'Furniture, appliances, renovation debris — we haul everything away cleanly and quickly.',
+    cta1: 'Get a quote →',
+    cta2: 'Contact form',
+    ctaBandH: 'Ready to clear<br>your space?', ctaBandP: 'Call us or fill out the form — free quote.',
+    ctaBandBtn1: '📞 (438) 873-8605', ctaBandBtn2: 'Form →',
+    footerCredit: '© 2026 Mobilo Moving — Gatineau · Ottawa · Outaouais',
+    navLinks: ['Home','Services','About','Zones','FAQ','Gallery','Contact'],
+  }
+};
+
+function srvApplyLang() {
+  const t = srvTrans[srvLang];
+  const set = (sel, val, html) => { const e = document.querySelector(sel); if(e){ html ? e.innerHTML=val : e.textContent=val; }};
+  set('.srv-eyebrow', t.eyebrow);
+  set('.srv-h1', t.h1);
+  set('.srv-sub', t.sub);
+  const btns = document.querySelectorAll('.hero-btns a');
+  if(btns[0]) btns[0].textContent = t.cta1;
+  if(btns[1]) btns[1].textContent = t.cta2;
+  // CTA band
+  const ctaH = document.querySelector('.cta-band h2'); if(ctaH) ctaH.innerHTML = t.ctaBandH;
+  const ctaP = document.querySelector('.cta-band p'); if(ctaP) ctaP.textContent = t.ctaBandP;
+  const ctaBtns = document.querySelectorAll('.cta-band-btns a');
+  if(ctaBtns[0]) ctaBtns[0].textContent = t.ctaBandBtn1;
+  if(ctaBtns[1]) ctaBtns[1].textContent = t.ctaBandBtn2;
+  // Footer
+  const fc = document.querySelector('.foot-credit'); if(fc) fc.textContent = t.footerCredit;
+  // Nav links
+  document.querySelectorAll('.nav-links li a').forEach((a,i) => { if(t.navLinks[i]) a.textContent = t.navLinks[i]; });
+  // Nav links — update index.html href with lang
+  document.querySelectorAll('a[href^="index.html"]').forEach(a => {
+    const base = a.getAttribute('href').split('?')[0];
+    a.href = srvLang === 'en' ? base + '?lang=en' : base;
+  });
+  // data-fr / data-en
+  document.querySelectorAll('[data-' + srvLang + ']').forEach(el => {
+    const val = el.getAttribute('data-' + srvLang);
+    if(val) el.textContent = val;
+  });
+  const btn = document.getElementById('langBtn'); if(btn) btn.textContent = srvLang === 'fr' ? 'EN' : 'FR';
+  document.documentElement.lang = srvLang;
+}
+
+function toggleLang() {
+  srvLang = srvLang === 'fr' ? 'en' : 'fr';
+  srvApplyLang();
+  const url = new URL(window.location);
+  if(srvLang === 'en') url.searchParams.set('lang','en');
+  else url.searchParams.delete('lang');
+  history.replaceState({}, '', url);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('langBtn');
+  if(btn) btn.textContent = srvLang === 'fr' ? 'EN' : 'FR';
+  if(srvLang === 'en') srvApplyLang();
+});
+</script>
+
 </body>
 </html>

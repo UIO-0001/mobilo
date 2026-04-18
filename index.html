@@ -873,19 +873,19 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <!-- JUNK fields -->
             <div id="f-vol" style="display:none"><label class="field-label" data-fr="Volume à désencombrer" data-en="Volume">Volume à désencombrer</label>
             <select class="calc-select" id="cVol" onchange="calcPrice()">
-              <option value="1meuble">1 meuble</option>
-              <option value="quart">¼ de camion</option>
-              <option value="demi">½ camion</option>
-              <option value="trois_quart">¾ de camion</option>
-              <option value="full">Camion complet</option>
+              <option value="1meuble" data-fr="1 meuble" data-en="1 piece">1 meuble</option>
+              <option value="quart" data-fr="¼ de camion" data-en="¼ truck">¼ de camion</option>
+              <option value="demi" data-fr="½ camion" data-en="½ truck">½ camion</option>
+              <option value="trois_quart" data-fr="¾ de camion" data-en="¾ truck">¾ de camion</option>
+              <option value="full" data-fr="Camion complet" data-en="Full truck">Camion complet</option>
             </select></div>
 
             <!-- DELIVERY fields -->
             <div id="f-meubles" style="display:none"><label class="field-label" data-fr="Nombre de meubles" data-en="Number of items">Nombre de meubles</label>
             <select class="calc-select" id="cMeubles" onchange="calcPrice()">
-              <option value="1">1 meuble</option>
-              <option value="2">2 meubles</option>
-              <option value="3">3 meubles</option>
+              <option value="1" data-fr="1 meuble" data-en="1 piece">1 meuble</option>
+              <option value="2" data-fr="2 meubles" data-en="2 pieces">2 meubles</option>
+              <option value="3" data-fr="3 meubles" data-en="3 pieces">3 meubles</option>
             </select></div>
             <div id="f-dist-del" style="display:none"><label class="field-label" data-fr="Distance (km)" data-en="Distance (km)">Distance (km)</label>
             <input type="number" class="calc-input" id="cDistDel" value="15" min="0" max="200" oninput="calcPrice()"></div>
@@ -1167,9 +1167,9 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
       </div>
     </div>
     <div style="text-align:center;margin-top:1.5rem;position:relative;z-index:10">
-      <a href="https://www.google.com/maps/place/Mobilo/@45.2799979,-76.4596758,9z/data=!4m8!3m7!1s0xa3ddcdbfd945bab3:0x2c0e185b59e471d3!8m2!3d45.2809286!4d-75.8002569!9m1!1b1!16s%2Fg%2F11yhrgd1rj?entry=ttu&g_ep=EgoyMDI2MDQxMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="btn-main" style="display:inline-flex;align-items:center;gap:.5rem;margin:0 auto">
+      <a href="https://www.google.com/maps/place/Mobilo/@45.2799979,-76.4596758,9z/data=!4m8!3m7!1s0xa3ddcdbfd945bab3:0x2c0e185b59e471d3!8m2!3d45.2809286!4d-75.8002569!9m1!1b1!16s%2Fg%2F11yhrgd1rj?entry=ttu&g_ep=EgoyMDI2MDQxMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="btn-main" id="googleReviewsBtn" style="display:inline-flex;align-items:center;gap:.5rem;margin:0 auto">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        Voir tous nos avis Google
+        <span data-fr="Voir tous nos avis Google" data-en="See all our Google reviews">Voir tous nos avis Google</span>
       </a>
     </div>
   </section>
@@ -1823,6 +1823,15 @@ function applyLang() {
   if(srvNames[0]){ srvNames[0].textContent = t.srv1; srvDescs[0].textContent = t.srv1d; }
   if(srvNames[1]){ srvNames[1].textContent = t.srv2; srvDescs[1].textContent = t.srv2d; }
   if(srvNames[2]){ srvNames[2].textContent = t.srv3; srvDescs[2].textContent = t.srv3d; }
+  // Service page links — pass lang param
+  const srvLinks = [
+    { el: document.querySelector('a[href*="demenagements.html"]'), base: 'demenagements.html' },
+    { el: document.querySelector('a[href*="desencombrement.html"]'), base: 'desencombrement.html' },
+    { el: document.querySelector('a[href*="petites-livraisons.html"]'), base: 'petites-livraisons.html' },
+  ];
+  srvLinks.forEach(({ el, base }) => {
+    if(el) el.href = currentLang === 'en' ? base + '?lang=en' : base;
+  });
   // CTA
   const ctaH = document.querySelector('.cta-h2');
   if(ctaH) ctaH.innerHTML = t.ctaH;
@@ -1845,6 +1854,10 @@ function applyLang() {
     } else {
       el.textContent = val;
     }
+  });
+  // Translate <option> elements with data-fr/data-en
+  document.querySelectorAll('option[data-' + currentLang + ']').forEach(opt => {
+    opt.textContent = opt.getAttribute('data-' + currentLang);
   });
 }
 
