@@ -211,7 +211,7 @@ window.addEventListener('load',()=>{
   </div>
 
   <!-- ESTIMATEUR DÉSENCOMBREMENT -->
-  <div class="section-label reveal">Estimateur de prix</div>
+  <div class="section-label reveal" data-fr="Estimateur de prix" data-en="Price estimator">Estimateur de prix</div>
   <div class="reveal" id="est-desen-wrap">
   <style>
   .est-wrap{background:#fff;border:1px solid var(--linem);padding:2rem;margin-bottom:3rem}
@@ -581,20 +581,20 @@ window.addEventListener('load',()=>{
   </script>
 
   <!-- CE QU'ON ACCEPTE -->
-  <div class="section-label reveal">Ce qu'on peut enlever</div>
+  <div class="section-label reveal" data-fr="Ce qu'on peut enlever" data-en="What we remove">Ce qu'on peut enlever</div>
   <div class="checklist reveal">
-    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text"><strong>Meubles</strong> — Sofas, lits, armoires, tables, chaises</div></div>
-    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text"><strong>Électroménagers</strong> — Frigos, laveuses, sécheuses, micro-ondes</div></div>
-    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text"><strong>Déchets de rénovation</strong> — Bois, drywall, céramique, métal</div></div>
-    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text"><strong>Articles de marketplace</strong> — On peut aussi ramasser vos achats Facebook Marketplace</div></div>
-    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text"><strong>Vieux équipements</strong> — Électroniques, équipements sportifs, divers encombrants</div></div>
+    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text" data-fr="<strong>Meubles</strong> — Sofas, lits, armoires, tables, chaises" data-en="<strong>Furniture</strong> — Sofas, beds, wardrobes, tables, chairs"><strong>Meubles</strong> — Sofas, lits, armoires, tables, chaises</div></div>
+    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text" data-fr="<strong>Électroménagers</strong> — Frigos, laveuses, sécheuses, micro-ondes" data-en="<strong>Appliances</strong> — Fridges, washers, dryers, microwaves"><strong>Électroménagers</strong> — Frigos, laveuses, sécheuses, micro-ondes</div></div>
+    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text" data-fr="<strong>Déchets de rénovation</strong> — Bois, drywall, céramique, métal" data-en="<strong>Renovation debris</strong> — Wood, drywall, ceramic, metal"><strong>Déchets de rénovation</strong> — Bois, drywall, céramique, métal</div></div>
+    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text" data-fr="<strong>Articles de marketplace</strong> — On peut aussi ramasser vos achats Facebook Marketplace" data-en="<strong>Marketplace items</strong> — We can also pick up your Facebook Marketplace purchases"><strong>Articles de marketplace</strong> — On peut aussi ramasser vos achats Facebook Marketplace</div></div>
+    <div class="cl-item"><span class="cl-icon">✓</span><div class="cl-text" data-fr="<strong>Vieux équipements</strong> — Électroniques, équipements sportifs, divers encombrants" data-en="<strong>Old equipment</strong> — Electronics, sports gear, various bulky items"><strong>Vieux équipements</strong> — Électroniques, équipements sportifs, divers encombrants</div></div>
   </div>
 
 </div>
 
 <!-- GALERIE PHOTOS -->
 <div class="photo-section">
-  <div class="section-label reveal">Nos réalisations</div>
+  <div class="section-label reveal" data-fr="Nos réalisations" data-en="Our work">Nos réalisations</div>
   <div class="photo-grid photo-grid-top reveal">
     <img src="Junk_removal_2.jpeg" alt="Garage encombré avant désencombrement" class="photo-item">
     <img src="Junk_removal_3.jpeg" alt="Garage vidé après désencombrement" class="photo-item">
@@ -604,7 +604,7 @@ window.addEventListener('load',()=>{
     <img src="Junk_removal_1.jpeg" alt="Camion chargé de meubles et encombrants" class="photo-item">
     <img src="Junk_removal_5.jpeg" alt="Pickup et trailer chargés de sacs lors d'un désencombrement" class="photo-item">
   </div>
-  <p class="photo-caption reveal">Désencombrement résidentiel — Gatineau · Outaouais</p>
+  <p class="photo-caption reveal" data-fr="Désencombrement résidentiel — Gatineau · Outaouais" data-en="Residential junk removal — Gatineau · Outaouais">Désencombrement résidentiel — Gatineau · Outaouais</p>
 </div>
 
 <!-- CTA -->
@@ -691,7 +691,7 @@ function srvApplyLang() {
   // data-fr / data-en
   document.querySelectorAll('[data-' + srvLang + ']').forEach(el => {
     const val = el.getAttribute('data-' + srvLang);
-    if(val) el.textContent = val;
+    if(val) el.innerHTML = val;
   });
   const btn = document.getElementById('langBtn'); if(btn) btn.textContent = srvLang === 'fr' ? 'EN' : 'FR';
   document.documentElement.lang = srvLang;
@@ -703,7 +703,7 @@ function toggleLang() {
   const url = new URL(window.location);
   if(srvLang === 'en') url.searchParams.set('lang','en');
   else url.searchParams.delete('lang');
-  history.replaceState({}, '', url);
+  try { try { history.replaceState({}, '', url); } catch(e) {} } catch(e) {}
 }
 
 window.addEventListener('DOMContentLoaded', () => {
