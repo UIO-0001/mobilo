@@ -185,6 +185,13 @@ body::after{
   body::before,body::after{display:none}
   .bg-dot{display:none}
 }
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(42,96,50,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(42,96,50,0.055) 1px, transparent 1px);
+  background-size:52px 52px;
+}
 /* Floating decorative blobs */
 .bg-dot{
   position:fixed;border-radius:50%;pointer-events:none;z-index:0;
@@ -1449,9 +1456,6 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 <script>
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
-// Sur mobile : ScrollTrigger ne doit pas interférer avec le scroll natif
-ScrollTrigger.config({ ignoreMobileResize: true });
-
 // ═══════════════════════════════════════
 // BUILD ROAD
 // Road weaves opposite to text panels:
@@ -1688,7 +1692,7 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? true : 1,
+      scrub: isMob ? 1 : 1,
     }
   });
 
@@ -1755,18 +1759,15 @@ window.addEventListener('load', () => {
 
   // Délai court pour laisser le layout se stabiliser avant de dessiner la route
   setTimeout(() => {
-    const isMobileInit = window.innerWidth < 768;
     buildRoad();
-    if (!isMobileInit) {
-      // Camion + phares uniquement sur desktop — ScrollTrigger cause double-scroll sur mobile
-      initTruck();
-      initDarkZones();
-      ScrollTrigger.refresh();
-      setTimeout(() => {
-        document.getElementById('truck').style.opacity = '1';
-        document.getElementById('darkness-svg').style.opacity = '1';
-      }, 80);
-    }
+    initTruck();
+    initDarkZones();
+    ScrollTrigger.refresh();
+    // Montrer le camion et l'ombre seulement après init pour éviter le glitch
+    setTimeout(() => {
+      document.getElementById('truck').style.opacity = '1';
+      document.getElementById('darkness-svg').style.opacity = '1';
+    }, 80);
   }, 120);
 });
 
@@ -1837,8 +1838,6 @@ function toggleLang() {
   const btn = document.getElementById('langBtn');
   btn.textContent = currentLang === 'fr' ? 'EN' : 'FR';
   applyLang();
-  // Recalibrer ScrollTrigger après le changement de textes (layout peut changer légèrement)
-  requestAnimationFrame(() => ScrollTrigger.refresh());
 }
 
 function applyLang() {
@@ -1876,26 +1875,25 @@ function applyLang() {
   const fBtn = document.getElementById('formBtnTxt');
   if(fBtn) fBtn.textContent = t.formBtn;
   // data-fr / data-en elements
+  // Éléments avec innerHTML (sh2, eyebrow qui contiennent des <em> ou du HTML)
   const htmlTags = ['sh2','eyebrow'];
-  document.querySelectorAll('[data-fr],[data-en]').forEach(el => {
+  document.querySelectorAll('[data-' + currentLang + ']').forEach(el => {
     const val = el.getAttribute('data-' + currentLang);
-    if (!val) return;
-    // Utiliser innerHTML seulement si nécessaire (contient du HTML ou classe spéciale)
-    if (val.includes('<') || htmlTags.some(c => el.classList.contains(c))) {
-      if (el.innerHTML !== val) el.innerHTML = val;
+    const tag = el.getAttribute('data-' + currentLang);
+    // Si l'attribut contient du HTML (balises), utiliser innerHTML
+    if(val && (val.includes('<') || htmlTags.some(c => el.classList.contains(c)))) {
+      el.innerHTML = val;
     } else {
-      if (el.textContent !== val) el.textContent = val;
+      el.textContent = val;
     }
   });
   // Translate <option> elements with data-fr/data-en
-  document.querySelectorAll('option[data-fr],option[data-en]').forEach(opt => {
-    const val = opt.getAttribute('data-' + currentLang);
-    if (val && opt.textContent !== val) opt.textContent = val;
+  document.querySelectorAll('option[data-' + currentLang + ']').forEach(opt => {
+    opt.textContent = opt.getAttribute('data-' + currentLang);
   });
   // Translate placeholders with data-ph-fr/data-ph-en
-  document.querySelectorAll('[data-ph-fr],[data-ph-en]').forEach(el => {
-    const val = el.getAttribute('data-ph-' + currentLang);
-    if (val && el.placeholder !== val) el.placeholder = val;
+  document.querySelectorAll('[data-ph-' + currentLang + ']').forEach(el => {
+    el.placeholder = el.getAttribute('data-ph-' + currentLang);
   });
 }
 
