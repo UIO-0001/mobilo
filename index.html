@@ -218,7 +218,7 @@ body::after{
   will-change:transform;
 }
 @media(max-width:768px){
-  #truck{width:78px}
+  #truck{width:72px;will-change:transform;transform:translateZ(0)}
 }
 
 /* ── DARKNESS + HEADLIGHTS ── */
@@ -1466,20 +1466,18 @@ function buildRoad() {
 
   let d;
   if (isMobile) {
-    // Sur mobile: sinuosité réduite, amplitude fixe, fin garantie au centre
+    // Sur mobile: path simplifie 5 courbes, amplitude minimale
     const CX = W * 0.5;
-    const AMP = W * 0.14; // amplitude réduite pour éviter les téléportations
+    const AMP = W * 0.10; // amplitude encore plus petite = transitions douces
     const L = CX - AMP;
     const R = CX + AMP;
     d = `
       M ${CX} 0
-      C ${CX} ${H*.05}, ${R} ${H*.09}, ${R} ${H*.17}
-      C ${R}  ${H*.23}, ${CX} ${H*.27}, ${CX} ${H*.33}
-      C ${CX} ${H*.37}, ${L}  ${H*.41}, ${L}  ${H*.49}
-      C ${L}  ${H*.55}, ${CX} ${H*.59}, ${CX} ${H*.65}
-      C ${CX} ${H*.69}, ${R}  ${H*.73}, ${R}  ${H*.79}
-      C ${R}  ${H*.83}, ${CX} ${H*.87}, ${CX} ${H*.92}
-      C ${CX} ${H*.95}, ${CX} ${H*.98}, ${CX} ${H}
+      C ${CX} ${H*.08}, ${R} ${H*.14}, ${R} ${H*.22}
+      C ${R}  ${H*.30}, ${CX} ${H*.35}, ${CX} ${H*.42}
+      C ${CX} ${H*.49}, ${L}  ${H*.55}, ${L}  ${H*.62}
+      C ${L}  ${H*.70}, ${CX} ${H*.76}, ${CX} ${H*.84}
+      C ${CX} ${H*.91}, ${CX} ${H*.96}, ${CX} ${H}
     `;
   } else {
     const RL = W * 0.25; // left road zone center
@@ -1676,15 +1674,14 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? 1.5 : 1.8,
+      scrub: isMob ? 0.8 : 1.8,
     }
   });
 
   // RAF loop — lit le progress du tween APRÈS scrub pour synchroniser les phares
   let _rafSkip = 0;
   function rafLoop() {
-    _rafSkip++;
-    if (_rafSkip % 2 === 0 && _truckTween && _truckTween.scrollTrigger) {
+    if (_truckTween && _truckTween.scrollTrigger) {
       const p = _truckTween.progress();
       checkLandmarkProximity(p);
       updateDarkZones(p);
@@ -1759,7 +1756,6 @@ window.addEventListener('resize', () => {
   _resizeTimer = setTimeout(() => {
     buildRoad();
     initDarkZones();
-    placeLandmarks();
     if (_truckTween) { _truckTween.kill(); _truckTween = null; }
     ScrollTrigger.getAll().forEach(st => st.kill());
     initTruck();
