@@ -1450,12 +1450,25 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 
 </div><!-- #page -->
 
+<script>
+// Force passive:true sur tous les listeners touch/wheel — doit être avant GSAP
+// Élimine la résistance au scroll Android causée par GSAP ScrollTrigger
+(function() {
+  const orig = EventTarget.prototype.addEventListener;
+  EventTarget.prototype.addEventListener = function(type, fn, opts) {
+    if (type === 'touchstart' || type === 'touchmove' || type === 'wheel') {
+      if (typeof opts === 'object') opts = Object.assign({}, opts, { passive: true });
+      else opts = { passive: true, capture: !!opts };
+    }
+    return orig.call(this, type, fn, opts);
+  };
+})();
+</script>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
-// Sur mobile, on laisse ScrollTrigger tourner en mode minimal sans normaliser le scroll
 ScrollTrigger.config({ ignoreMobileResize: true });
 
 // ═══════════════════════════════════════
