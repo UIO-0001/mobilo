@@ -1449,6 +1449,9 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 <script>
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
+// Sur mobile : ScrollTrigger ne doit pas interférer avec le scroll natif
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 // ═══════════════════════════════════════
 // BUILD ROAD
 // Road weaves opposite to text panels:
@@ -1685,7 +1688,7 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? 1 : 1,
+      scrub: isMob ? true : 1,
     }
   });
 
