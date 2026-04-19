@@ -1439,6 +1439,8 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+ScrollTrigger.config({ ignoreMobileResize: true });
+ScrollTrigger.normalizeScroll(false);
 
 // ═══════════════════════════════════════
 // BUILD ROAD
