@@ -1466,20 +1466,20 @@ function buildRoad() {
 
   let d;
   if (isMobile) {
-    // Sur mobile: route centrée, légèrement sinueuse mais toujours dans les bounds
+    // Sur mobile: sinuosité réduite, amplitude fixe, fin garantie au centre
     const CX = W * 0.5;
-    const M  = W * 0.12; // marge de sécurité
-    const L  = Math.max(M + 30, W * 0.25);
-    const R  = Math.min(W - M - 30, W * 0.75);
+    const AMP = W * 0.14; // amplitude réduite pour éviter les téléportations
+    const L = CX - AMP;
+    const R = CX + AMP;
     d = `
       M ${CX} 0
-      C ${CX} ${H*.06}, ${R} ${H*.10}, ${R} ${H*.18}
-      C ${R}  ${H*.24}, ${CX} ${H*.28}, ${CX} ${H*.34}
-      C ${CX} ${H*.38}, ${L}  ${H*.42}, ${L}  ${H*.50}
-      C ${L}  ${H*.56}, ${CX} ${H*.60}, ${CX} ${H*.66}
-      C ${CX} ${H*.70}, ${R}  ${H*.74}, ${R}  ${H*.80}
-      C ${R}  ${H*.84}, ${CX} ${H*.88}, ${CX} ${H*.93}
-      C ${CX} ${H*.96}, ${CX} ${H*.98}, ${CX} ${H}
+      C ${CX} ${H*.05}, ${R} ${H*.09}, ${R} ${H*.17}
+      C ${R}  ${H*.23}, ${CX} ${H*.27}, ${CX} ${H*.33}
+      C ${CX} ${H*.37}, ${L}  ${H*.41}, ${L}  ${H*.49}
+      C ${L}  ${H*.55}, ${CX} ${H*.59}, ${CX} ${H*.65}
+      C ${CX} ${H*.69}, ${R}  ${H*.73}, ${R}  ${H*.79}
+      C ${R}  ${H*.83}, ${CX} ${H*.87}, ${CX} ${H*.92}
+      C ${CX} ${H*.95}, ${CX} ${H*.98}, ${CX} ${H}
     `;
   } else {
     const RL = W * 0.25; // left road zone center
@@ -1676,7 +1676,7 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? 3 : 1.8,
+      scrub: isMob ? 1.5 : 1.8,
     }
   });
 
@@ -1753,10 +1753,18 @@ window.addEventListener('load', () => {
   }, 120);
 });
 
+let _resizeTimer;
 window.addEventListener('resize', () => {
-  buildRoad();
-  initDarkZones();
-  ScrollTrigger.refresh();
+  clearTimeout(_resizeTimer);
+  _resizeTimer = setTimeout(() => {
+    buildRoad();
+    initDarkZones();
+    placeLandmarks();
+    if (_truckTween) { _truckTween.kill(); _truckTween = null; }
+    ScrollTrigger.getAll().forEach(st => st.kill());
+    initTruck();
+    ScrollTrigger.refresh();
+  }, 150);
 }, { passive: true });
 
 // Observer pour futurs éléments dynamiques
