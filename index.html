@@ -1744,7 +1744,11 @@ window.addEventListener('load', () => {
   }, 120);
 });
 
+let _lastW = window.innerWidth;
 window.addEventListener('resize', () => {
+  const newW = window.innerWidth;
+  if (newW === _lastW) return;
+  _lastW = newW;
   buildRoad();
   initDarkZones();
   ScrollTrigger.refresh();
