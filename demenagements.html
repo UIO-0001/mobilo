@@ -156,6 +156,12 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 .photo-section{position:relative;z-index:5;padding:0 2rem 4rem;max-width:860px;margin:0 auto}
 .photo-single{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 55%;display:block;border:1px solid var(--linem)}
 .photo-caption{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-top:.6rem;text-align:right}
+
+/* -- BOUTON RETOUR -- */
+.back-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:.5rem 1rem;transition:all .2s;position:relative;z-index:10}
+.back-btn:hover{color:#fff;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4)}
+.back-btn-wrap{position:absolute;top:5.5rem;left:2rem;z-index:20}
+@media(max-width:480px){.back-btn-wrap{top:4.8rem;left:1rem}}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMEDW6XCYP"></script>
@@ -193,6 +199,9 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 </nav>
 
 <!-- HERO -->
+  <div class="back-btn-wrap">
+    <a href="index.html#services" class="back-btn">&#8592; Retour</a>
+  </div>
 <section class="srv-hero">
   <div class="srv-hero-inner">
     <div class="srv-eyebrow">Service 01</div>
