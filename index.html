@@ -874,10 +874,10 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <div id="f-vol" style="display:none"><label class="field-label" data-fr="Volume à désencombrer" data-en="Volume">Volume à désencombrer</label>
             <select class="calc-select" id="cVol" onchange="calcPrice()">
               <option value="1meuble" data-fr="1 meuble" data-en="1 piece">1 meuble</option>
-              <option value="quart" data-fr="¼ de camion" data-en="¼ truck">¼ de camion</option>
-              <option value="demi" data-fr="½ camion" data-en="½ truck">½ camion</option>
-              <option value="trois_quart" data-fr="¾ de camion" data-en="¾ truck">¾ de camion</option>
-              <option value="full" data-fr="Camion complet" data-en="Full truck">Camion complet</option>
+              <option value="quart" data-fr="¼ de remorque" data-en="¼ trailer">¼ de camion</option>
+              <option value="demi" data-fr="½ remorque" data-en="½ trailer">½ camion</option>
+              <option value="trois_quart" data-fr="¾ de remorque" data-en="¾ trailer">¾ de camion</option>
+              <option value="full" data-fr="Remorque complète" data-en="Full trailer">Camion complet</option>
             </select></div>
 
             <!-- DELIVERY fields -->
@@ -1112,7 +1112,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <div class="price-label-sm" data-fr="Estimation approximative" data-en="Approximate estimate">Estimation approximative</div>
             <div class="price-big" id="calcOut">300$ – 500$</div>
             <a href="tel:4388738605" class="btn-wp" data-fr="Vrai devis gratuit →" data-en="Free quote →">Vrai devis gratuit →</a>
-            <p class="calc-note" data-fr="* Taxes non incluses. Estimation indicative." data-en="* Taxes not included. Indicative estimate.">* Taxes non incluses. Estimation indicative.</p>
+            <p class="calc-note" data-fr="* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H). Estimation indicative." data-en="* Taxes not included. Trailer dimensions: 16ft(L) × 7ft(W) × 4ft(H). Indicative estimate.">* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H). Estimation indicative.</p>
           </div>
         </div>
       </div>
@@ -1321,7 +1321,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
               </div>
               <div class="step-group">
                 <label class="field-label" for="fJunkItems" data-fr="Qu'est-ce qu'on vient chercher ? *" data-en="What do we pick up? *">Qu'est-ce qu'on vient chercher ? *</label>
-                <textarea class="calc-input" id="fJunkItems" rows="3" style="resize:vertical;min-height:72px" placeholder="Ex : sofa, réfrigérateur, débris de réno, vieux électros..."></textarea>
+                <textarea class="calc-input" id="fJunkItems" rows="3" style="resize:vertical;min-height:72px" placeholder="Ex : sofa, réfrigérateur, débris de réno, vieux électros..." data-ph-fr="Ex : sofa, réfrigérateur, débris de réno, vieux électros..." data-ph-en="Ex: sofa, fridge, renovation debris, old appliances..."></textarea>
               </div>
             </div>
 
@@ -1329,11 +1329,11 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <div id="groupDelivery" style="display:none">
               <div class="step-group">
                 <label class="field-label" for="fDeliveryFrom" data-fr="Où aller chercher l'item ? *" data-en="Where to pick up the item? *">Où aller chercher l'item ? *</label>
-                <input type="text" class="calc-input" id="fDeliveryFrom" placeholder="Ex : IKEA Gloucester, Marketplace 456 avenue des Pins...">
+                <input type="text" class="calc-input" id="fDeliveryFrom" placeholder="Ex : IKEA Gloucester, Marketplace 456 avenue des Pins..." data-ph-fr="Ex : IKEA Gloucester, Marketplace 456 avenue des Pins..." data-ph-en="Ex: IKEA Gloucester, Marketplace 456 Pine Ave...">
               </div>
               <div class="step-group">
                 <label class="field-label" for="fDeliveryItem" data-fr="Quoi livrer ? *" data-en="What to deliver? *">Quoi livrer ? *</label>
-                <input type="text" class="calc-input" id="fDeliveryItem" placeholder="Ex : bibliothèque IKEA BILLY, sofa Facebook Marketplace...">
+                <input type="text" class="calc-input" id="fDeliveryItem" placeholder="Ex : bibliothèque IKEA BILLY, sofa Facebook Marketplace..." data-ph-fr="Ex : bibliothèque IKEA BILLY, sofa Facebook Marketplace..." data-ph-en="Ex: IKEA BILLY bookcase, sofa Facebook Marketplace...">
               </div>
               <div class="step-group">
                 <label class="field-label" for="fDeliveryAddr" data-fr="Adresse de livraison *" data-en="Delivery address *">Adresse de livraison *</label>
@@ -1387,12 +1387,12 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
               </div>
               <div class="step-group">
                 <label class="field-label" for="fItems" data-fr="Meubles principaux (optionnel)" data-en="Main furniture (optional)">Meubles principaux (optionnel)</label>
-                <textarea class="calc-input" id="fItems" rows="2" style="resize:vertical;min-height:56px" placeholder="Ex : sofa, lit double, réfrigérateur..."></textarea>
+                <textarea class="calc-input" id="fItems" rows="2" style="resize:vertical;min-height:56px" placeholder="Ex : sofa, lit double, réfrigérateur..." data-ph-fr="Ex : sofa, lit double, réfrigérateur..." data-ph-en="Ex: sofa, double bed, fridge..."></textarea>
               </div>
             </div>
             <div class="step-group">
               <label class="field-label" for="fMsg" data-fr="Notes (optionnel)" data-en="Notes (optional)">Notes (optionnel)</label>
-              <textarea class="calc-input" id="fMsg" rows="2" style="resize:vertical;min-height:48px" placeholder="Accès difficile, objets fragiles, animaux..."></textarea>
+              <textarea class="calc-input" id="fMsg" rows="2" style="resize:vertical;min-height:48px" placeholder="Accès difficile, objets fragiles, animaux..." data-ph-fr="Accès difficile, objets fragiles, animaux..." data-ph-en="Difficult access, fragile items, pets..."></textarea>
             </div>
             <div class="step-btns">
               <button class="btn-back" onclick="prevStep(2)" data-fr="← Retour" data-en="← Back">← Retour</button>
@@ -1858,6 +1858,10 @@ function applyLang() {
   // Translate <option> elements with data-fr/data-en
   document.querySelectorAll('option[data-' + currentLang + ']').forEach(opt => {
     opt.textContent = opt.getAttribute('data-' + currentLang);
+  });
+  // Translate placeholders with data-ph-fr/data-ph-en
+  document.querySelectorAll('[data-ph-' + currentLang + ']').forEach(el => {
+    el.placeholder = el.getAttribute('data-ph-' + currentLang);
   });
 }
 
