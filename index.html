@@ -1721,7 +1721,7 @@ function checkLandmarkProximity(progress) {
 window.addEventListener('load', () => {
   // Cacher le loader
   const loader = document.getElementById('page-loader');
-  if(loader) setTimeout(() => { loader.classList.add('hidden'); setTimeout(() => { loader.style.display = 'none'; }, 450); }, 1100);
+  if(loader) setTimeout(() => loader.classList.add('hidden'), 1100);
   // Rendre tout visible immédiatement pour que scrollHeight soit correct
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
