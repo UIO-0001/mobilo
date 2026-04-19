@@ -161,7 +161,6 @@
   --line:rgba(42,96,50,0.12);--linem:rgba(42,96,50,0.25);
 }
 html{scroll-behavior:smooth;overflow-x:hidden}
-@media(max-width:768px){html{scroll-behavior:auto}}
 body{font-family:'DM Sans',sans-serif;background:#EDF5EF;color:var(--ink);overflow-x:hidden}
 
 /* ── BACKGROUND DECOR ── */
@@ -173,18 +172,7 @@ body::before{
     radial-gradient(ellipse 70% 40% at 50% 95%, rgba(30,77,38,0.08) 0%, transparent 50%),
     radial-gradient(ellipse 40% 30% at 70% 15%, rgba(168,213,181,0.15) 0%, transparent 45%);
 }
-/* Grille visible — désactivée sur mobile pour perf */
-body::after{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(42,96,50,0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(42,96,50,0.055) 1px, transparent 1px);
-  background-size:52px 52px;
-}
-@media(max-width:768px){
-  body::before,body::after{display:none}
-  .bg-dot{display:none}
-}
+/* Grille visible -->
 body::after{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:
@@ -227,7 +215,6 @@ body::after{
   pointer-events:none;
   filter:drop-shadow(0 3px 10px rgba(30,77,38,0.4));
   opacity:0;
-  will-change:transform;
 }
 @media(max-width:768px){
   #truck{width:78px}
@@ -306,7 +293,7 @@ body::after{
 }
 
 /* ── PAGE WRAPPER ── */
-#page{position:relative;width:100%;touch-action:pan-y}
+#page{position:relative;width:100%}
 
 /* ── NAV ── */
 nav{
@@ -370,9 +357,6 @@ section{position:relative;z-index:5}
   position:relative;
   z-index:10;
   overflow:hidden;
-}
-@media(max-width:768px){
-  .content-card{backdrop-filter:none;background:#fff}
 }
 /* Overlay sombre — couvre la carte avant allumage */
 .content-card::after,
@@ -1450,7 +1434,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 
 </div><!-- #page -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
 <script>
@@ -1663,13 +1647,6 @@ function placeLandmarks() {
   });
 }
 
-// Cache des cartes — évite querySelectorAll à chaque frame dans le RAF
-let _cachedCards = null;
-function getCachedCards() {
-  if (!_cachedCards) _cachedCards = document.querySelectorAll('.content-card, .rev-card');
-  return _cachedCards;
-}
-
 // ═══════════════════════════════════════
 // TRUCK MOTIONPATH
 // ═══════════════════════════════════════
@@ -1692,20 +1669,16 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? 1 : 1,
+      scrub: isMob ? 3 : 1.8,
     }
   });
 
   // RAF loop — lit le progress du tween APRÈS scrub pour synchroniser les phares
-  let _lastProgress = -1;
   function rafLoop() {
     if (_truckTween && _truckTween.scrollTrigger) {
       const p = _truckTween.progress();
-      if (Math.abs(p - _lastProgress) > 0.0005) {
-        _lastProgress = p;
-        checkLandmarkProximity(p);
-        updateDarkZones(p);
-      }
+      checkLandmarkProximity(p);
+      updateDarkZones(p);
     }
     requestAnimationFrame(rafLoop);
   }
@@ -1771,15 +1744,10 @@ window.addEventListener('load', () => {
   }, 120);
 });
 
-let _resizeTimer = null;
 window.addEventListener('resize', () => {
-  clearTimeout(_resizeTimer);
-  _resizeTimer = setTimeout(() => {
-    _cachedCards = null; // reset cache après resize
-    buildRoad();
-    initDarkZones();
-    ScrollTrigger.refresh();
-  }, 150);
+  buildRoad();
+  initDarkZones();
+  ScrollTrigger.refresh();
 }, { passive: true });
 
 // Observer pour futurs éléments dynamiques
@@ -2207,11 +2175,12 @@ function updateDarkZones(progress) {
   // Allume définitivement une carte dès que le camion arrive à sa hauteur
   const sy = window.scrollY || window.pageYOffset;
 
-  getCachedCards().forEach(card => {
+  document.querySelectorAll('.content-card, .rev-card').forEach(card => {
     if (card.classList.contains('card-lit')) return;
     const r = card.getBoundingClientRect();
     const cardTop    = r.top    + sy;
     const cardBottom = r.bottom + sy;
+    // Sur desktop le camion peut être loin horizontalement — on ignore hClose
     const arriving = _truckY >= cardTop - coneLen * 0.9 && _truckY <= cardBottom + 40;
     if (arriving) {
       card.classList.add('card-lit');
@@ -2300,16 +2269,19 @@ function calcPrice() {
   if (out) out.textContent = label;
 }
 
-// Scroll progress bar + active nav link — un seul listener
+// Scroll progress bar
 window.addEventListener('scroll', () => {
   const st = window.scrollY;
   const dh = document.documentElement.scrollHeight - window.innerHeight;
   const pct = dh > 0 ? (st / dh) * 100 : 0;
   const bar = document.getElementById('scroll-progress');
   if (bar) bar.style.width = pct + '%';
+}, { passive: true });
 
+// Active nav link
+window.addEventListener('scroll', () => {
   const sections = document.querySelectorAll('section[id]');
-  const scrollY = st + 120;
+  const scrollY = window.scrollY + 120;
   sections.forEach(sec => {
     const top = sec.offsetTop;
     const bot = top + sec.offsetHeight;

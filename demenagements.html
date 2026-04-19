@@ -458,10 +458,8 @@ function srvApplyLang() {
   navAs.forEach((a,i) => { if(t.navLinks[i]) a.textContent = t.navLinks[i]; });
   // Nav links — update index.html href with lang
   document.querySelectorAll('a[href^="index.html"]').forEach(a => {
-    const raw = a.getAttribute('href');
-    const base = raw.split('?')[0].split('#')[0];
-    const hash = raw.includes('#') ? '#' + raw.split('#')[1] : '';
-    a.href = srvLang === 'en' ? base + '?lang=en' + hash : base + hash;
+    const base = a.getAttribute('href').split('?')[0];
+    a.href = srvLang === 'en' ? base + '?lang=en' : base;
   });
   // Estimateur
   const estTitle = document.querySelector('.est-title'); if(estTitle) estTitle.textContent = t.calcTitle;

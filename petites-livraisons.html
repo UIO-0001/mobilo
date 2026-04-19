@@ -387,10 +387,8 @@ function srvApplyLang() {
   const fc = document.querySelector('.foot-credit'); if(fc) fc.textContent = t.footerCredit;
   document.querySelectorAll('.nav-links li a').forEach((a,i) => { if(t.navLinks[i]) a.textContent = t.navLinks[i]; });
   document.querySelectorAll('a[href^="index.html"]').forEach(a => {
-    const raw = a.getAttribute('href');
-    const base = raw.split('?')[0].split('#')[0];
-    const hash = raw.includes('#') ? '#' + raw.split('#')[1] : '';
-    a.href = srvLang === 'en' ? base + '?lang=en' + hash : base + hash;
+    const base = a.getAttribute('href').split('?')[0];
+    a.href = srvLang === 'en' ? base + '?lang=en' : base;
   });
   document.querySelectorAll('[data-' + srvLang + ']').forEach(el => {
     const val = el.getAttribute('data-' + srvLang);
