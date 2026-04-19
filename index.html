@@ -1119,7 +1119,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <div class="price-label-sm" data-fr="Estimation approximative" data-en="Approximate estimate">Estimation approximative</div>
             <div class="price-big" id="calcOut">300$ – 500$</div>
             <a href="tel:4388738605" class="btn-wp" data-fr="Vrai devis gratuit →" data-en="Free quote →">Vrai devis gratuit →</a>
-            <p class="calc-note" data-fr="* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H). Estimation indicative." data-en="* Taxes not included. Trailer dimensions: 16ft(L) × 7ft(W) × 4ft(H). Indicative estimate.">* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H). Estimation indicative.</p>
+            <p class="calc-note" id="calc-trailer-note" style="display:none" data-fr="* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H). Estimation indicative." data-en="* Taxes not included. Trailer dimensions: 16ft(L) × 7ft(W) × 4ft(H). Indicative estimate.">* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H). Estimation indicative.</p>
           </div>
         </div>
       </div>
@@ -2215,10 +2215,13 @@ function calcPrice() {
   document.getElementById('f-meubles').style.display   = t === 'delivery' ? '' : 'none';
   document.getElementById('f-dist-del').style.display  = t === 'delivery' ? '' : 'none';
   const tvCalc = document.getElementById('truck-viz-calc');
+  const trailerNote = document.getElementById('calc-trailer-note');
   if(t === 'junk'){
     tvCalc.style.visibility='visible';tvCalc.style.height='auto';tvCalc.style.overflow='visible';tvCalc.style.margin='';tvCalc.style.padding='';
+    if(trailerNote) trailerNote.style.display='';
   } else {
     tvCalc.style.visibility='hidden';tvCalc.style.height='0';tvCalc.style.overflow='hidden';tvCalc.style.margin='0';tvCalc.style.padding='0';
+    if(trailerNote) trailerNote.style.display='none';
   }
 
   let label = '';
