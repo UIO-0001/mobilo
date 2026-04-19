@@ -1755,15 +1755,18 @@ window.addEventListener('load', () => {
 
   // Délai court pour laisser le layout se stabiliser avant de dessiner la route
   setTimeout(() => {
+    const isMobileInit = window.innerWidth < 768;
     buildRoad();
-    initTruck();
-    initDarkZones();
-    ScrollTrigger.refresh();
-    // Montrer le camion et l'ombre seulement après init pour éviter le glitch
-    setTimeout(() => {
-      document.getElementById('truck').style.opacity = '1';
-      document.getElementById('darkness-svg').style.opacity = '1';
-    }, 80);
+    if (!isMobileInit) {
+      // Camion + phares uniquement sur desktop — ScrollTrigger cause double-scroll sur mobile
+      initTruck();
+      initDarkZones();
+      ScrollTrigger.refresh();
+      setTimeout(() => {
+        document.getElementById('truck').style.opacity = '1';
+        document.getElementById('darkness-svg').style.opacity = '1';
+      }, 80);
+    }
   }, 120);
 });
 
