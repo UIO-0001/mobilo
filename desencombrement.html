@@ -214,8 +214,8 @@ window.addEventListener('load',()=>{
 
   <!-- ASTUCE GATINEAU -->
   <div class="tip-box reveal">
-    <h3>💡 Astuce pour les résidents de Gatineau</h3>
-    <p>Saviez-vous que vous pouvez éviter les frais élevés de l'écocentre ? En vous accompagnant à l'écocentre et en présentant votre permis de conduire avec une <strong>adresse à Gatineau</strong>, vous bénéficiez de <strong>3 dépôts gratuits par année</strong>. Profitez-en pour économiser tout en vous débarrassant de vos encombrants !<br><em style="font-size:.72rem;color:var(--ink3)">* Des conditions s'appliquent</em></p>
+    <h3 data-fr="💡 Astuce pour les résidents de Gatineau" data-en="💡 Tip for Gatineau residents">💡 Astuce pour les résidents de Gatineau</h3>
+    <p data-fr="Saviez-vous que vous pouvez éviter les frais élevés de l'écocentre ? En vous accompagnant à l'écocentre et en présentant votre permis de conduire avec une <strong>adresse à Gatineau</strong>, vous bénéficiez de <strong>3 dépôts gratuits par année</strong>. Profitez-en pour économiser tout en vous débarrassant de vos encombrants !<br><em style='font-size:.72rem;color:var(--ink3)'>* Des conditions s'appliquent</em>" data-en="Did you know you can avoid high eco-centre fees? By accompanying you to the eco-centre and presenting your driver's licence with a <strong>Gatineau address</strong>, you get <strong>3 free drop-offs per year</strong>. Take advantage of it to save money while getting rid of your clutter!<br><em style='font-size:.72rem;color:var(--ink3)'>* Conditions apply</em>">Saviez-vous que vous pouvez éviter les frais élevés de l'écocentre ? En vous accompagnant à l'écocentre et en présentant votre permis de conduire avec une <strong>adresse à Gatineau</strong>, vous bénéficiez de <strong>3 dépôts gratuits par année</strong>. Profitez-en pour économiser tout en vous débarrassant de vos encombrants !<br><em style="font-size:.72rem;color:var(--ink3)">* Des conditions s'appliquent</em></p>
   </div>
 
   <!-- ESTIMATEUR DÉSENCOMBREMENT -->
@@ -253,14 +253,14 @@ window.addEventListener('load',()=>{
   <div class="est-wrap">
     <div class="est-row" style="grid-template-columns:1fr">
       <div class="est-field">
-        <label>Volume à désencomber</label>
+        <label data-fr="Volume à désencomber" data-en="Volume to remove">Volume à désencomber</label>
         <select id="desen-vol" onchange="calcDesen()">
-          <option value="">— Choisir un forfait —</option>
-          <option value="1meuble">1 meuble</option>
-          <option value="quart">¼ de camion</option>
-          <option value="demi">½ camion</option>
-          <option value="trois_quart">¾ de camion</option>
-          <option value="full">Camion complet</option>
+          <option value="" data-fr="— Choisir un forfait —" data-en="— Choose a package —">— Choisir un forfait —</option>
+          <option value="1meuble" data-fr="1 meuble" data-en="1 piece">1 meuble</option>
+          <option value="quart" data-fr="¼ de remorque" data-en="¼ trailer">¼ de camion</option>
+          <option value="demi" data-fr="½ remorque" data-en="½ trailer">½ camion</option>
+          <option value="trois_quart" data-fr="¾ de remorque" data-en="¾ trailer">¾ de camion</option>
+          <option value="full" data-fr="Remorque complète" data-en="Full trailer">Camion complet</option>
         </select>
       </div>
     </div>
@@ -268,7 +268,7 @@ window.addEventListener('load',()=>{
     <!-- TRUCK VISUAL -->
     <div class="truck-viz" id="truck-viz" style="visibility:hidden;height:0;overflow:hidden;margin:0;padding:0">
       <div class="truck-label-row">
-        <span class="truck-viz-label">Capacité utilisée</span>
+        <span class="truck-viz-label" data-fr="Capacité utilisée" data-en="Capacity used">Capacité utilisée</span>
         <span class="truck-fill-pct" id="truck-pct">0%</span>
       </div>
       <div class="truck-progress-track"><div class="truck-progress-bar" id="truck-progress-bar"></div></div>
@@ -528,7 +528,7 @@ window.addEventListener('load',()=>{
       </div>
     </div>
 
-    <p class="est-note" id="desen-note" style="display:none">* Les taxes ne sont pas incluses. Dimensions du trailer : 16ft(L) × 7ft(W) × 4ft(H).</p>
+    <p class="est-note" id="desen-note" style="display:none" data-fr="* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H)." data-en="* Taxes not included. Trailer dimensions: 16ft(L) × 7ft(W) × 4ft(H).">* Les taxes ne sont pas incluses. Dimensions du trailer : 16pi(L) × 7pi(l) × 4pi(H).</p>
   </div>
   </div>
 
@@ -700,6 +700,10 @@ function srvApplyLang() {
   document.querySelectorAll('[data-' + srvLang + ']').forEach(el => {
     const val = el.getAttribute('data-' + srvLang);
     if(val) el.innerHTML = val;
+  });
+  // Translate <option> elements
+  document.querySelectorAll('option[data-' + srvLang + ']').forEach(opt => {
+    opt.textContent = opt.getAttribute('data-' + srvLang);
   });
   const btn = document.getElementById('langBtn'); if(btn) btn.textContent = srvLang === 'fr' ? 'EN' : 'FR';
   document.documentElement.lang = srvLang;
