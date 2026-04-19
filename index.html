@@ -1682,21 +1682,49 @@ function initTruck() {
   const isMob = window.innerWidth < 768;
   gsap.set(truck, { xPercent: -50, yPercent: -50 });
 
-  _truckTween = gsap.to(truck, {
-    motionPath: {
-      path: '#motion-path',
-      align: '#motion-path',
-      alignOrigin: [0.5, 0.5],
-      autoRotate: true,
-    },
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#page',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: isMob ? true : 0.25,
+  if (isMob) {
+    // Sur mobile : pas de scrub GSAP — on pilote directement via scroll natif
+    // Aucun tween concurrent avec l'inertie Android
+    const pathEl = document.getElementById('motion-path');
+    function updateTruckFromScroll() {
+      const st = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? Math.min(1, Math.max(0, st / maxScroll)) : 0;
+      const totalLen = pathEl.getTotalLength();
+      const pt = pathEl.getPointAtLength(progress * totalLen);
+      const eps = Math.max(10, totalLen * 0.01);
+      const ptA = pathEl.getPointAtLength(Math.max(0, progress * totalLen - eps));
+      const ptB = pathEl.getPointAtLength(Math.min(totalLen, progress * totalLen + eps));
+      const angle = Math.atan2(ptB.y - ptA.y, ptB.x - ptA.x) * (180 / Math.PI);
+      gsap.set(truck, { x: pt.x, y: pt.y, rotation: angle });
+      checkLandmarkProximity(progress);
+      updateDarkZones(progress);
     }
-  });
+    window.addEventListener('scroll', updateTruckFromScroll, { passive: true });
+    updateTruckFromScroll();
+    // Pas de _truckTween sur mobile — on crée un objet factice pour le RAF
+    _truckTween = { progress: () => {
+      const st = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      return maxScroll > 0 ? Math.min(1, Math.max(0, st / maxScroll)) : 0;
+    }, scrollTrigger: true };
+  } else {
+    _truckTween = gsap.to(truck, {
+      motionPath: {
+        path: '#motion-path',
+        align: '#motion-path',
+        alignOrigin: [0.5, 0.5],
+        autoRotate: true,
+      },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#page',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.25,
+      }
+    });
+  }
 
   // RAF loop — lit le progress du tween APRÈS scrub pour synchroniser les phares
   let _lastProgress = -1;
