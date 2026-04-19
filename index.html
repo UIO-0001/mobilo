@@ -215,6 +215,7 @@ body::after{
   pointer-events:none;
   filter:drop-shadow(0 3px 10px rgba(30,77,38,0.4));
   opacity:0;
+  will-change:transform;
 }
 @media(max-width:768px){
   #truck{width:78px}
@@ -322,7 +323,7 @@ nav{
 
 /* ── MARQUEE ── */
 .marquee-strip{overflow:hidden;background:var(--g2);padding:.8rem 0;white-space:nowrap;position:relative;z-index:10}
-.marquee-inner{display:inline-flex;animation:marquee 20s linear infinite}
+.marquee-inner{display:inline-flex;animation:marquee 20s linear infinite;will-change:transform}
 .marquee-inner span{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:3px;color:#fff;padding:0 2rem}
 .msep{color:rgba(255,255,255,.35)}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
@@ -461,7 +462,7 @@ h1.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.8rem,10vw,8.5re
 .gallery-placeholder:hover{background:var(--g4)}
 /* REVIEWS */
 .reviews-outer{overflow:hidden;padding:.8rem 0 3rem}
-.reviews-runner{display:flex;gap:1rem;width:max-content;animation:reviewRun 28s linear infinite}
+.reviews-runner{display:flex;gap:1rem;width:max-content;animation:reviewRun 28s linear infinite;will-change:transform}
 @keyframes reviewRun{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .rev-card{width:280px;flex-shrink:0;background:var(--white);border:1px solid var(--linem);padding:1.3rem;border-left:3px solid var(--g2);position:relative;z-index:10;overflow:hidden}
 @media(max-width:600px){.rev-card{width:240px}}
@@ -537,6 +538,12 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 .marquee-strip{z-index:10}
 /* reviews section above truck */
 #reviews{z-index:10}
+
+@media(max-width:768px){
+  .bg-dot{animation:none}
+  .content-card{backdrop-filter:none}
+  body::before,body::after{will-change:transform}
+}
 </style>
 </head>
 <body>
@@ -1674,8 +1681,10 @@ function initTruck() {
   });
 
   // RAF loop — lit le progress du tween APRÈS scrub pour synchroniser les phares
+  let _rafSkip = 0;
   function rafLoop() {
-    if (_truckTween && _truckTween.scrollTrigger) {
+    _rafSkip++;
+    if (_rafSkip % 2 === 0 && _truckTween && _truckTween.scrollTrigger) {
       const p = _truckTween.progress();
       checkLandmarkProximity(p);
       updateDarkZones(p);
