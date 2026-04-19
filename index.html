@@ -1468,16 +1468,16 @@ function buildRoad() {
   if (isMobile) {
     // Sur mobile: path simplifie 5 courbes, amplitude minimale
     const CX = W * 0.5;
-    const AMP = W * 0.10; // amplitude encore plus petite = transitions douces
+    const AMP = W * 0.22; // amplitude ample
     const L = CX - AMP;
     const R = CX + AMP;
     d = `
       M ${CX} 0
-      C ${CX} ${H*.08}, ${R} ${H*.14}, ${R} ${H*.22}
-      C ${R}  ${H*.30}, ${CX} ${H*.35}, ${CX} ${H*.42}
-      C ${CX} ${H*.49}, ${L}  ${H*.55}, ${L}  ${H*.62}
-      C ${L}  ${H*.70}, ${CX} ${H*.76}, ${CX} ${H*.84}
-      C ${CX} ${H*.91}, ${CX} ${H*.96}, ${CX} ${H}
+      C ${CX} ${H*.06}, ${R} ${H*.11}, ${R} ${H*.19}
+      C ${R}  ${H*.26}, ${CX} ${H*.31}, ${CX} ${H*.38}
+      C ${CX} ${H*.45}, ${L}  ${H*.51}, ${L}  ${H*.58}
+      C ${L}  ${H*.65}, ${CX} ${H*.71}, ${CX} ${H*.78}
+      C ${CX} ${H*.85}, ${CX} ${H*.93}, ${CX} ${H}
     `;
   } else {
     const RL = W * 0.25; // left road zone center
@@ -1674,7 +1674,7 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? 0.8 : 1.8,
+      scrub: isMob ? true : 1.8,
     }
   });
 
