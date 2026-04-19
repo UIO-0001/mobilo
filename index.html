@@ -161,7 +161,7 @@
   --line:rgba(42,96,50,0.12);--linem:rgba(42,96,50,0.25);
 }
 html{scroll-behavior:auto;overflow-x:hidden}
-body{font-family:'DM Sans',sans-serif;background:#EDF5EF;color:var(--ink);overflow-x:hidden;touch-action:pan-y}
+body{font-family:'DM Sans',sans-serif;background:#EDF5EF;color:var(--ink);overflow-x:hidden;touch-action:pan-y;overscroll-behavior-y:none}
 
 /* ── BACKGROUND DECOR ── */
 body::before{
@@ -1455,6 +1455,8 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+// Sur mobile, on laisse ScrollTrigger tourner en mode minimal sans normaliser le scroll
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 // ═══════════════════════════════════════
 // BUILD ROAD
@@ -1692,7 +1694,7 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 0.25,
+      scrub: isMob ? true : 0.25,
     }
   });
 
