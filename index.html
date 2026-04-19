@@ -1838,6 +1838,8 @@ function toggleLang() {
   const btn = document.getElementById('langBtn');
   btn.textContent = currentLang === 'fr' ? 'EN' : 'FR';
   applyLang();
+  // Recalibrer ScrollTrigger après le changement de textes (layout peut changer légèrement)
+  requestAnimationFrame(() => ScrollTrigger.refresh());
 }
 
 function applyLang() {
@@ -1875,25 +1877,26 @@ function applyLang() {
   const fBtn = document.getElementById('formBtnTxt');
   if(fBtn) fBtn.textContent = t.formBtn;
   // data-fr / data-en elements
-  // Éléments avec innerHTML (sh2, eyebrow qui contiennent des <em> ou du HTML)
   const htmlTags = ['sh2','eyebrow'];
-  document.querySelectorAll('[data-' + currentLang + ']').forEach(el => {
+  document.querySelectorAll('[data-fr],[data-en]').forEach(el => {
     const val = el.getAttribute('data-' + currentLang);
-    const tag = el.getAttribute('data-' + currentLang);
-    // Si l'attribut contient du HTML (balises), utiliser innerHTML
-    if(val && (val.includes('<') || htmlTags.some(c => el.classList.contains(c)))) {
-      el.innerHTML = val;
+    if (!val) return;
+    // Utiliser innerHTML seulement si nécessaire (contient du HTML ou classe spéciale)
+    if (val.includes('<') || htmlTags.some(c => el.classList.contains(c))) {
+      if (el.innerHTML !== val) el.innerHTML = val;
     } else {
-      el.textContent = val;
+      if (el.textContent !== val) el.textContent = val;
     }
   });
   // Translate <option> elements with data-fr/data-en
-  document.querySelectorAll('option[data-' + currentLang + ']').forEach(opt => {
-    opt.textContent = opt.getAttribute('data-' + currentLang);
+  document.querySelectorAll('option[data-fr],option[data-en]').forEach(opt => {
+    const val = opt.getAttribute('data-' + currentLang);
+    if (val && opt.textContent !== val) opt.textContent = val;
   });
   // Translate placeholders with data-ph-fr/data-ph-en
-  document.querySelectorAll('[data-ph-' + currentLang + ']').forEach(el => {
-    el.placeholder = el.getAttribute('data-ph-' + currentLang);
+  document.querySelectorAll('[data-ph-fr],[data-ph-en]').forEach(el => {
+    const val = el.getAttribute('data-ph-' + currentLang);
+    if (val && el.placeholder !== val) el.placeholder = val;
   });
 }
 
