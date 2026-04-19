@@ -160,9 +160,8 @@
   --white:#fff;--ink:#0C1A0F;--ink2:#2C3F30;--ink3:#5A7060;
   --line:rgba(42,96,50,0.12);--linem:rgba(42,96,50,0.25);
 }
-html{scroll-behavior:smooth;overflow-x:hidden}
-@media(max-width:768px){html{scroll-behavior:auto}}
-body{font-family:'DM Sans',sans-serif;background:#EDF5EF;color:var(--ink);overflow-x:hidden}
+html{scroll-behavior:auto;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:#EDF5EF;color:var(--ink);overflow-x:hidden;touch-action:pan-y}
 
 /* ── BACKGROUND DECOR ── */
 body::before{
@@ -197,6 +196,7 @@ body::after{
   position:fixed;border-radius:50%;pointer-events:none;z-index:0;
   background:radial-gradient(circle, rgba(58,125,68,0.14) 0%, transparent 70%);
   animation:floatDot 20s ease-in-out infinite;
+  will-change:transform;
 }
 @keyframes floatDot{
   0%,100%{transform:translateY(0) scale(1)}
@@ -1692,16 +1692,18 @@ function initTruck() {
       trigger: '#page',
       start: 'top top',
       end: 'bottom bottom',
-      scrub: isMob ? 1 : 1,
+      scrub: 0.25,
     }
   });
 
   // RAF loop — lit le progress du tween APRÈS scrub pour synchroniser les phares
   let _lastProgress = -1;
+  let _rafActive = true;
   function rafLoop() {
+    if (!_rafActive) return;
     if (_truckTween && _truckTween.scrollTrigger) {
       const p = _truckTween.progress();
-      if (Math.abs(p - _lastProgress) > 0.0005) {
+      if (Math.abs(p - _lastProgress) > 0.0003) {
         _lastProgress = p;
         checkLandmarkProximity(p);
         updateDarkZones(p);
@@ -1710,6 +1712,11 @@ function initTruck() {
     requestAnimationFrame(rafLoop);
   }
   requestAnimationFrame(rafLoop);
+  // Stopper le RAF quand l'onglet est caché pour économiser les ressources
+  document.addEventListener('visibilitychange', () => {
+    _rafActive = !document.hidden;
+    if (_rafActive) requestAnimationFrame(rafLoop);
+  });
 }
 
 // ═══════════════════════════════════════
@@ -1762,7 +1769,7 @@ window.addEventListener('load', () => {
     buildRoad();
     initTruck();
     initDarkZones();
-    ScrollTrigger.refresh();
+    ScrollTrigger.refresh(true);
     // Montrer le camion et l'ombre seulement après init pour éviter le glitch
     setTimeout(() => {
       document.getElementById('truck').style.opacity = '1';
@@ -2322,7 +2329,21 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // Init calculator on load
-window.addEventListener('DOMContentLoaded', () => { calcPrice(); });
+window.addEventListener('DOMContentLoaded', () => {
+  calcPrice();
+  // Smooth scroll pour les liens anchor — remplace scroll-behavior CSS pour éviter conflit GSAP
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const id = this.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const offset = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 60;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+});
 </script>
 <!-- SEO: keywords in hidden semantic text for crawlers -->
 <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap" aria-hidden="true">
