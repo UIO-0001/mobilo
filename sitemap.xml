@@ -4,11 +4,32 @@
 
   <url>
     <loc>https://themobilo.com/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-04-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://themobilo.com/"/>
     <xhtml:link rel="alternate" hreflang="en-CA" href="https://themobilo.com/?lang=en"/>
+  </url>
+
+  <url>
+    <loc>https://themobilo.com/demenagements.html</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://themobilo.com/desencombrement.html</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://themobilo.com/petites-livraisons.html</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>
