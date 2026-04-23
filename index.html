@@ -518,8 +518,8 @@ footer{padding:1.4rem 2rem;border-top:1px solid var(--line);background:var(--whi
 .reveal.visible{opacity:1;transform:translateY(0)}
 
 
-/* Galerie + Contact z-index */
-#galerie, #contact { z-index: 5; }
+/* Contact z-index */
+#contact { z-index: 5; }
 /* Scroll progress gradient animation */
 #scroll-progress { box-shadow: 0 0 8px rgba(58,125,68,0.4); }
 /* Nav link actif */
@@ -574,7 +574,6 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
     <li><a href="#about" data-fr="À propos" data-en="About">À propos</a></li>
     <li><a href="#zones" data-fr="Zones" data-en="Areas">Zones</a></li>
     <li><a href="#faq" data-fr="FAQ" data-en="FAQ">FAQ</a></li>
-    <li><a href="#galerie" data-fr="Galerie" data-en="Gallery">Galerie</a></li>
     <li><a href="#contact" data-fr="Contact" data-en="Contact">Contact</a></li>
   </ul>
   <div class="nav-right"><button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button><a href="tel:4388738605" class="nav-cta">📞 (438) 873-8605</a></div>
@@ -797,26 +796,67 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
     </div>
   </section>
 
-  <!-- ABOUT — RIGHT panel, road on left -->
-  <section id="about">
+  <!-- ABOUT + GALLERY — RIGHT panel, road on left -->
+  <section id="about" id="galerie">
     <div class="panel right">
       <div class="inner">
         <div class="content-card reveal">
+
+          <!-- ── HEADER ── -->
           <div class="eyebrow" data-fr="Qui on est" data-en="Who we are">Qui on est</div>
-          <h2 class="sh2" data-fr="Notre <em>histoire</em>" data-en="Our <em>story</em>">Notre <em>histoire</em></h2>
-          <div class="stats-grid">
+          <h2 class="sh2" data-fr="Des jeunes qui <em>bougent.</em>" data-en="Young people who <em>move.</em>">Des jeunes qui <em>bougent.</em></h2>
+
+          <!-- ── YOUTH BADGE ── -->
+          <div style="display:inline-flex;align-items:center;gap:.6rem;background:var(--g1);padding:.4rem .9rem .4rem .55rem;border-radius:2px;margin-bottom:1.1rem">
+            <span style="font-size:1rem">🎓</span>
+            <span style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85)" data-fr="Étudiants — Gatineau · Outaouais" data-en="Students — Gatineau · Outaouais">Étudiants — Gatineau · Outaouais</span>
+          </div>
+
+          <!-- ── STORY TEXT ── -->
+          <div class="about-text" style="margin-bottom:1rem">
+            <p data-fr="Mobilo, c'est une équipe de jeunes de la région de Gatineau — étudiants, passionnés, qui ont décidé de faire les choses autrement. On a lancé cette compagnie pour prouver qu'on peut offrir un service professionnel, honnête et abordable, sans l'attitude des grandes compagnies." data-en="Mobilo is a team of young people from the Gatineau area — students, passionate, who decided to do things differently. We launched this company to prove that professional, honest, affordable service doesn't need a corporate attitude.">Mobilo, c'est une équipe de jeunes de la région de Gatineau — étudiants, passionnés, qui ont décidé de faire les choses autrement. On a lancé cette compagnie pour prouver qu'on peut offrir un service professionnel, honnête et abordable, sans l'attitude des grandes compagnies.</p>
+            <p style="margin-top:.5rem" data-fr="Chaque déménagement, désencombrement ou livraison, c'est nous en personne — pas des sous-traitants, pas des inconnus. Vous savez exactement qui sonne à votre porte." data-en="Every move, junk removal or delivery — that's us, in person. No subcontractors, no strangers. You know exactly who's at your door.">Chaque déménagement, désencombrement ou livraison, c'est nous en personne — pas des sous-traitants, pas des inconnus. Vous savez exactement qui sonne à votre porte.</p>
+          </div>
+
+          <!-- ── STATS ── -->
+          <div class="stats-grid" style="margin-bottom:1.1rem">
             <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label" data-fr="Clients satisfaits" data-en="Satisfied clients">Clients satisfaits</div></div>
             <div class="stat-box"><div class="stat-num">7/7</div><div class="stat-label" data-fr="Disponibles soirs &amp; weekends" data-en="Available evenings &amp; weekends">Disponibles soirs &amp; weekends</div></div>
             <div class="stat-box"><div class="stat-num">0$</div><div class="stat-label" data-fr="Frais cachés — jamais" data-en="Hidden fees — never">Frais cachés — jamais</div></div>
             <div class="stat-box"><div class="stat-num">24h</div><div class="stat-label" data-fr="Réponse garantie" data-en="Response guaranteed">Réponse garantie</div></div>
           </div>
-          <div class="about-text"><p data-fr="Basés à Gatineau, on combine professionnalisme, flexibilité et service personnalisé pour rendre chaque projet simple et sans tracas." data-en="Based in Gatineau, we combine professionalism, flexibility and personalized service to make every project simple and stress-free.">Basés à Gatineau, on combine professionnalisme, flexibilité et service personnalisé pour rendre chaque projet simple et sans tracas.</p></div>
-          <div class="af-list reveal">
-            <div class="af"><span class="af-icon">✓</span> <span data-fr="Professionnels expérimentés et assurés" data-en="Experienced and insured professionals">Professionnels expérimentés et assurés</span></div>
+
+          <!-- ── CHECKLIST ── -->
+          <div class="af-list reveal" style="margin-bottom:1.3rem">
+            <div class="af"><span class="af-icon">✓</span> <span data-fr="Une équipe jeune, fiable et assurée" data-en="A young, reliable and insured team">Une équipe jeune, fiable et assurée</span></div>
             <div class="af"><span class="af-icon">✓</span> <span data-fr="Équipements modernes pour protéger vos biens" data-en="Modern equipment to protect your belongings">Équipements modernes pour protéger vos biens</span></div>
             <div class="af"><span class="af-icon">✓</span> <span data-fr="Service bilingue français / anglais" data-en="Bilingual service French / English">Service bilingue français / anglais</span></div>
-            <div class="af"><span class="af-icon">✓</span> <span data-fr="Disponibles les soirs et weekends" data-en="Available evenings and weekends">Disponibles les soirs et weekends</span></div>
+            <div class="af"><span class="af-icon">✓</span> <span data-fr="Toujours nous — jamais des sous-traitants" data-en="Always us — never subcontractors">Toujours nous — jamais des sous-traitants</span></div>
           </div>
+
+          <!-- ── DIVIDER ── -->
+          <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem">
+            <div style="flex:1;height:1px;background:var(--line)"></div>
+            <div style="font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink3)" data-fr="En action" data-en="In action">En action</div>
+            <div style="flex:1;height:1px;background:var(--line)"></div>
+          </div>
+
+          <!-- ── GALLERY GRID intégrée ── -->
+          <div id="galleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+            <div class="reveal" style="aspect-ratio:4/3;overflow:hidden;border-radius:2px;border:1px solid var(--line)">
+              <img src="mobilo-img1.png" alt="Camion Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div class="reveal" style="aspect-ratio:4/3;overflow:hidden;border-radius:2px;border:1px solid var(--line)">
+              <img src="mobilo-img2.png" alt="Équipe Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div class="reveal" style="aspect-ratio:4/3;overflow:hidden;border-radius:2px;border:1px solid var(--line)">
+              <img src="mobilo-img3.png" alt="Désencombrement Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div class="reveal" style="aspect-ratio:4/3;overflow:hidden;border-radius:2px;border:1px solid var(--line)">
+              <img src="mobilo-img4.png" alt="Livraison Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -1126,24 +1166,6 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
     </div>
   </section>
 
-
-  <!-- GALLERY — LEFT panel -->
-  <section id="galerie">
-    <div class="panel left">
-      <div class="inner">
-        <div class="content-card reveal">
-          <div class="eyebrow" data-fr="Nos réalisations" data-en="Our work">Nos réalisations</div>
-          <div class="sh2" data-fr="En <em>action</em>" data-en="In <em>action</em>">En <em>action</em></div>
-          <div id="galleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.5rem">
-            <div class="reveal" style="aspect-ratio:3/4;overflow:hidden;border-radius:2px;border:1px solid var(--line)"><img src="mobilo-img1.png" alt="Camion Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-            <div class="reveal" style="aspect-ratio:3/4;overflow:hidden;border-radius:2px;border:1px solid var(--line);animation-delay:.1s"><img src="mobilo-img2.png" alt="Équipe Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-            <div class="reveal" style="aspect-ratio:3/4;overflow:hidden;border-radius:2px;border:1px solid var(--line);animation-delay:.2s"><img src="mobilo-img3.png" alt="Désencombrement Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-            <div class="reveal" style="aspect-ratio:3/4;overflow:hidden;border-radius:2px;border:1px solid var(--line);animation-delay:.3s"><img src="mobilo-img4.png" alt="Livraison Mobilo" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- REVIEWS — full width, z:10 so truck hides -->
   <section id="reviews" style="padding:1.5rem 0;z-index:10;position:relative">
