@@ -745,7 +745,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
       <h1 class="hero-h1">On<br><span class="hollow">Modernise</span><br><span class="accent">le Déménagement.</span></h1>
       <p class="hero-sub">Professionnels, rapides et soigneux. On prend soin de vos biens comme si c'étaient les nôtres.</p>
       <div class="hero-btns">
-        <a href="tel:4388738605" class="btn-main">Devis gratuit →</a>
+        <a href="#contact" class="btn-main" id="heroCta1" onclick="event.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Devis gratuit →</a>
         <a href="#services" class="btn-ghost">Nos services ↓</a>
       </div>
     </div>
@@ -1749,7 +1749,7 @@ function checkLandmarkProximity(progress) {
 window.addEventListener('load', () => {
   // Cacher le loader
   const loader = document.getElementById('page-loader');
-  if(loader) setTimeout(() => loader.classList.add('hidden'), 1100);
+  if(loader){ const h=()=>loader.classList.add('hidden'); setTimeout(h,400); window.addEventListener('load',h,{once:true}); }
   // Rendre tout visible immédiatement pour que scrollHeight soit correct
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
@@ -2008,13 +2008,12 @@ async function submitForm() {
   const service = document.getElementById('fService').value;
   const date    = document.getElementById('fDate').value || '—';
 
-  if (!name || !phone || !service || !date || date === '—') {
+ if (!name || !phone || !service) {
     showStepError(currentLang === 'fr'
-      ? 'Veuillez indiquer une date souhaitée.'
-      : 'Please provide a preferred date.');
+      ? 'Veuillez remplir votre nom, téléphone et choisir un service.'
+      : 'Please fill in your name, phone and select a service.');
     return;
   }
-
   const btn = document.getElementById('formBtn');
   btn.style.opacity = '.6';
   btn.style.pointerEvents = 'none';
