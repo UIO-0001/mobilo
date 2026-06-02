@@ -1749,7 +1749,7 @@ function checkLandmarkProximity(progress) {
 window.addEventListener('load', () => {
   // Cacher le loader
   const loader = document.getElementById('page-loader');
-  if(loader){ const h=()=>loader.classList.add('hidden'); setTimeout(h,400); window.addEventListener('load',h,{once:true}); }
+  if(loader) setTimeout(()=>loader.classList.add('hidden'), 500);
   // Rendre tout visible immédiatement pour que scrollHeight soit correct
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
@@ -2007,8 +2007,7 @@ async function submitForm() {
   const phone   = document.getElementById('fPhone').value.trim();
   const service = document.getElementById('fService').value;
   const date    = document.getElementById('fDate').value || '—';
-
- if (!name || !phone || !service) {
+  if (!name || !phone || !service) {
     showStepError(currentLang === 'fr'
       ? 'Veuillez remplir votre nom, téléphone et choisir un service.'
       : 'Please fill in your name, phone and select a service.');
