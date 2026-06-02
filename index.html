@@ -1749,8 +1749,8 @@ function checkLandmarkProximity(progress) {
 window.addEventListener('load', () => {
   // Cacher le loader
   const loader = document.getElementById('page-loader');
-  if(loader) setTimeout(()=>loader.classList.add('hidden'), 500);
-  // Rendre tout visible immédiatement pour que scrollHeight soit correct
+  if(loader) loader.classList.add('hidden');
+
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
   // Appliquer la langue détectée dès le chargement
@@ -1947,7 +1947,7 @@ function nextStep(from) {
   }
   if(from === 1) {
     const svc = document.getElementById('fService').value;
-    if(svc === 'Désencombrement') {
+    if(svc === 'Désencombrement' || svc === 'Junk removal') {
       const addr = document.getElementById('fJunkAddr').value.trim();
       const items = document.getElementById('fJunkItems').value.trim();
       if(!addr || !items) {
@@ -1956,7 +1956,7 @@ function nextStep(from) {
           : 'Please provide the address and items to pick up.');
         return;
       }
-    } else if(svc === 'Petite livraison') {
+    } else if(svc === 'Petite livraison' || svc === 'Small delivery') {
       const from2 = document.getElementById('fDeliveryFrom').value.trim();
       const item  = document.getElementById('fDeliveryItem').value.trim();
       const addr  = document.getElementById('fDeliveryAddr').value.trim();
@@ -2018,8 +2018,8 @@ async function submitForm() {
   btn.style.pointerEvents = 'none';
   document.getElementById('formBtnTxt').textContent = '...';
 
-  const isJunk = service === 'Désencombrement';
-  const isDelivery = service === 'Petite livraison';
+  const isJunk = service === 'Désencombrement' || service === 'Junk removal';
+  const isDelivery = service === 'Petite livraison' || service === 'Small delivery';
   const payload = {
     _subject: `Nouvelle demande — ${name} (${service})`,
     Nom: name,
