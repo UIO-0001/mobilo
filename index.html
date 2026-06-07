@@ -1914,7 +1914,7 @@ function selectChip(el, hiddenId) {
   document.getElementById('groupMove').style.display     = svc === 'move'     ? 'block' : 'none';
   document.getElementById('groupJunk').style.display     = svc === 'junk'     ? 'block' : 'none';
   document.getElementById('groupDelivery').style.display = svc === 'delivery' ? 'block' : 'none';
-  document.getElementById('groupBoxes').style.display    = svc === 'Déménagement'   ? 'block' : 'none';
+  document.getElementById('groupBoxes').style.display    = svc === 'move' ? 'block' : 'none';
 }
 
 function showStep(n) {
@@ -2016,7 +2016,8 @@ async function submitForm() {
   const btn = document.getElementById('formBtn');
   btn.style.opacity = '.6';
   btn.style.pointerEvents = 'none';
-  document.getElementById('formBtnTxt').textContent = '...';
+  const btnTxtEl = document.getElementById('formBtnTxt');
+  if (btnTxtEl) btnTxtEl.textContent = '...';
 
   const isJunk = service === 'junk';
   const isDelivery = service === 'delivery';
@@ -2079,7 +2080,8 @@ async function submitForm() {
   } finally {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
-    document.getElementById('formBtnTxt').textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send →';
+    const btnTxt = document.getElementById('formBtnTxt');
+    if (btnTxt) btnTxt.textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send →';
   }
 }
 
