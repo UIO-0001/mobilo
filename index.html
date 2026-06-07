@@ -335,8 +335,14 @@ section{position:relative;z-index:5}
 #hero{
   min-height:100svh;display:flex;align-items:center;
   padding:6rem 2rem 4rem;background:transparent;
+  position:relative;overflow:hidden;
 }
-#hero .content{max-width:460px}
+#hero-bg-img{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url('hero-bg.jpg') center center / cover no-repeat;
+  opacity:0.13;
+}
+#hero .content{max-width:460px;position:relative;z-index:1;}
 
 /* Panels — alternate left/right */
 .panel{padding:2.2rem 0;display:flex;align-items:center}
@@ -740,6 +746,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 
   <!-- HERO -->
   <section id="hero">
+    <div id="hero-bg-img"></div>
     <div class="content">
       <div class="hero-tag"><span class="hero-dot"></span>Gatineau · Ottawa · Outaouais</div>
       <h1 class="hero-h1">On<br><span class="hollow">Modernise</span><br><span class="accent">le Déménagement.</span></h1>
