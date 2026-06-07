@@ -1264,9 +1264,9 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <div class="step-group">
               <label class="field-label" data-fr="Type de service *" data-en="Service type *">Type de service *</label>
               <div class="service-chips">
-                <div class="chip" data-value="Déménagement" onclick="selectChip(this,'fService')" data-fr="🚛 Déménagement" data-en="🚛 Moving">🚛 Déménagement</div>
-                <div class="chip" data-value="Désencombrement" onclick="selectChip(this,'fService')" data-fr="🗑 Désencombrement" data-en="🗑 Junk removal">🗑 Désencombrement</div>
-                <div class="chip" data-value="Petite livraison" onclick="selectChip(this,'fService')" data-fr="📦 Petite livraison" data-en="📦 Small delivery">📦 Petite livraison</div>
+                <div class="chip" data-value="move" onclick="selectChip(this,'fService')" data-fr="🚛 Déménagement" data-en="🚛 Moving">🚛 Déménagement</div>
+                <div class="chip" data-value="junk" onclick="selectChip(this,'fService')" data-fr="🗑 Désencombrement" data-en="🗑 Junk removal">🗑 Désencombrement</div>
+                <div class="chip" data-value="delivery" onclick="selectChip(this,'fService')" data-fr="📦 Petite livraison" data-en="📦 Small delivery">📦 Petite livraison</div>
               </div>
               <input type="hidden" id="fService">
             </div>
@@ -1911,9 +1911,9 @@ function selectChip(el, hiddenId) {
   el.classList.add('selected');
   document.getElementById(hiddenId).value = el.getAttribute('data-value');
   const svc = el.getAttribute('data-value');
-  document.getElementById('groupMove').style.display     = svc === 'Déménagement'   ? 'block' : 'none';
-  document.getElementById('groupJunk').style.display     = svc === 'Désencombrement' ? 'block' : 'none';
-  document.getElementById('groupDelivery').style.display = svc === 'Petite livraison' ? 'block' : 'none';
+  document.getElementById('groupMove').style.display     = svc === 'move'     ? 'block' : 'none';
+  document.getElementById('groupJunk').style.display     = svc === 'junk'     ? 'block' : 'none';
+  document.getElementById('groupDelivery').style.display = svc === 'delivery' ? 'block' : 'none';
   document.getElementById('groupBoxes').style.display    = svc === 'Déménagement'   ? 'block' : 'none';
 }
 
@@ -1947,7 +1947,7 @@ function nextStep(from) {
   }
   if(from === 1) {
     const svc = document.getElementById('fService').value;
-    if(svc === 'Désencombrement' || svc === 'Junk removal') {
+    if(svc === 'junk') {
       const addr = document.getElementById('fJunkAddr').value.trim();
       const items = document.getElementById('fJunkItems').value.trim();
       if(!addr || !items) {
@@ -1956,7 +1956,7 @@ function nextStep(from) {
           : 'Please provide the address and items to pick up.');
         return;
       }
-    } else if(svc === 'Petite livraison' || svc === 'Small delivery') {
+    } else if(svc === 'delivery') {
       const from2 = document.getElementById('fDeliveryFrom').value.trim();
       const item  = document.getElementById('fDeliveryItem').value.trim();
       const addr  = document.getElementById('fDeliveryAddr').value.trim();
@@ -2018,14 +2018,19 @@ async function submitForm() {
   btn.style.pointerEvents = 'none';
   document.getElementById('formBtnTxt').textContent = '...';
 
-  const isJunk = service === 'Désencombrement' || service === 'Junk removal';
-  const isDelivery = service === 'Petite livraison' || service === 'Small delivery';
+  const isJunk = service === 'junk';
+  const isDelivery = service === 'delivery';
+  const serviceLabel = isJunk
+    ? (currentLang === 'fr' ? 'Désencombrement' : 'Junk removal')
+    : isDelivery
+      ? (currentLang === 'fr' ? 'Petite livraison' : 'Small delivery')
+      : (currentLang === 'fr' ? 'Déménagement' : 'Moving');
   const payload = {
-    _subject: `Nouvelle demande — ${name} (${service})`,
+    _subject: `Nouvelle demande — ${name} (${serviceLabel})`,
     Nom: name,
     Téléphone: phone,
     Courriel: document.getElementById('fEmail').value.trim() || '—',
-    Service: service,
+    Service: serviceLabel,
     ...(isJunk ? {
       'Adresse ramassage': document.getElementById('fJunkAddr').value.trim(),
       'Items à ramasser': document.getElementById('fJunkItems').value.trim(),
