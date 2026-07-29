@@ -335,8 +335,14 @@ section{position:relative;z-index:5}
 #hero{
   min-height:100svh;display:flex;align-items:center;
   padding:6rem 2rem 4rem;background:transparent;
+  position:relative;overflow:hidden;
 }
-#hero .content{max-width:460px}
+#hero-bg-img{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url('hero-bg.jpg') center center / cover no-repeat;
+  opacity:0.40;
+}
+#hero .content{max-width:460px;position:relative;z-index:1;}
 
 /* Panels — alternate left/right */
 .panel{padding:2.2rem 0;display:flex;align-items:center}
@@ -741,12 +747,13 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
 
   <!-- HERO -->
   <section id="hero">
+    <div id="hero-bg-img"></div>
     <div class="content">
       <div class="hero-tag"><span class="hero-dot"></span>Gatineau · Ottawa · Outaouais</div>
       <h1 class="hero-h1">On<br><span class="hollow">Modernise</span><br><span class="accent">le Déménagement.</span></h1>
       <p class="hero-sub">Professionnels, rapides et soigneux. On prend soin de vos biens comme si c'étaient les nôtres.</p>
       <div class="hero-btns">
-        <a href="tel:4388738605" class="btn-main">Devis gratuit →</a>
+        <a href="#contact" class="btn-main" id="heroCta1" onclick="event.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Devis gratuit →</a>
         <a href="#services" class="btn-ghost">Nos services ↓</a>
       </div>
     </div>
@@ -1205,7 +1212,7 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
         <div class="content-card reveal">
           <div class="eyebrow" data-fr="Nous contacter" data-en="Contact us">Nous contacter</div>
           <div class="sh2" data-fr="Demande de <em>devis</em>" data-en="Request a <em>quote</em>">Demande de <em>devis</em></div>
-          <p style="font-size:.82rem;color:var(--ink3);line-height:1.75;font-weight:300;margin-bottom:1.5rem" data-fr="Remplissez ce formulaire et on vous répond dans les 24h — sans engagement." data-en="Fill out this form and we'll get back to you within 24h — no commitment.">Remplissez ce formulaire et on vous répond dans les 24h — sans engagement.</p>
+          <p style="font-size:.82rem;color:var(--ink3);line-height:1.75;font-weight:300;margin-bottom:1.5rem" data-fr="Remplissez ce formulaire et on vous répond dans les 24h — sans engagement." data-en="Fill out this form and we'll get back to you within 24h — no commitment required.">Remplissez ce formulaire et on vous répond dans les 24h — sans engagement.</p>
           <div id="formMsg" style="display:none;padding:.75rem 1rem;background:var(--g5);border-left:3px solid var(--g2);font-size:.78rem;color:var(--g1);margin-bottom:1rem"></div>
 
           <!-- PROGRESSIVE FORM — étapes qui se révèlent -->
@@ -1242,9 +1249,9 @@ textarea.calc-input { font-family: 'DM Sans', sans-serif; }
             <div class="step-group">
               <label class="field-label" data-fr="Type de service *" data-en="Service type *">Type de service *</label>
               <div class="service-chips">
-                <div class="chip" data-value="Déménagement" onclick="selectChip(this,'fService')" data-fr="🚛 Déménagement" data-en="🚛 Moving">🚛 Déménagement</div>
-                <div class="chip" data-value="Désencombrement" onclick="selectChip(this,'fService')" data-fr="🗑 Désencombrement" data-en="🗑 Junk removal">🗑 Désencombrement</div>
-                <div class="chip" data-value="Petite livraison" onclick="selectChip(this,'fService')" data-fr="📦 Petite livraison" data-en="📦 Small delivery">📦 Petite livraison</div>
+                <div class="chip" data-value="move" onclick="selectChip(this,'fService')" data-fr="🚛 Déménagement" data-en="🚛 Moving">🚛 Déménagement</div>
+                <div class="chip" data-value="junk" onclick="selectChip(this,'fService')" data-fr="🗑 Désencombrement" data-en="🗑 Junk removal">🗑 Désencombrement</div>
+                <div class="chip" data-value="delivery" onclick="selectChip(this,'fService')" data-fr="📦 Petite livraison" data-en="📦 Small delivery">📦 Petite livraison</div>
               </div>
               <input type="hidden" id="fService">
             </div>
@@ -1727,8 +1734,8 @@ function checkLandmarkProximity(progress) {
 window.addEventListener('load', () => {
   // Cacher le loader
   const loader = document.getElementById('page-loader');
-  if(loader) setTimeout(() => loader.classList.add('hidden'), 1100);
-  // Rendre tout visible immédiatement pour que scrollHeight soit correct
+  if(loader) loader.classList.add('hidden');
+
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
   // Appliquer la langue détectée dès le chargement
@@ -1889,10 +1896,10 @@ function selectChip(el, hiddenId) {
   el.classList.add('selected');
   document.getElementById(hiddenId).value = el.getAttribute('data-value');
   const svc = el.getAttribute('data-value');
-  document.getElementById('groupMove').style.display     = svc === 'Déménagement'   ? 'block' : 'none';
-  document.getElementById('groupJunk').style.display     = svc === 'Désencombrement' ? 'block' : 'none';
-  document.getElementById('groupDelivery').style.display = svc === 'Petite livraison' ? 'block' : 'none';
-  document.getElementById('groupBoxes').style.display    = svc === 'Déménagement'   ? 'block' : 'none';
+  document.getElementById('groupMove').style.display     = svc === 'move'     ? 'block' : 'none';
+  document.getElementById('groupJunk').style.display     = svc === 'junk'     ? 'block' : 'none';
+  document.getElementById('groupDelivery').style.display = svc === 'delivery' ? 'block' : 'none';
+  document.getElementById('groupBoxes').style.display    = svc === 'move' ? 'block' : 'none';
 }
 
 function showStep(n) {
@@ -1925,7 +1932,7 @@ function nextStep(from) {
   }
   if(from === 1) {
     const svc = document.getElementById('fService').value;
-    if(svc === 'Désencombrement') {
+    if(svc === 'junk') {
       const addr = document.getElementById('fJunkAddr').value.trim();
       const items = document.getElementById('fJunkItems').value.trim();
       if(!addr || !items) {
@@ -1934,7 +1941,7 @@ function nextStep(from) {
           : 'Please provide the address and items to pick up.');
         return;
       }
-    } else if(svc === 'Petite livraison') {
+    } else if(svc === 'delivery') {
       const from2 = document.getElementById('fDeliveryFrom').value.trim();
       const item  = document.getElementById('fDeliveryItem').value.trim();
       const addr  = document.getElementById('fDeliveryAddr').value.trim();
@@ -1985,27 +1992,31 @@ async function submitForm() {
   const phone   = document.getElementById('fPhone').value.trim();
   const service = document.getElementById('fService').value;
   const date    = document.getElementById('fDate').value || '—';
-
-  if (!name || !phone || !service || !date || date === '—') {
+  if (!name || !phone || !service) {
     showStepError(currentLang === 'fr'
-      ? 'Veuillez indiquer une date souhaitée.'
-      : 'Please provide a preferred date.');
+      ? 'Veuillez remplir votre nom, téléphone et choisir un service.'
+      : 'Please fill in your name, phone and select a service.');
     return;
   }
-
   const btn = document.getElementById('formBtn');
   btn.style.opacity = '.6';
   btn.style.pointerEvents = 'none';
-  document.getElementById('formBtnTxt').textContent = '...';
+  const btnTxtEl = document.getElementById('formBtnTxt');
+  if (btnTxtEl) btnTxtEl.textContent = '...';
 
-  const isJunk = service === 'Désencombrement';
-  const isDelivery = service === 'Petite livraison';
+  const isJunk = service === 'junk';
+  const isDelivery = service === 'delivery';
+  const serviceLabel = isJunk
+    ? (currentLang === 'fr' ? 'Désencombrement' : 'Junk removal')
+    : isDelivery
+      ? (currentLang === 'fr' ? 'Petite livraison' : 'Small delivery')
+      : (currentLang === 'fr' ? 'Déménagement' : 'Moving');
   const payload = {
-    _subject: `Nouvelle demande — ${name} (${service})`,
+    _subject: `Nouvelle demande — ${name} (${serviceLabel})`,
     Nom: name,
     Téléphone: phone,
     Courriel: document.getElementById('fEmail').value.trim() || '—',
-    Service: service,
+    Service: serviceLabel,
     ...(isJunk ? {
       'Adresse ramassage': document.getElementById('fJunkAddr').value.trim(),
       'Items à ramasser': document.getElementById('fJunkItems').value.trim(),
@@ -2054,7 +2065,8 @@ async function submitForm() {
   } finally {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
-    document.getElementById('formBtnTxt').textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send →';
+    const btnTxt = document.getElementById('formBtnTxt');
+    if (btnTxt) btnTxt.textContent = currentLang === 'fr' ? 'Envoyer →' : 'Send →';
   }
 }
 
